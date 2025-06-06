@@ -29,12 +29,26 @@ $active = $active ?? '';
 <header class="bg-white border-b shadow-sm">
     <div class="max-w-6xl mx-auto flex justify-between items-center py-6 px-4">
         <span class="text-2xl font-extrabold tracking-tight">nezbi</span>
-        <nav class="space-x-8 hidden md:flex">
-            <a href="/home.php" class="hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
-            <a href="/index.php" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?>">Produkte</a>
-            <a href="/about.php" class="hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
-        </nav>
-        <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Warenkorb</a>
+        <div class="flex items-center">
+            <button id="menuBtn" class="md:hidden mr-4 text-gray-600" aria-label="Menü öffnen">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Warenkorb</a>
+        </div>
     </div>
+    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto">
+        <a href="/home.php" class="hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
+        <a href="/index.php" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?>">Produkte</a>
+        <a href="/about.php" class="hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
+    </nav>
 </header>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('menuBtn');
+  var n=document.getElementById('navLinks');
+  if(b && n){ b.addEventListener('click',function(){ n.classList.toggle('hidden'); }); }
+});
+</script>
 <main class="max-w-6xl mx-auto px-4 fade-in">
