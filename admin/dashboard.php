@@ -1,6 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) { header('Location: ../login.php'); exit; }
+if (!isset($_SESSION['admin'])) {
+    header('Location: ../login.php');
+    exit;
+}
 require '../inc/db.php';
 ?>
 <!DOCTYPE html>
@@ -8,13 +11,6 @@ require '../inc/db.php';
 <head>
     <meta charset="UTF-8">
     <title>Dashboard – nezbi Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php /* ggf. PHP-Header, z. B. require/include usw. */ ?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>nezbi – Elektronik Onlineshop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- TailwindCSS offiziell per CDN-JS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,12 +23,6 @@ require '../inc/db.php';
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
-</head>
-<body class="bg-gray-50 text-gray-900">
-<!-- ...restlicher Inhalt bleibt unverändert... -->
-
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
