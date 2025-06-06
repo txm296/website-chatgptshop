@@ -1,14 +1,14 @@
 # nezbi Shop Demo
 
-Dieses Repository enthält eine einfache PHP Shop-Demo. Für lokale Tests wird eine SQLite Datenbank verwendet.
+Dieses Repository enthält eine einfache PHP Shop-Demo. Die Anwendung setzt ausschließlich eine MySQL-Datenbank voraus.
 
 ## Lokale Installation
 
-1. Abhängigkeiten installieren (PHP mit SQLite-Unterstützung):
+1. Abhängigkeiten installieren (PHP mit MySQL-Unterstützung):
    ```bash
-   sudo apt-get install php-cli php-sqlite3
+   sudo apt-get install php-cli php-mysql mysql-server
    ```
-2. Datenbank erstellen:
+2. Datenbank einrichten:
    ```bash
    ./scripts/init_db.sh
    ```
