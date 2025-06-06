@@ -5,6 +5,7 @@ CREATE TABLE produkte (
     beschreibung TEXT,
     preis DECIMAL(10,2),
     bild VARCHAR(255),
+    menge INT DEFAULT NULL,
     aktiv TINYINT DEFAULT 1
 );
 
