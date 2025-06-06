@@ -19,16 +19,19 @@ $bestellungen = $pdo->query("SELECT * FROM bestellungen ORDER BY zeitstempel DES
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <nav class="bg-white py-4 shadow mb-8">
-        <div class="max-w-5xl mx-auto flex gap-8">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="produkte.php">Produkte</a>
-            <a href="rabattcodes.php">Rabatte</a>
-            <a href="bestellungen.php" class="font-bold text-blue-600">Bestellungen</a>
-            <a href="insights.php">Insights</a>
-            <a href="logout.php" class="ml-auto text-gray-400">Logout</a>
+    <header class="bg-white border-b shadow-sm">
+        <div class="max-w-5xl mx-auto flex justify-between items-center py-6 px-4">
+            <span class="text-2xl font-extrabold tracking-tight">nezbi Admin</span>
+            <nav class="space-x-8 hidden md:flex">
+                <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
+                <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
+                <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
+                <a href="bestellungen.php" class="font-bold text-blue-600">Bestellungen</a>
+                <a href="insights.php" class="hover:text-blue-600">Insights</a>
+            </nav>
+            <a href="logout.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Logout</a>
         </div>
-    </nav>
+    </header>
     <main class="max-w-5xl mx-auto px-4 py-10">
         <h1 class="text-2xl font-bold mb-8">Bestellungen</h1>
         <table class="w-full bg-white shadow rounded-xl">
