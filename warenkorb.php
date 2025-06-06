@@ -67,7 +67,8 @@ include 'inc/header.php';
 <p>Dein Warenkorb ist leer.</p>
 <?php else: ?>
 <form method="post">
-<table class="w-full mb-6">
+<div class="overflow-x-auto">
+<table class="w-full mb-6 min-w-max">
     <thead class="border-b font-semibold text-left">
         <tr><th class="p-2">Produkt</th><th class="p-2">Menge</th><th class="p-2 text-right">Preis</th></tr>
     </thead>
@@ -86,6 +87,7 @@ include 'inc/header.php';
     <?php endforeach; ?>
     </tbody>
 </table>
+</div>
 <div class="text-right font-bold mb-6">Summe: <?=number_format($total,2,',','.')?> €</div>
 <div class="flex justify-between gap-2">
     <button name="update" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Aktualisieren</button>
