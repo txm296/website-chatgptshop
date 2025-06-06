@@ -12,7 +12,7 @@ include 'inc/header.php';
     foreach ($res as $prod):
     ?>
         <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
-            <img src="assets/<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-40 h-40 object-contain mb-4" />
+            <img src="<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-40 h-40 object-contain mb-4" />
             <div class="font-bold text-lg mb-1"><?=htmlspecialchars($prod['name'])?></div>
             <div class="text-gray-500 mb-2"><?=htmlspecialchars($prod['beschreibung'])?></div>
             <div class="font-mono text-lg mb-4"><?=number_format($prod['preis'],2,',','.')?> €</div>
