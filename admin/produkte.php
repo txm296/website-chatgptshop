@@ -11,7 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'add';
     if ($action === 'add') {
         $stmt = $pdo->prepare("INSERT INTO produkte (name, beschreibung, preis, bild, menge, aktiv) VALUES (?,?,?,?,?,?)");
-        $menge = $_POST['menge'] === '' ? null : intval($_POST['menge']);
+        $menge = isset($_POST['menge']) && $_POST['menge'] !== ''
+            ? intval($_POST['menge'])
+            : null;
         $stmt->execute([
             $_POST['name'] ?? '',
             $_POST['beschreibung'] ?? '',
@@ -22,7 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     } elseif ($action === 'update' && isset($_POST['id'])) {
         $stmt = $pdo->prepare("UPDATE produkte SET preis=?, menge=? WHERE id=?");
-        $menge = $_POST['menge'] === '' ? null : intval($_POST['menge']);
+        $menge = isset($_POST['menge']) && $_POST['menge'] !== ''
+            ? intval($_POST['menge'])
+            : null;
         $stmt->execute([
             floatval($_POST['preis'] ?? 0),
             $menge,
