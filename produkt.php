@@ -5,42 +5,9 @@ $stmt = $pdo->prepare("SELECT * FROM produkte WHERE id=?");
 $stmt->execute([$id]);
 $prod = $stmt->fetch();
 if (!$prod) { http_response_code(404); exit('Produkt nicht gefunden.'); }
+$pageTitle = htmlspecialchars($prod['name']) . ' – nezbi';
+include 'inc/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title><?=htmlspecialchars($prod['name'])?> – nezbi</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php /* ggf. PHP-Header, z. B. require/include usw. */ ?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>nezbi – Elektronik Onlineshop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- TailwindCSS offiziell per CDN-JS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          }
-        }
-      }
-    </script>
-    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
-</head>
-<body class="bg-gray-50 text-gray-900">
-<!-- ...restlicher Inhalt bleibt unverändert... -->
-
-    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
-</head>
-<body class="bg-gray-50 text-gray-900">
-<main class="max-w-3xl mx-auto px-4 py-10">
     <div class="flex flex-col md:flex-row gap-8">
         <img src="assets/<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-full md:w-80 object-contain rounded-xl bg-white shadow"/>
         <div>
@@ -53,6 +20,4 @@ if (!$prod) { http_response_code(404); exit('Produkt nicht gefunden.'); }
             </form>
         </div>
     </div>
-</main>
-</body>
-</html>
+<?php include 'inc/footer.php'; ?>
