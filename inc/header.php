@@ -48,10 +48,9 @@ if (isset($pdo)) {
     </div>
     <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto">
         <a href="/home.php" class="hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
-        <a href="/index.php" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?>">Produkte</a>
-        <div class="relative group">
-            <button class="hover:text-blue-600 focus:outline-none">Kategorien</button>
-            <div class="absolute left-0 mt-2 hidden group-hover:block bg-white border rounded shadow-md z-10">
+        <div class="relative">
+            <button id="produkteBtn" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?> focus:outline-none">Produkte</button>
+            <div id="katDropdown" class="absolute left-0 mt-2 hidden bg-white border rounded shadow-md z-10">
                 <?php foreach ($kategorien as $k): ?>
                     <a href="/kategorie.php?id=<?= $k['id'] ?>" class="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                         <?= htmlspecialchars($k['name']) ?>
@@ -66,7 +65,22 @@ if (isset($pdo)) {
 document.addEventListener('DOMContentLoaded',function(){
   var b=document.getElementById('menuBtn');
   var n=document.getElementById('navLinks');
-  if(b && n){ b.addEventListener('click',function(){ n.classList.toggle('hidden'); }); }
+  var pBtn=document.getElementById('produkteBtn');
+  var drop=document.getElementById('katDropdown');
+  if(b && n){
+    b.addEventListener('click',function(){ n.classList.toggle('hidden'); });
+  }
+  if(pBtn && drop){
+    pBtn.addEventListener('click',function(e){
+      e.preventDefault();
+      drop.classList.toggle('hidden');
+    });
+    document.addEventListener('click',function(e){
+      if(!pBtn.contains(e.target) && !drop.contains(e.target)){
+        drop.classList.add('hidden');
+      }
+    });
+  }
 });
 </script>
 <main class="max-w-6xl mx-auto px-4 fade-in">

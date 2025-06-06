@@ -21,5 +21,14 @@ $options = [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ];
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
-    die('DB-Verbindung fehlgeschlagen: ' . $e->getMessage());
+    // Fallback auf lokale SQLite-Datenbank, falls MySQL nicht erreichbar ist
+    $sqlitePath = __DIR__ . '/../data/shop.db';
+    $needInit = !file_exists($sqlitePath);
+    $pdo = new PDO('sqlite:' . $sqlitePath, null, null, $options);
+    if ($needInit) {
+        $initFile = __DIR__ . '/../sql/setup_sqlite.sql';
+        if (file_exists($initFile)) {
+            $pdo->exec(file_get_contents($initFile));
+        }
+    }
 }
