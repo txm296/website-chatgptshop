@@ -1,12 +1,25 @@
 
+CREATE TABLE kategorien (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO kategorien (name) VALUES
+  ('Smartphones'),
+  ('Laptops'),
+  ('Audio');
+
 CREATE TABLE produkte (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
     beschreibung TEXT,
     preis DECIMAL(10,2),
+    rabatt DECIMAL(10,2) DEFAULT NULL,
     bild VARCHAR(255),
     menge INT DEFAULT NULL,
-    aktiv TINYINT DEFAULT 1
+    aktiv TINYINT DEFAULT 1,
+    kategorie_id INT DEFAULT NULL,
+    FOREIGN KEY (kategorie_id) REFERENCES kategorien(id)
 );
 
 CREATE TABLE admins (

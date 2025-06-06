@@ -1,6 +1,7 @@
 <?php
 $active = 'home';
 $pageTitle = 'nezbi – Elektronik Onlineshop';
+require 'inc/db.php';
 include 'inc/header.php';
 ?>
 <section class="text-center py-24">
