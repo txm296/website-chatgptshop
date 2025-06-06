@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
-DB_FILE="$(dirname "$0")/../nezbi.sqlite"
-SQL_FILE="$(dirname "$0")/../sql/setup_sqlite.sql"
-if [ ! -f "$DB_FILE" ]; then
-    echo "Creating SQLite database at $DB_FILE"
-    sqlite3 "$DB_FILE" < "$SQL_FILE"
-    echo "Database created."
-else
-    echo "Database already exists at $DB_FILE"
-fi
+SQL_FILE="$(dirname "$0")/../sql/setup.sql"
+DB_NAME="${DB_NAME:-nezbi}"
+DB_HOST="${DB_HOST:-localhost}"
+DB_USER="${DB_USER:-root}"
+DB_PASS="${DB_PASS:-}"
+
+echo "Creating MySQL database $DB_NAME on $DB_HOST"
+MYSQL_PWD="$DB_PASS" mysql -h "$DB_HOST" -u "$DB_USER" -e "CREATE DATABASE IF NOT EXISTS \`$DB_NAME\`;"
+MYSQL_PWD="$DB_PASS" mysql -h "$DB_HOST" -u "$DB_USER" "$DB_NAME" < "$SQL_FILE"
+
+echo "Database setup completed."
