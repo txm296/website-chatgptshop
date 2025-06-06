@@ -76,7 +76,7 @@ include 'inc/header.php';
     <?php foreach($items as $it): $p=$it['data']; ?>
         <tr class="border-b">
             <td class="p-2 flex items-center gap-3">
-                <img src="assets/<?=htmlspecialchars($p['bild'])?>" alt="" class="w-12 h-12 object-contain">
+                <img src="<?=htmlspecialchars($p['bild'])?>" alt="" class="w-12 h-12 object-contain">
                 <?=htmlspecialchars($p['name'])?>
             </td>
             <td class="p-2">

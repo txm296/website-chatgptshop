@@ -9,7 +9,7 @@ $pageTitle = htmlspecialchars($prod['name']) . ' – nezbi';
 include 'inc/header.php';
 ?>
     <div class="flex flex-col md:flex-row gap-8">
-        <img src="assets/<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-full md:w-80 object-contain rounded-xl bg-white shadow"/>
+        <img src="<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-full md:w-80 object-contain rounded-xl bg-white shadow"/>
         <div>
             <h1 class="text-2xl font-bold mb-2"><?=htmlspecialchars($prod['name'])?></h1>
             <div class="mb-3 text-gray-500"><?=htmlspecialchars($prod['beschreibung'])?></div>
