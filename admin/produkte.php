@@ -6,6 +6,16 @@ if (!isset($_SESSION['admin'])) {
 }
 require '../inc/db.php';
 
+// Ältere Datenbanken automatisch um fehlende Spalten erweitern
+try {
+    $pdo->query("SELECT menge FROM produkte LIMIT 1");
+} catch (PDOException $e) {
+    if (strpos($e->getMessage(), 'menge') !== false) {
+        // Spalte `menge` nachrüsten, falls sie in bestehenden Installationen fehlt
+        $pdo->exec("ALTER TABLE produkte ADD COLUMN menge INT DEFAULT NULL");
+    }
+}
+
 // Aktionen für Produkte verarbeiten
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'add';
