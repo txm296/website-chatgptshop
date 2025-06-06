@@ -1,6 +1,14 @@
 <?php
 if (!isset($pageTitle)) $pageTitle = 'nezbi – Elektronik Onlineshop';
 $active = $active ?? '';
+$kategorien = [];
+if (isset($pdo)) {
+    try {
+        $kategorien = $pdo->query("SELECT id, name FROM kategorien ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $kategorien = [];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -41,6 +49,16 @@ $active = $active ?? '';
     <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto">
         <a href="/home.php" class="hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
         <a href="/index.php" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?>">Produkte</a>
+        <div class="relative group">
+            <button class="hover:text-blue-600 focus:outline-none">Kategorien</button>
+            <div class="absolute left-0 mt-2 hidden group-hover:block bg-white border rounded shadow-md z-10">
+                <?php foreach ($kategorien as $k): ?>
+                    <a href="/kategorie.php?id=<?= $k['id'] ?>" class="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
+                        <?= htmlspecialchars($k['name']) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
         <a href="/about.php" class="hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
     </nav>
 </header>

@@ -1,6 +1,7 @@
 <?php
 $active = 'about';
 $pageTitle = 'Über nezbi';
+require 'inc/db.php';
 include 'inc/header.php';
 ?>
 <section class="py-24 text-center">
