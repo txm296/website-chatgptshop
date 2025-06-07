@@ -1,11 +1,23 @@
+CREATE TABLE kategorien (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+INSERT INTO kategorien (name) VALUES
+  ('Smartphones'),
+  ('Laptops'),
+  ('Audio');
+
 CREATE TABLE produkte (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     beschreibung TEXT,
     preis REAL,
+    rabatt REAL DEFAULT NULL,
     bild TEXT,
     menge INTEGER,
-    aktiv INTEGER DEFAULT 1
+    aktiv INTEGER DEFAULT 1,
+    kategorie_id INTEGER REFERENCES kategorien(id)
 );
 
 CREATE TABLE admins (

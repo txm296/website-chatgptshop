@@ -46,10 +46,10 @@ if (isset($pdo)) {
             <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Warenkorb</a>
         </div>
     </div>
-    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto">
-        <a href="/home.php" class="hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
+    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto text-gray-700">
+        <a href="/home.php" class="text-gray-700 hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
         <div class="relative">
-            <button id="produkteBtn" class="hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?> focus:outline-none">Produkte</button>
+            <a href="/index.php" id="produkteBtn" class="text-gray-700 hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?> focus:outline-none">Produkte</a>
             <div id="katDropdown" class="absolute left-0 mt-2 hidden bg-white border rounded shadow-md z-10">
                 <?php foreach ($kategorien as $k): ?>
                     <a href="/kategorie.php?id=<?= $k['id'] ?>" class="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
@@ -58,7 +58,7 @@ if (isset($pdo)) {
                 <?php endforeach; ?>
             </div>
         </div>
-        <a href="/about.php" class="hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
+        <a href="/about.php" class="text-gray-700 hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
     </nav>
 </header>
 <script>
@@ -72,8 +72,10 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   if(pBtn && drop){
     pBtn.addEventListener('click',function(e){
-      e.preventDefault();
-      drop.classList.toggle('hidden');
+      if(drop.classList.contains('hidden')){
+        e.preventDefault();
+        drop.classList.remove('hidden');
+      }
     });
     document.addEventListener('click',function(e){
       if(!pBtn.contains(e.target) && !drop.contains(e.target)){
