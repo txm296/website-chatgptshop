@@ -90,7 +90,7 @@ include 'inc/header.php';
 </div>
 <div class="text-right font-bold mb-6">Summe: <?=number_format($total,2,',','.')?> €</div>
 <div class="flex justify-between gap-2">
-    <button name="update" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Aktualisieren</button>
+    <button name="update" class="px-4 py-2 accent-bg text-white rounded accent-bg-hover">Aktualisieren</button>
     <button name="clear" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Leeren</button>
     <button name="checkout" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Bestellen</button>
 </div>

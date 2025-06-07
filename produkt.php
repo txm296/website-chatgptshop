@@ -28,7 +28,7 @@ include 'inc/header.php';
             </div>
             <form method="post" action="warenkorb.php">
                 <input type="hidden" name="produkt_id" value="<?=$prod['id']?>">
-                <button type="submit" class="w-full px-5 py-2 mt-4 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">In den Warenkorb</button>
+                <button type="submit" class="w-full px-5 py-2 mt-4 rounded-xl accent-bg text-white font-semibold accent-bg-hover transition">In den Warenkorb</button>
             </form>
         </div>
     </div>

@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $siteSettings['secondary_color'] = $_POST['secondary_color'] ?? '#1e40af';
     $siteSettings['logo_text'] = $_POST['logo_text'] ?? 'nezbi';
     $siteSettings['template'] = intval($_POST['template'] ?? 1);
+    $siteSettings['font_family'] = $_POST['font_family'] ?? 'Inter';
     $siteSettings['hero_title'] = $_POST['hero_title'] ?? '';
     $siteSettings['hero_subtitle'] = $_POST['hero_subtitle'] ?? '';
     $siteSettings['hero_image'] = $_POST['hero_image'] ?? '';
@@ -37,8 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <?php $ff = $siteSettings['font_family'] ?? 'Inter'; $ff_link = str_replace(' ', '+', $ff); ?>
+    <link href="https://fonts.googleapis.com/css?family=<?= $ff_link ?>:400,600&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: '<?= htmlspecialchars($ff) ?>', sans-serif; }
+      :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color']) ?>; }
+      .accent-bg { background-color: var(--accent-color); }
+      .accent-hover:hover { color: var(--accent-color); }
+      .accent-bg-hover:hover { background-color: var(--accent-color); }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
     <header class="bg-white border-b shadow-sm">
@@ -54,13 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
         <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
-            <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
-            <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
-            <a href="kategorien.php" class="hover:text-blue-600">Kategorien</a>
-            <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
-            <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
-            <a href="insights.php" class="hover:text-blue-600">Insights</a>
-            <a href="customize.php" class="font-bold text-blue-600">Website bearbeiten</a>
+            <a href="dashboard.php" class="accent-hover">Dashboard</a>
+            <a href="produkte.php" class="accent-hover">Produkte</a>
+            <a href="kategorien.php" class="accent-hover">Kategorien</a>
+            <a href="rabattcodes.php" class="accent-hover">Rabatte</a>
+            <a href="bestellungen.php" class="accent-hover">Bestellungen</a>
+            <a href="insights.php" class="accent-hover">Insights</a>
+            <a href="customize.php" class="font-bold accent-text">Website bearbeiten</a>
         </nav>
     </header>
     <script>
@@ -96,6 +104,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php for($i=1;$i<=5;$i++): ?>
                         <option value="<?=$i?>" <?=$siteSettings['template']==$i?'selected':''?>>Template <?=$i?></option>
                     <?php endfor; ?>
+                </select>
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Schriftart</label>
+                <select name="font_family" class="border px-3 py-2 rounded">
+                    <?php $fonts=['Inter','Roboto','Open Sans','Lora','Poppins'];
+                    foreach($fonts as $f): ?>
+                    <option value="<?=$f?>" <?=$siteSettings['font_family']==$f?'selected':''?>><?=$f?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div>
