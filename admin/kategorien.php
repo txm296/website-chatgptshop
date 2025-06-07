@@ -7,22 +7,27 @@ if (!isset($_SESSION['admin'])) {
 require '../inc/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $stmt = $pdo->prepare("INSERT INTO rabattcodes (code, typ, wert, aktiv) VALUES (?,?,?,?)");
-    $stmt->execute([
-        $_POST['code'] ?? '',
-        $_POST['typ'] ?? 'betrag',
-        floatval($_POST['wert'] ?? 0),
-        isset($_POST['aktiv']) ? 1 : 0
-    ]);
+    $action = $_POST['action'] ?? 'add';
+    if ($action === 'add') {
+        $stmt = $pdo->prepare("INSERT INTO kategorien (name) VALUES (?)");
+        $stmt->execute([$_POST['name'] ?? '']);
+    } elseif ($action === 'update' && isset($_POST['id'])) {
+        $stmt = $pdo->prepare("UPDATE kategorien SET name=? WHERE id=?");
+        $stmt->execute([$_POST['name'] ?? '', intval($_POST['id'])]);
+    } elseif ($action === 'delete' && isset($_POST['id'])) {
+        $id = intval($_POST['id']);
+        $pdo->prepare("UPDATE produkte SET kategorie_id=NULL WHERE kategorie_id=?")->execute([$id]);
+        $pdo->prepare("DELETE FROM kategorien WHERE id=?")->execute([$id]);
+    }
 }
 
-$codes = $pdo->query("SELECT * FROM rabattcodes ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$kategorien = $pdo->query("SELECT * FROM kategorien ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Rabattcodes – nezbi Admin</title>
+    <title>Kategorien – nezbi Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -53,8 +58,8 @@ $codes = $pdo->query("SELECT * FROM rabattcodes ORDER BY id DESC")->fetchAll(PDO
         <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
             <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
             <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
-            <a href="kategorien.php" class="hover:text-blue-600">Kategorien</a>
-            <a href="rabattcodes.php" class="font-bold text-blue-600">Rabatte</a>
+            <a href="kategorien.php" class="font-bold text-blue-600">Kategorien</a>
+            <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
             <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
         </nav>
@@ -71,33 +76,38 @@ $codes = $pdo->query("SELECT * FROM rabattcodes ORDER BY id DESC")->fetchAll(PDO
     });
     </script>
     <main class="max-w-5xl mx-auto px-4 py-10">
-        <h1 class="text-2xl font-bold mb-8">Rabattcodes</h1>
+        <h1 class="text-2xl font-bold mb-8">Kategorien verwalten</h1>
         <form method="post" class="bg-white shadow rounded-xl p-6 mb-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input name="code" class="border px-3 py-2 rounded" placeholder="Code" required>
-                <select name="typ" class="border px-3 py-2 rounded">
-                    <option value="betrag">Betrag (€)</option>
-                    <option value="prozent">Prozent (%)</option>
-                </select>
-                <input name="wert" type="number" step="0.01" class="border px-3 py-2 rounded" placeholder="Wert" required>
-                <label class="flex items-center gap-2"><input type="checkbox" name="aktiv" checked> Aktiv</label>
+            <input type="hidden" name="action" value="add">
+            <div class="flex gap-4">
+                <input name="name" class="border px-3 py-2 rounded flex-grow" placeholder="Name" required>
+                <button class="px-5 py-2 rounded-xl bg-blue-600 text-white">Kategorie hinzufügen</button>
             </div>
-            <button class="mt-4 px-5 py-2 rounded-xl bg-blue-600 text-white">Rabattcode anlegen</button>
         </form>
         <div class="overflow-x-auto">
         <table class="w-full bg-white shadow rounded-xl min-w-max">
             <thead class="bg-gray-100">
-                <tr><th class="p-2 text-left">Code</th><th class="p-2">Typ</th><th class="p-2">Wert</th><th class="p-2">Aktiv</th></tr>
+                <tr><th class="p-2 text-left">ID</th><th class="p-2 text-left">Name</th><th class="p-2">Aktionen</th></tr>
             </thead>
             <tbody>
-                <?php foreach ($codes as $c): ?>
+                <?php foreach ($kategorien as $k): ?>
                 <tr class="border-t">
-                    <td class="p-2 font-mono"><?= htmlspecialchars($c['code']) ?></td>
-                    <td class="p-2 text-center"><?= $c['typ'] ?></td>
-                    <td class="p-2 text-right">
-                        <?= $c['typ'] == 'betrag' ? number_format($c['wert'],2,',','.') . ' €' : $c['wert'] . '%' ?>
+                    <td class="p-2"><?= $k['id'] ?></td>
+                    <td class="p-2">
+                        <form id="u<?= $k['id'] ?>" method="post" class="inline">
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="id" value="<?= $k['id'] ?>">
+                            <input name="name" value="<?= htmlspecialchars($k['name']) ?>" class="border px-2 py-1 rounded">
+                        </form>
                     </td>
-                    <td class="p-2 text-center"><?= $c['aktiv'] ? 'Ja' : 'Nein' ?></td>
+                    <td class="p-2">
+                        <button form="u<?= $k['id'] ?>" class="px-3 py-1 bg-blue-600 text-white rounded mr-2">Speichern</button>
+                        <form method="post" onsubmit="return confirm('Kategorie wirklich löschen?')" class="inline">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="<?= $k['id'] ?>">
+                            <button class="px-3 py-1 bg-red-600 text-white rounded">Löschen</button>
+                        </form>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
