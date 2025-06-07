@@ -42,4 +42,4 @@ CREATE TABLE rabattcodes (
 );
 
 -- Beispieladmin, Passwort ist "nezbi" (bitte nach dem Login ändern!)
-INSERT INTO admins (username, passwort) VALUES ('admin', '$2y$10$uOrlQ9bL/JzGQ/vjMVtRjeptD9kOcEvMuVgib1yJJXhwpiWY9tPja');
+INSERT INTO admins (username, passwort) VALUES ('admin', '$2y$10$2m.bMtqb4s3jLS.7BgUVleppmSDZ6Dqf1hnbdWdPNs1naaQgGo0Sy');

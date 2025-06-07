@@ -31,10 +31,10 @@ try {
             $pdo->exec(file_get_contents($initFile));
         }
     } else {
+        // Ensure tables exist when using an already created SQLite database
         $pdo->exec("CREATE TABLE IF NOT EXISTS kategorien (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS produkte (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, beschreibung TEXT, preis REAL, rabatt REAL DEFAULT NULL, bild TEXT, menge INTEGER, aktiv INTEGER DEFAULT 1, kategorie_id INTEGER REFERENCES kategorien(id))");
-        if (!$pdo->query('SELECT COUNT(*) FROM kategorien')->fetchColumn()) {
-            $pdo->exec("INSERT INTO kategorien (name) VALUES ('Smartphones'),('Laptops'),('Audio')");
-        }
+        // Keine automatischen Standardkategorien anlegen, damit gelöschte
+        // Kategorien nicht wieder erscheinen
     }
 }
