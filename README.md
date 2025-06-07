@@ -41,4 +41,5 @@ Der Shop ist anschließend unter <http://127.0.0.1:8000> erreichbar.
 
 ## Website anpassen
 
-Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten können fünf unterschiedliche Templates gewählt werden.
+Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten stehen jetzt zehn stark unterschiedliche Templates zur Auswahl.
+Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und Darkmode zu wechseln.
