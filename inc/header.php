@@ -44,16 +44,38 @@ if (isset($pdo)) {
         --body-bg: #f9fafb;
         --header-bg: #ffffff;
         --text-color: #111827;
+        --nav-link-color: #374151;
       }
       .accent-bg { background-color: var(--accent-color); }
       .accent-text { color: var(--accent-color); }
       .accent-hover:hover { color: var(--accent-color); }
       .accent-bg-hover:hover { background-color: var(--accent-color); }
+      .nav-link { color: var(--nav-link-color); }
       /* Template Styles */
-      body.template-2{--body-bg:#1f2937;--header-bg:#111827;--text-color:#f3f4f6;}
-      body.template-3{--body-bg:#fdf2f8;--header-bg:#fce7f3;}
-      body.template-4{--body-bg:#ecfeff;--header-bg:#cffafe;}
-      body.template-5{--body-bg:#fafaf9;}
+      body.template-2{
+        --body-bg:#0f172a;
+        --header-bg:#1e293b;
+        --text-color:#f8fafc;
+        --nav-link-color:#d1d5db;
+      }
+      body.template-3{
+        --body-bg:#fdf2f8;
+        --header-bg:#fce7f3;
+        --text-color:#6b21a8;
+        --nav-link-color:#6b21a8;
+      }
+      body.template-4{
+        --body-bg:#ecfeff;
+        --header-bg:#cffafe;
+        --text-color:#134e4a;
+        --nav-link-color:#134e4a;
+      }
+      body.template-5{
+        --body-bg:#fffbeb;
+        --header-bg:#fef3c7;
+        --text-color:#374151;
+        --nav-link-color:#78350f;
+      }
     </style>
 </head>
 <body class="template-<?= $template ?>">
@@ -69,10 +91,10 @@ if (isset($pdo)) {
             <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 accent-bg text-white font-medium hover:opacity-90 transition">Warenkorb</a>
         </div>
     </div>
-    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto text-gray-700">
-        <a href="/index.php" class="text-gray-700 accent-hover <?= $active==='home'? 'font-bold accent-text' : '' ?>">Home</a>
+    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto">
+        <a href="/index.php" class="nav-link accent-hover <?= $active==='home'? 'font-bold accent-text' : '' ?>">Home</a>
         <div class="relative">
-            <a href="/produkte.php" id="produkteBtn" class="text-gray-700 accent-hover <?= $active==='produkte'? 'font-bold accent-text' : '' ?> focus:outline-none">Produkte</a>
+            <a href="/produkte.php" id="produkteBtn" class="nav-link accent-hover <?= $active==='produkte'? 'font-bold accent-text' : '' ?> focus:outline-none">Produkte</a>
             <div id="katDropdown" class="absolute left-0 mt-2 hidden bg-white border rounded shadow-md z-10">
                 <?php foreach ($kategorien as $k): ?>
                     <a href="/kategorie.php?id=<?= $k['id'] ?>" class="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
@@ -81,7 +103,7 @@ if (isset($pdo)) {
                 <?php endforeach; ?>
             </div>
         </div>
-        <a href="/about.php" class="text-gray-700 accent-hover <?= $active==='about'? 'font-bold accent-text' : '' ?>">Über</a>
+        <a href="/about.php" class="nav-link accent-hover <?= $active==='about'? 'font-bold accent-text' : '' ?>">Über</a>
     </nav>
 </header>
 <script>
