@@ -1,6 +1,6 @@
-# nezbi Shop Demo
+# nezbi Onlineshop
 
-Dieses Repository enthält eine einfache PHP Shop-Demo. Die Anwendung setzt ausschließlich eine MySQL-Datenbank voraus.
+Dieses Repository enthält einen funktionsfähigen PHP Onlineshop. Zur Ausführung wird lediglich eine MySQL-Datenbank benötigt. Produktbilder werden im Verzeichnis `assets/products` abgelegt.
 
 ## Lokale Installation
 
@@ -38,3 +38,7 @@ export DB_PASS=<dein_passwort>
 ```
 
 Der Shop ist anschließend unter <http://127.0.0.1:8000> erreichbar.
+
+## Website anpassen
+
+Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten können fünf unterschiedliche Templates gewählt werden.

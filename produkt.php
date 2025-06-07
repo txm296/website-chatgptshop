@@ -11,7 +11,7 @@ include 'inc/header.php';
     <div class="flex flex-col md:flex-row gap-8">
         <div class="relative">
             <?php if ($prod['rabatt'] && $prod['rabatt'] < $prod['preis']): ?>
-                <span class="absolute top-0 left-0 bg-red-600 text-white text-xs px-2 py-1 rounded-br">Angebot</span>
+                <span class="absolute top-1 left-1 z-10 bg-red-600 text-white text-xs px-2 py-1 rounded-br">Angebot</span>
             <?php endif; ?>
             <img src="<?=htmlspecialchars($prod['bild'])?>" alt="<?=htmlspecialchars($prod['name'])?>" class="w-full md:w-80 object-contain rounded-xl bg-white shadow"/>
         </div>
