@@ -10,6 +10,9 @@ $siteSettings = load_settings();
 $success = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $siteSettings['primary_color'] = $_POST['primary_color'] ?? '#2563eb';
+    $siteSettings['secondary_color'] = $_POST['secondary_color'] ?? '#1e40af';
+    $siteSettings['logo_text'] = $_POST['logo_text'] ?? 'nezbi';
+    $siteSettings['template'] = intval($_POST['template'] ?? 1);
     $siteSettings['hero_title'] = $_POST['hero_title'] ?? '';
     $siteSettings['hero_subtitle'] = $_POST['hero_subtitle'] ?? '';
     $siteSettings['hero_image'] = $_POST['hero_image'] ?? '';
@@ -78,6 +81,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label class="block mb-1 font-medium">Primärfarbe</label>
                 <input type="color" name="primary_color" value="<?= htmlspecialchars($siteSettings['primary_color']) ?>" class="w-24 h-10 p-0 border">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Sekundärfarbe</label>
+                <input type="color" name="secondary_color" value="<?= htmlspecialchars($siteSettings['secondary_color']) ?>" class="w-24 h-10 p-0 border">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Logo Text</label>
+                <input type="text" name="logo_text" value="<?= htmlspecialchars($siteSettings['logo_text']) ?>" class="w-full border px-3 py-2 rounded">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Template</label>
+                <select name="template" class="border px-3 py-2 rounded">
+                    <?php for($i=1;$i<=5;$i++): ?>
+                        <option value="<?=$i?>" <?=$siteSettings['template']==$i?'selected':''?>>Template <?=$i?></option>
+                    <?php endfor; ?>
+                </select>
             </div>
             <div>
                 <label class="block mb-1 font-medium">Hero Titel</label>
