@@ -7,14 +7,23 @@ if (!isset($_SESSION['admin'])) {
 require '../inc/db.php';
 require '../inc/settings.php';
 $siteSettings = load_settings();
+$success = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $siteSettings['primary_color'] = $_POST['primary_color'] ?? '#2563eb';
+    $siteSettings['hero_title'] = $_POST['hero_title'] ?? '';
+    $siteSettings['hero_subtitle'] = $_POST['hero_subtitle'] ?? '';
+    $siteSettings['hero_image'] = $_POST['hero_image'] ?? '';
+    $siteSettings['footer_text'] = $_POST['footer_text'] ?? '';
+    save_settings($siteSettings);
+    $success = true;
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard – nezbi Admin</title>
+    <title>Website bearbeiten – nezbi Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- TailwindCSS offiziell per CDN-JS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -26,11 +35,7 @@ $siteSettings = load_settings();
       }
     </script>
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <style>
-      body { font-family: 'Inter', sans-serif; }
-      :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color'] ?? '#2563eb') ?>; }
-      .accent-bg { background-color: var(--accent-color); }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
     <header class="bg-white border-b shadow-sm">
@@ -46,12 +51,13 @@ $siteSettings = load_settings();
             </div>
         </div>
         <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
-            <a href="dashboard.php" class="font-bold text-blue-600">Dashboard</a>
+            <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
             <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
             <a href="kategorien.php" class="hover:text-blue-600">Kategorien</a>
             <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
             <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
+            <a href="customize.php" class="font-bold text-blue-600">Website bearbeiten</a>
         </nav>
     </header>
     <script>
@@ -66,29 +72,31 @@ $siteSettings = load_settings();
     });
     </script>
     <main class="max-w-5xl mx-auto px-4 py-10">
-        <h1 class="text-2xl font-bold mb-4">nezbi Admin Dashboard</h1>
-        <a href="customize.php" class="inline-block mb-8 px-4 py-2 accent-bg text-white rounded-xl">Website bearbeiten</a>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Hier können Kacheln für Umsätze, Bestellungen, Produkte etc. dynamisch ergänzt werden -->
-            <div class="bg-white rounded-2xl shadow p-6">
-                <div class="text-gray-400">Produkte</div>
-                <div class="text-3xl font-bold">
-                    <?php $res = $pdo->query("SELECT COUNT(*) FROM produkte"); echo $res->fetchColumn(); ?>
-                </div>
+        <h1 class="text-2xl font-bold mb-8">Website bearbeiten</h1>
+        <?php if($success): ?><p class="mb-4 text-green-600">Einstellungen gespeichert.</p><?php endif; ?>
+        <form method="post" class="bg-white shadow rounded-xl p-6 space-y-4">
+            <div>
+                <label class="block mb-1 font-medium">Primärfarbe</label>
+                <input type="color" name="primary_color" value="<?= htmlspecialchars($siteSettings['primary_color']) ?>" class="w-24 h-10 p-0 border">
             </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <div class="text-gray-400">Bestellungen</div>
-                <div class="text-3xl font-bold">
-                    <?php $res = $pdo->query("SELECT COUNT(*) FROM bestellungen"); echo $res->fetchColumn(); ?>
-                </div>
+            <div>
+                <label class="block mb-1 font-medium">Hero Titel</label>
+                <input type="text" name="hero_title" value="<?= htmlspecialchars($siteSettings['hero_title']) ?>" class="w-full border px-3 py-2 rounded">
             </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <div class="text-gray-400">Gesamtumsatz</div>
-                <div class="text-3xl font-bold">
-                    <?php $res = $pdo->query("SELECT SUM(summe) FROM bestellungen"); echo number_format($res->fetchColumn(),2,',','.'); ?> €
-                </div>
+            <div>
+                <label class="block mb-1 font-medium">Hero Untertitel</label>
+                <input type="text" name="hero_subtitle" value="<?= htmlspecialchars($siteSettings['hero_subtitle']) ?>" class="w-full border px-3 py-2 rounded">
             </div>
-        </div>
+            <div>
+                <label class="block mb-1 font-medium">Hero Bild-URL</label>
+                <input type="text" name="hero_image" value="<?= htmlspecialchars($siteSettings['hero_image']) ?>" class="w-full border px-3 py-2 rounded">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Footer Text</label>
+                <input type="text" name="footer_text" value="<?= htmlspecialchars($siteSettings['footer_text']) ?>" class="w-full border px-3 py-2 rounded">
+            </div>
+            <button class="px-5 py-2 accent-bg text-white rounded-xl">Speichern</button>
+        </form>
     </main>
 </body>
 </html>
