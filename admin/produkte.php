@@ -124,7 +124,7 @@ $kategorien = $pdo->query("SELECT * FROM kategorien ORDER BY name")->fetchAll(PD
                 <input name="rabatt" type="number" step="0.01" class="border px-3 py-2 rounded" placeholder="Rabattpreis (optional)">
                 <input name="menge" type="number" min="0" class="border px-3 py-2 rounded" placeholder="Verfügbare Menge (optional)">
                 <input name="bild" class="border px-3 py-2 rounded md:col-span-2" placeholder="Bildpfad z.B. assets/bild.jpg" required>
-                <select name="kategorie_id" class="border px-3 py-2 rounded">
+                <select name="kategorie_id" class="border px-3 py-2 rounded" required>
                     <option value="">Kategorie wählen</option>
                     <?php foreach ($kategorien as $kat): ?>
                         <option value="<?= $kat['id'] ?>"><?= htmlspecialchars($kat['name']) ?></option>

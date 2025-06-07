@@ -30,5 +30,11 @@ try {
         if (file_exists($initFile)) {
             $pdo->exec(file_get_contents($initFile));
         }
+    } else {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS kategorien (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS produkte (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, beschreibung TEXT, preis REAL, rabatt REAL DEFAULT NULL, bild TEXT, menge INTEGER, aktiv INTEGER DEFAULT 1, kategorie_id INTEGER REFERENCES kategorien(id))");
+        if (!$pdo->query('SELECT COUNT(*) FROM kategorien')->fetchColumn()) {
+            $pdo->exec("INSERT INTO kategorien (name) VALUES ('Smartphones'),('Laptops'),('Audio')");
+        }
     }
 }
