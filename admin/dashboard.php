@@ -42,6 +42,7 @@ require '../inc/db.php';
         <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
             <a href="dashboard.php" class="font-bold text-blue-600">Dashboard</a>
             <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
+            <a href="kategorien.php" class="hover:text-blue-600">Kategorien</a>
             <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
             <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
