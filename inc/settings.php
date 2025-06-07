@@ -6,6 +6,7 @@ function load_settings(){
         'secondary_color' => '#1e40af',
         'logo_text' => 'nezbi',
         'template' => 1,
+        'font_family' => 'Inter',
         'hero_title' => 'Technologie neu erleben',
         'hero_subtitle' => 'Premium Elektronik f\u00fcr deinen Alltag',
         'hero_image' => 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1280&q=80',

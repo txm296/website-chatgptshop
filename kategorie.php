@@ -34,7 +34,7 @@ include 'inc/header.php';
                     <?=number_format($prod['preis'],2,',','.')?> €
                 <?php endif; ?>
             </div>
-            <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
+            <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl accent-bg text-white font-semibold tracking-wide accent-bg-hover transition">Details</a>
         </div>
     <?php endforeach; ?>
     </div>

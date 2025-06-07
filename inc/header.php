@@ -28,27 +28,36 @@ if (isset($pdo)) {
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
-    <?php $template = intval($siteSettings['template'] ?? 1); ?>
+    <?php
+      $template = intval($siteSettings['template'] ?? 1);
+      $font = $siteSettings['font_family'] ?? 'Inter';
+      $fontLink = str_replace(' ', '+', $font);
+    ?>
+    <link href="https://fonts.googleapis.com/css?family=<?= $fontLink ?>:400,600&display=swap" rel="stylesheet">
     <style>
-      body { font-family: 'Inter', sans-serif; }
+      body { font-family: '<?= htmlspecialchars($font) ?>', sans-serif; background-color: var(--body-bg, #f9fafb); color: var(--text-color, #111827); }
       .fade-in { animation: fadeIn 0.6s ease-in-out; }
       @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:none; } }
-      :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color'] ?? '#2563eb') ?>; --secondary-color: <?= htmlspecialchars($siteSettings['secondary_color'] ?? '#1e40af') ?>; }
+      :root {
+        --accent-color: <?= htmlspecialchars($siteSettings['primary_color'] ?? '#2563eb') ?>;
+        --secondary-color: <?= htmlspecialchars($siteSettings['secondary_color'] ?? '#1e40af') ?>;
+        --body-bg: #f9fafb;
+        --header-bg: #ffffff;
+        --text-color: #111827;
+      }
       .accent-bg { background-color: var(--accent-color); }
       .accent-text { color: var(--accent-color); }
+      .accent-hover:hover { color: var(--accent-color); }
+      .accent-bg-hover:hover { background-color: var(--accent-color); }
       /* Template Styles */
-      body.template-2{background:#1f2937;color:#f3f4f6;}
-      body.template-2 header{background:#111827;}
-      body.template-3{background:#fdf2f8;}
-      body.template-3 header{background:#fce7f3;}
-      body.template-4{background:#ecfeff;}
-      body.template-4 header{background:#cffafe;}
-      body.template-5{font-family:Georgia,serif;background:#fafaf9;}
+      body.template-2{--body-bg:#1f2937;--header-bg:#111827;--text-color:#f3f4f6;}
+      body.template-3{--body-bg:#fdf2f8;--header-bg:#fce7f3;}
+      body.template-4{--body-bg:#ecfeff;--header-bg:#cffafe;}
+      body.template-5{--body-bg:#fafaf9;}
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 template-<?= $template ?>">
-<header class="bg-white border-b shadow-sm">
+<body class="template-<?= $template ?>">
+<header class="border-b shadow-sm" style="background-color: var(--header-bg);">
     <div class="max-w-6xl mx-auto flex justify-between items-center py-6 px-4">
         <span class="text-2xl font-extrabold tracking-tight"><?= htmlspecialchars($siteSettings['logo_text'] ?? 'nezbi') ?></span>
         <div class="flex items-center">
@@ -61,9 +70,9 @@ if (isset($pdo)) {
         </div>
     </div>
     <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto text-gray-700">
-        <a href="/index.php" class="text-gray-700 hover:text-blue-600 <?= $active==='home'? 'font-bold text-blue-600' : '' ?>">Home</a>
+        <a href="/index.php" class="text-gray-700 accent-hover <?= $active==='home'? 'font-bold accent-text' : '' ?>">Home</a>
         <div class="relative">
-            <a href="/produkte.php" id="produkteBtn" class="text-gray-700 hover:text-blue-600 <?= $active==='produkte'? 'font-bold text-blue-600' : '' ?> focus:outline-none">Produkte</a>
+            <a href="/produkte.php" id="produkteBtn" class="text-gray-700 accent-hover <?= $active==='produkte'? 'font-bold accent-text' : '' ?> focus:outline-none">Produkte</a>
             <div id="katDropdown" class="absolute left-0 mt-2 hidden bg-white border rounded shadow-md z-10">
                 <?php foreach ($kategorien as $k): ?>
                     <a href="/kategorie.php?id=<?= $k['id'] ?>" class="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
@@ -72,7 +81,7 @@ if (isset($pdo)) {
                 <?php endforeach; ?>
             </div>
         </div>
-        <a href="/about.php" class="text-gray-700 hover:text-blue-600 <?= $active==='about'? 'font-bold text-blue-600' : '' ?>">Über</a>
+        <a href="/about.php" class="text-gray-700 accent-hover <?= $active==='about'? 'font-bold accent-text' : '' ?>">Über</a>
     </nav>
 </header>
 <script>
