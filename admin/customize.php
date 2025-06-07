@@ -101,9 +101,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label class="block mb-1 font-medium">Template</label>
                 <select name="template" class="border px-3 py-2 rounded">
-                    <?php for($i=1;$i<=5;$i++): ?>
-                        <option value="<?=$i?>" <?=$siteSettings['template']==$i?'selected':''?>>Template <?=$i?></option>
-                    <?php endfor; ?>
+                    <?php
+                    $templateNames=[
+                        1=>'Klassisch',
+                        2=>'Dunkel',
+                        3=>'Pastell',
+                        4=>'Aqua',
+                        5=>'Warm',
+                        6=>'Zentrierte Navigation',
+                        7=>'Logo Mitte, Nav unten',
+                        8=>'Große Abstände',
+                        9=>'Nav linksbündig',
+                        10=>'Logo rechts, kompakt'
+                    ];
+                    foreach($templateNames as $i=>$name): ?>
+                        <option value="<?=$i?>" <?=$siteSettings['template']==$i?'selected':''?>><?=$name?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div>
