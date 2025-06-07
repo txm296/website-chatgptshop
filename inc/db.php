@@ -7,13 +7,13 @@
 //   DB_PORT  - MySQL Port (Standard: 3306)
 //   DB_NAME  - Name der MySQL Datenbank (Standard: dbs14303460)
 //   DB_USER  - MySQL Benutzer (Standard: dbu1268189)
-//   DB_PASS  - MySQL Passwort (Standard: leer)
+//   DB_PASS  - MySQL Passwort (Standard: TiSch_2906_website)
 
 $host = getenv('DB_HOST') ?: 'database-5017987658.webspace-host.com';
 $port = getenv('DB_PORT') ?: '3306';
 $db   = getenv('DB_NAME') ?: 'dbs14303460';
 $user = getenv('DB_USER') ?: 'dbu1268189';
-$pass = getenv('DB_PASS') ?: '';
+$pass = getenv('DB_PASS') ?: 'TiSch_2906_website';
 $dsn  = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
 $options = [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ];
