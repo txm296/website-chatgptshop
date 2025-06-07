@@ -35,7 +35,7 @@ include 'inc/header.php';
             <option value="preis_asc" <?= $sort=='preis_asc'?'selected':'' ?>>Preis aufsteigend</option>
             <option value="preis_desc" <?= $sort=='preis_desc'?'selected':'' ?>>Preis absteigend</option>
         </select>
-        <button class="px-4 py-2 rounded-xl bg-blue-600 text-white">Filtern</button>
+        <button class="px-4 py-2 rounded-xl accent-bg text-white">Filtern</button>
     </form>
     <?php if (isset($filtered)): ?>
         <?php if ($filtered): ?>
@@ -58,7 +58,7 @@ include 'inc/header.php';
                             <?=number_format($prod['preis'],2,',','.')?> €
                         <?php endif; ?>
                     </div>
-                    <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
+                    <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl accent-bg text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
                 </div>
             <?php endforeach; ?>
             </div>
@@ -91,7 +91,7 @@ include 'inc/header.php';
                         <?=number_format($prod['preis'],2,',','.')?> €
                     <?php endif; ?>
                 </div>
-                <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
+                <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl accent-bg text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
             </div>
         <?php endforeach; ?>
         </div>
@@ -120,7 +120,7 @@ include 'inc/header.php';
                         <?=number_format($prod['preis'],2,',','.')?> €
                     <?php endif; ?>
                 </div>
-                <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
+                <a href="produkt.php?id=<?=$prod['id']?>" class="mt-auto px-5 py-2 rounded-xl accent-bg text-white font-semibold tracking-wide hover:shadow-lg transition">Details</a>
             </div>
         <?php endforeach; ?>
         </div>

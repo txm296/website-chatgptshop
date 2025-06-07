@@ -1,6 +1,8 @@
 <?php
 if (!isset($pageTitle)) $pageTitle = 'nezbi – Elektronik Onlineshop';
 $active = $active ?? '';
+require_once __DIR__.'/settings.php';
+$siteSettings = load_settings();
 $kategorien = [];
 if (isset($pdo)) {
     try {
@@ -31,6 +33,9 @@ if (isset($pdo)) {
       body { font-family: 'Inter', sans-serif; }
       .fade-in { animation: fadeIn 0.6s ease-in-out; }
       @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:none; } }
+      :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color'] ?? '#2563eb') ?>; }
+      .accent-bg { background-color: var(--accent-color); }
+      .accent-text { color: var(--accent-color); }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -43,7 +48,7 @@ if (isset($pdo)) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Warenkorb</a>
+            <a href="/warenkorb.php" class="inline-block rounded-xl px-4 py-2 accent-bg text-white font-medium hover:opacity-90 transition">Warenkorb</a>
         </div>
     </div>
     <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-6xl md:mx-auto text-gray-700">

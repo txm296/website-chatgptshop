@@ -2,12 +2,14 @@
 $active = 'home';
 $pageTitle = 'nezbi – Elektronik Onlineshop';
 require 'inc/db.php';
+require 'inc/settings.php';
+$siteSettings = load_settings();
 include 'inc/header.php';
 ?>
-<section class="text-center py-24">
-    <h1 class="text-5xl md:text-6xl font-extrabold mb-6">Technologie neu erleben</h1>
-    <p class="text-xl md:text-2xl text-gray-600 mb-8">Premium Elektronik f&uuml;r deinen Alltag</p>
-    <a href="/index.php" class="px-8 py-3 rounded-xl bg-black text-white hover:bg-gray-800 transition">Jetzt entdecken</a>
+<section class="text-center py-24 text-white" style="background-image:url('<?= htmlspecialchars($siteSettings['hero_image']) ?>'); background-size:cover; background-position:center;">
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-6"><?= htmlspecialchars($siteSettings['hero_title']) ?></h1>
+    <p class="text-xl md:text-2xl mb-8"><?= htmlspecialchars($siteSettings['hero_subtitle']) ?></p>
+    <a href="/index.php" class="px-8 py-3 rounded-xl accent-bg text-white hover:opacity-90 transition">Jetzt entdecken</a>
 </section>
 <section class="grid grid-cols-1 md:grid-cols-3 gap-8 py-16">
     <div class="text-center">
