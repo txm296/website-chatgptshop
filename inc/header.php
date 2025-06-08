@@ -160,7 +160,7 @@ if (isset($pdo)) {
         </div>
         <a href="/about.php" class="nav-link accent-hover <?= $active==='about'? 'font-bold accent-text' : '' ?>">Über</a>
         <?php foreach ($pages as $pg): ?>
-            <a href="/page.php?slug=<?= urlencode($pg['slug']) ?>" class="nav-link accent-hover <?= $active=== $pg['slug'] ? 'font-bold accent-text' : '' ?>"><?= htmlspecialchars($pg['title']) ?></a>
+            <a href="/<?= urlencode($pg['slug']) ?>" class="nav-link accent-hover <?= $active=== $pg['slug'] ? 'font-bold accent-text' : '' ?>"><?= htmlspecialchars($pg['title']) ?></a>
         <?php endforeach; ?>
     </nav>
 </header>
