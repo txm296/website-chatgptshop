@@ -4,11 +4,17 @@ $active = $active ?? '';
 require_once __DIR__.'/settings.php';
 $siteSettings = load_settings();
 $kategorien = [];
+$pages = [];
 if (isset($pdo)) {
     try {
         $kategorien = $pdo->query("SELECT id, name FROM kategorien ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         $kategorien = [];
+    }
+    try {
+        $pages = $pdo->query("SELECT slug, title FROM pages ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $pages = [];
     }
 }
 ?>
@@ -152,6 +158,9 @@ if (isset($pdo)) {
             </div>
         </div>
         <a href="/about.php" class="nav-link accent-hover <?= $active==='about'? 'font-bold accent-text' : '' ?>">Über</a>
+        <?php foreach ($pages as $pg): ?>
+            <a href="/page.php?slug=<?= urlencode($pg['slug']) ?>" class="nav-link accent-hover <?= $active=== $pg['slug'] ? 'font-bold accent-text' : '' ?>"><?= htmlspecialchars($pg['title']) ?></a>
+        <?php endforeach; ?>
     </nav>
 </header>
 <script>
