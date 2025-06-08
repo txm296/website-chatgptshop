@@ -25,9 +25,11 @@ document.addEventListener('DOMContentLoaded',()=>{
           break;
         case 'button':
           el=document.createElement('a');
-          el.href='#';
+          const btnText=prompt('Button Text','Button');
+          const link=prompt('Link URL (z.B. https://example.com oder /seite)','');
+          if(link) el.href=link; else el.href='#';
           el.className='px-4 py-2 rounded bg-blue-600 text-white inline-block';
-          el.textContent='Button';
+          el.textContent=btnText||'Button';
           break;
         default:
           el=document.createElement('p');
@@ -45,6 +47,16 @@ document.addEventListener('DOMContentLoaded',()=>{
       wrapper.appendChild(el);
       wrapper.appendChild(del);
       builder.appendChild(wrapper);
+    });
+  }
+
+  if(builder){
+    builder.addEventListener('dblclick',e=>{
+      if(e.target.tagName==='A' && e.target.classList.contains('editable')){
+        const current=e.target.getAttribute('href')||'';
+        const newUrl=prompt('Link URL (z.B. https://example.com oder /seite)',current);
+        if(newUrl!==null) e.target.setAttribute('href',newUrl);
+      }
     });
   }
 
