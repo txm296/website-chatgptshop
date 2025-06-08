@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
 </script>
 <main class="max-w-5xl mx-auto px-4 py-10">
 <h1 class="text-2xl font-bold mb-8">Seite bearbeiten</h1>
-<form method="post" class="bg-white shadow rounded-xl p-6 space-y-4">
+<form method="post" id="pageForm" class="bg-white shadow rounded-xl p-6 space-y-4">
     <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
     <div>
         <label class="block mb-1 font-medium">Titel</label>
@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
     </div>
     <div>
         <label class="block mb-1 font-medium">Slug (URL)</label>
-        <input type="text" name="slug" value="<?= htmlspecialchars($page['slug']) ?>" class="w-full border px-3 py-2 rounded" required>
+        <input type="text" name="slug" value="<?= htmlspecialchars($page['slug']) ?>" class="w-full border px-3 py-2 rounded" placeholder="z.B. testseite" required>
+        <p class="text-sm text-gray-500 mt-1">Beispiel: <code>testseite</code> ergibt die URL <code>nezbi.de/testseite</code></p>
     </div>
     <div>
         <label class="block mb-1 font-medium">Inhalt</label>
