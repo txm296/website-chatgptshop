@@ -14,7 +14,7 @@ Dieses Repository enthält einen funktionsfähigen PHP Onlineshop. Zur Ausführu
    ```
 3. Entwicklungsserver starten:
    ```bash
-   php -S 127.0.0.1:8000
+   php -S 127.0.0.1:8000 -t . router.php
    ```
 
 Optional können die Verbindungsdaten zur Datenbank über folgende
@@ -38,6 +38,10 @@ export DB_PASS=<dein_passwort>
 ```
 
 Der Shop ist anschließend unter <http://127.0.0.1:8000> erreichbar.
+
+Für saubere URLs ohne `page.php?slug=` sorgt eine `.htaccess`-Datei. Beim
+lokalen Entwicklungsserver übernimmt dies `router.php`, welches automatisch
+Anfragen wie `/meineseite` an `page.php` weiterleitet.
 
 ## Website anpassen
 
