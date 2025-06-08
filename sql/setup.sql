@@ -45,3 +45,10 @@ CREATE TABLE rabattcodes (
 
 -- Beispieladmin, Passwort ist "nezbi" (bitte nach dem Login ändern!)
 INSERT INTO admins (username, passwort) VALUES ('admin', '$2y$10$2m.bMtqb4s3jLS.7BgUVleppmSDZ6Dqf1hnbdWdPNs1naaQgGo0Sy');
+
+CREATE TABLE pages (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    slug VARCHAR(200) UNIQUE,
+    title VARCHAR(200),
+    content TEXT
+);

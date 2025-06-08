@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="rabattcodes.php" class="accent-hover">Rabatte</a>
             <a href="bestellungen.php" class="accent-hover">Bestellungen</a>
             <a href="insights.php" class="accent-hover">Insights</a>
+            <a href="pages.php" class="accent-hover">Seiten</a>
             <a href="customize.php" class="font-bold accent-text">Website bearbeiten</a>
         </nav>
     </header>

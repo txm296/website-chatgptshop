@@ -52,6 +52,7 @@ $siteSettings = load_settings();
             <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
             <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
+            <a href="pages.php" class="hover:text-blue-600">Seiten</a>
         </nav>
     </header>
     <script>
