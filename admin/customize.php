@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $siteSettings['hero_subtitle'] = $_POST['hero_subtitle'] ?? '';
     $siteSettings['hero_image'] = $_POST['hero_image'] ?? '';
     $siteSettings['footer_text'] = $_POST['footer_text'] ?? '';
+    $siteSettings['background_color'] = $_POST['background_color'] ?? '#f9fafb';
+    $siteSettings['custom_css'] = $_POST['custom_css'] ?? '';
     save_settings($siteSettings);
     $success = true;
 }
@@ -41,11 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php $ff = $siteSettings['font_family'] ?? 'Inter'; $ff_link = str_replace(' ', '+', $ff); ?>
     <link href="https://fonts.googleapis.com/css?family=<?= $ff_link ?>:400,600&display=swap" rel="stylesheet">
     <style>
-      body { font-family: '<?= htmlspecialchars($ff) ?>', sans-serif; }
+      body { font-family: '<?= htmlspecialchars($ff) ?>', sans-serif; background-color: <?= htmlspecialchars($siteSettings['background_color']) ?>; }
       :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color']) ?>; }
       .accent-bg { background-color: var(--accent-color); }
       .accent-hover:hover { color: var(--accent-color); }
       .accent-bg-hover:hover { background-color: var(--accent-color); }
+      <?= $siteSettings['custom_css'] ?>
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -144,6 +147,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label class="block mb-1 font-medium">Footer Text</label>
                 <input type="text" name="footer_text" value="<?= htmlspecialchars($siteSettings['footer_text']) ?>" class="w-full border px-3 py-2 rounded">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Hintergrundfarbe</label>
+                <input type="color" name="background_color" value="<?= htmlspecialchars($siteSettings['background_color']) ?>" class="w-24 h-10 p-0 border">
+            </div>
+            <div>
+                <label class="block mb-1 font-medium">Eigenes CSS</label>
+                <textarea name="custom_css" rows="4" class="w-full border px-3 py-2 rounded"><?= htmlspecialchars($siteSettings['custom_css']) ?></textarea>
             </div>
             <button class="px-5 py-2 accent-bg text-white rounded-xl">Speichern</button>
         </form>
