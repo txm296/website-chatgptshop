@@ -41,6 +41,6 @@ Der Shop ist anschließend unter <http://127.0.0.1:8000> erreichbar.
 
 ## Website anpassen
 
-Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten stehen jetzt zehn stark unterschiedliche Templates zur Auswahl.
+Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten stehen jetzt zehn stark unterschiedliche Templates zur Auswahl. Zusätzlich können eine Hintergrundfarbe und eigenes CSS festgelegt werden.
 Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und Darkmode zu wechseln.
-Zusätzlich gibt es einen Bereich "Seiten", in dem sich beliebige Unterseiten erstellen und bearbeiten lassen. Die Inhalte werden mit einem einfachen Editor direkt im Browser gepflegt und erscheinen automatisch in der Navigation.
+Unter "Seiten" steht nun ein eigener Page-Builder zur Verfügung, mit dem sich Überschriften, Textabsätze, Bilder und Buttons frei zusammensetzen lassen. Die Inhalte werden lokal im Browser bearbeitet und erscheinen automatisch in der Navigation.

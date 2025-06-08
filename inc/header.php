@@ -47,7 +47,7 @@ if (isset($pdo)) {
       :root {
         --accent-color: <?= htmlspecialchars($siteSettings['primary_color'] ?? '#2563eb') ?>;
         --secondary-color: <?= htmlspecialchars($siteSettings['secondary_color'] ?? '#1e40af') ?>;
-        --body-bg: #f9fafb;
+        --body-bg: <?= htmlspecialchars($siteSettings['background_color'] ?? '#f9fafb') ?>;
         --header-bg: #ffffff;
         --text-color: #111827;
         --nav-link-color: #374151;
@@ -129,6 +129,7 @@ if (isset($pdo)) {
       body.template-9 nav{text-align:left;}
       body.template-10 header div:first-child{flex-direction:row-reverse;}
       body.template-10 nav a{margin-right:0.5rem;}
+      <?= $siteSettings['custom_css'] ?? '' ?>
     </style>
 </head>
 <body class="template-<?= $template ?>">

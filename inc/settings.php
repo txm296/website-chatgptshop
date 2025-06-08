@@ -10,7 +10,9 @@ function load_settings(){
         'hero_title' => 'Technologie neu erleben',
         'hero_subtitle' => 'Premium Elektronik f\u00fcr deinen Alltag',
         'hero_image' => 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1280&q=80',
-        'footer_text' => '\xc2\xa9 2025 nezbi'
+        'footer_text' => '\xc2\xa9 2025 nezbi',
+        'background_color' => '#f9fafb',
+        'custom_css' => ''
     ];
     if (file_exists($file)) {
         $data = json_decode(file_get_contents($file), true);
