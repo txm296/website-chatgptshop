@@ -47,4 +47,5 @@ Anfragen wie `/meineseite` an `page.php` weiterleitet.
 
 Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten stehen jetzt zehn stark unterschiedliche Templates zur Auswahl. Zusätzlich können eine Hintergrundfarbe und eigenes CSS festgelegt werden.
 Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und Darkmode zu wechseln.
-Unter "Seiten" steht nun ein eigener Page-Builder zur Verfügung, mit dem sich Überschriften, Textabsätze, Bilder und Buttons frei zusammensetzen lassen. Die Inhalte werden lokal im Browser bearbeitet und erscheinen automatisch in der Navigation.
+Unter "Seiten" steht nun ein eigener Page-Builder zur Verfügung, mit dem sich Überschriften, Textabsätze, Bilder und Buttons frei zusammensetzen lassen. Die Inhalte werden lokal im Browser bearbeitet und erscheinen automatisch in der Navigation. 
+Neu ist außerdem eine Seite "Templates" im Adminbereich. Dort finden sich CSS-Vorlagen, etwa für Ladeanimationen, die man per Drag & Drop direkt in den Page‑Builder ziehen kann.

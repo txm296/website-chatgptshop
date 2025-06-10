@@ -48,6 +48,7 @@ $bestellungen = $pdo->query("SELECT * FROM bestellungen ORDER BY zeitstempel DES
             <a href="bestellungen.php" class="font-bold text-blue-600">Bestellungen</a>
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
             <a href="pages.php" class="hover:text-blue-600">Seiten</a>
+            <a href="templates.php" class="hover:text-blue-600">Templates</a>
         </nav>
     </header>
     <script>

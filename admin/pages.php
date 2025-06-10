@@ -36,6 +36,7 @@ $pages = $pdo->query("SELECT * FROM pages ORDER BY id")->fetchAll(PDO::FETCH_ASS
         <a href="insights.php" class="hover:text-blue-600">Insights</a>
         <a href="pages.php" class="font-bold text-blue-600">Seiten</a>
         <a href="customize.php" class="hover:text-blue-600">Website bearbeiten</a>
+        <a href="templates.php" class="hover:text-blue-600">Templates</a>
     </nav>
 </header>
 <script>
