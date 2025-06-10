@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <main class="max-w-5xl mx-auto px-4 py-10">
     <h1 class="text-2xl font-bold mb-8">Seiten</h1>
-    <a href="edit_page.php" class="mb-4 inline-block px-4 py-2 bg-blue-600 text-white rounded">Neue Seite</a>
+    <a href="page_builder.php" class="mb-4 inline-block px-4 py-2 bg-blue-600 text-white rounded">Neue Seite</a>
     <div class="overflow-x-auto">
     <table class="w-full bg-white shadow rounded-xl">
         <thead class="bg-gray-100"><tr><th class="p-2 text-left">ID</th><th class="p-2 text-left">Titel</th><th class="p-2 text-left">Slug</th><th class="p-2">Aktionen</th></tr></thead>
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 <td class="p-2"><?= htmlspecialchars($p['title']) ?></td>
                 <td class="p-2"><?= htmlspecialchars($p['slug']) ?></td>
                 <td class="p-2">
-                    <a href="edit_page.php?id=<?= $p['id'] ?>" class="px-3 py-1 bg-blue-600 text-white rounded mr-2">Bearbeiten</a>
+                    <a href="page_builder.php?id=<?= $p['id'] ?>" class="px-3 py-1 bg-blue-600 text-white rounded mr-2">Bearbeiten</a>
                     <form method="post" action="edit_page.php" onsubmit="return confirm('Seite wirklich löschen?')" class="inline">
                         <input type="hidden" name="id" value="<?= $p['id'] ?>">
                         <input type="hidden" name="action" value="delete">
