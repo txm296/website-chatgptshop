@@ -1,164 +1,109 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
-    header('Location: ../login.php');
-    exit;
-}
+if(!isset($_SESSION['admin'])){header('Location: ../login.php');exit;}
 require '../inc/db.php';
-require '../inc/settings.php';
-$siteSettings = load_settings();
-$success = false;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $siteSettings['primary_color'] = $_POST['primary_color'] ?? '#2563eb';
-    $siteSettings['secondary_color'] = $_POST['secondary_color'] ?? '#1e40af';
-    $siteSettings['logo_text'] = $_POST['logo_text'] ?? 'nezbi';
-    $siteSettings['template'] = intval($_POST['template'] ?? 1);
-    $siteSettings['font_family'] = $_POST['font_family'] ?? 'Inter';
-    $siteSettings['hero_title'] = $_POST['hero_title'] ?? '';
-    $siteSettings['hero_subtitle'] = $_POST['hero_subtitle'] ?? '';
-    $siteSettings['hero_image'] = $_POST['hero_image'] ?? '';
-    $siteSettings['footer_text'] = $_POST['footer_text'] ?? '';
-    $siteSettings['background_color'] = $_POST['background_color'] ?? '#f9fafb';
-    $siteSettings['custom_css'] = $_POST['custom_css'] ?? '';
-    save_settings($siteSettings);
-    $success = true;
+$pages = $pdo->query("SELECT id, title FROM pages ORDER BY title")->fetchAll(PDO::FETCH_ASSOC);
+$id = isset($_GET['id']) ? intval($_GET['id']) : ($pages[0]['id'] ?? 0);
+$page = ['title'=>'','slug'=>'','content'=>''];
+if($id){
+    $stmt=$pdo->prepare('SELECT * FROM pages WHERE id=?');
+    $stmt->execute([$id]);
+    $row=$stmt->fetch(PDO::FETCH_ASSOC);
+    if($row) $page=$row;
+}
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $title=$_POST['title']??'';
+    $slug=preg_replace('/[^a-z0-9-]/','-', strtolower(trim($_POST['slug']??'')));
+    $content=$_POST['content']??'';
+    if($id){
+        $stmt=$pdo->prepare('UPDATE pages SET title=?, slug=?, content=? WHERE id=?');
+        $stmt->execute([$title,$slug,$content,$id]);
+    }else{
+        $stmt=$pdo->prepare('INSERT INTO pages (title,slug,content) VALUES (?,?,?)');
+        $stmt->execute([$title,$slug,$content]);
+        $id=$pdo->lastInsertId();
+    }
+    header('Location: customize.php?id='.$id);
+    exit;
 }
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Website bearbeiten – nezbi Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          }
-        }
-      }
-    </script>
-    <?php $ff = $siteSettings['font_family'] ?? 'Inter'; $ff_link = str_replace(' ', '+', $ff); ?>
-    <link href="https://fonts.googleapis.com/css?family=<?= $ff_link ?>:400,600&display=swap" rel="stylesheet">
-    <style>
-      body { font-family: '<?= htmlspecialchars($ff) ?>', sans-serif; background-color: <?= htmlspecialchars($siteSettings['background_color']) ?>; }
-      :root { --accent-color: <?= htmlspecialchars($siteSettings['primary_color']) ?>; }
-      .accent-bg { background-color: var(--accent-color); }
-      .accent-hover:hover { color: var(--accent-color); }
-      .accent-bg-hover:hover { background-color: var(--accent-color); }
-      <?= $siteSettings['custom_css'] ?>
-    </style>
+<meta charset="UTF-8">
+<title>Website bearbeiten – nezbi Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="custom-editor.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif;}</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <header class="bg-white border-b shadow-sm">
-        <div class="max-w-5xl mx-auto flex justify-between items-center py-6 px-4">
-            <span class="text-2xl font-extrabold tracking-tight">nezbi Admin</span>
-            <div class="flex items-center">
-                <button id="menuBtn" class="md:hidden mr-4 text-gray-600" aria-label="Menü öffnen">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-                <a href="logout.php" class="inline-block rounded-xl px-4 py-2 accent-bg text-white font-medium hover:opacity-90 transition">Logout</a>
+<header class="bg-white border-b shadow-sm">
+    <div class="max-w-5xl mx-auto flex justify-between items-center py-6 px-4">
+        <span class="text-2xl font-extrabold tracking-tight">nezbi Admin</span>
+        <div class="flex items-center">
+            <button id="menuBtn" class="md:hidden mr-4 text-gray-600" aria-label="Menü öffnen">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            <a href="logout.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Logout</a>
+        </div>
+    </div>
+    <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
+        <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
+        <a href="produkte.php" class="hover:text-blue-600">Produkte</a>
+        <a href="kategorien.php" class="hover:text-blue-600">Kategorien</a>
+        <a href="rabattcodes.php" class="hover:text-blue-600">Rabatte</a>
+        <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
+        <a href="insights.php" class="hover:text-blue-600">Insights</a>
+        <a href="pages.php" class="hover:text-blue-600">Seiten</a>
+        <a href="customize.php" class="font-bold text-blue-600">Website bearbeiten</a>
+        <a href="templates.php" class="hover:text-blue-600">Templates</a>
+    </nav>
+</header>
+<script>
+ document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('menuBtn');var n=document.getElementById('navLinks');if(b&&n){b.addEventListener('click',function(){n.classList.toggle('hidden');});}});
+</script>
+<main class="max-w-5xl mx-auto px-4 py-10">
+<h1 class="text-2xl font-bold mb-8">Seite bearbeiten</h1>
+<div class="mb-4">
+    <label class="mr-2">Seite:</label>
+    <select onchange="location='customize.php?id='+this.value" class="border px-2 py-1 rounded">
+        <?php foreach($pages as $p): ?>
+            <option value="<?= $p['id'] ?>" <?= $p['id']==$id?'selected':'' ?>><?= htmlspecialchars($p['title']) ?></option>
+        <?php endforeach; ?>
+    </select>
+    <a href="customize.php" class="ml-2 text-blue-600" title="Neue Seite">+</a>
+</div>
+<form method="post" id="pageForm" class="bg-white shadow rounded-xl p-6 space-y-4">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+    <div>
+        <label class="block mb-1 font-medium">Titel</label>
+        <input type="text" name="title" value="<?= htmlspecialchars($page['title']) ?>" class="w-full border px-3 py-2 rounded" required>
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">Slug (URL)</label>
+        <input type="text" name="slug" value="<?= htmlspecialchars($page['slug']) ?>" class="w-full border px-3 py-2 rounded" placeholder="z.B. testseite" required>
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">Inhalt</label>
+        <div class="flex">
+            <div id="editor" class="border rounded min-h-[400px] flex-1 p-2"></div>
+            <div class="ml-4 space-y-2 w-32">
+                <button type="button" id="addText" class="w-full px-2 py-1 bg-gray-200 rounded">Text</button>
+                <button type="button" id="addImage" class="w-full px-2 py-1 bg-gray-200 rounded">Bild</button>
             </div>
         </div>
-        <nav id="navLinks" class="hidden flex-col space-y-2 px-4 pb-4 md:flex md:flex-row md:space-y-0 md:space-x-8 md:max-w-5xl md:mx-auto">
-            <a href="dashboard.php" class="accent-hover">Dashboard</a>
-            <a href="produkte.php" class="accent-hover">Produkte</a>
-            <a href="kategorien.php" class="accent-hover">Kategorien</a>
-            <a href="rabattcodes.php" class="accent-hover">Rabatte</a>
-            <a href="bestellungen.php" class="accent-hover">Bestellungen</a>
-            <a href="insights.php" class="accent-hover">Insights</a>
-            <a href="pages.php" class="accent-hover">Seiten</a>
-            <a href="customize.php" class="font-bold accent-text">Website bearbeiten</a>
-            <a href="templates.php" class="accent-hover">Templates</a>
-        </nav>
-    </header>
-    <script>
-    document.addEventListener('DOMContentLoaded',function(){
-        var b=document.getElementById('menuBtn');
-        var n=document.getElementById('navLinks');
-        if(b&&n){
-            b.addEventListener('click',function(){
-                n.classList.toggle('hidden');
-            });
-        }
-    });
-    </script>
-    <main class="max-w-5xl mx-auto px-4 py-10">
-        <h1 class="text-2xl font-bold mb-8">Website bearbeiten</h1>
-        <?php if($success): ?><p class="mb-4 text-green-600">Einstellungen gespeichert.</p><?php endif; ?>
-        <form method="post" class="bg-white shadow rounded-xl p-6 space-y-4">
-            <div>
-                <label class="block mb-1 font-medium">Primärfarbe</label>
-                <input type="color" name="primary_color" value="<?= htmlspecialchars($siteSettings['primary_color']) ?>" class="w-24 h-10 p-0 border">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Sekundärfarbe</label>
-                <input type="color" name="secondary_color" value="<?= htmlspecialchars($siteSettings['secondary_color']) ?>" class="w-24 h-10 p-0 border">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Logo Text</label>
-                <input type="text" name="logo_text" value="<?= htmlspecialchars($siteSettings['logo_text']) ?>" class="w-full border px-3 py-2 rounded">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Template</label>
-                <select name="template" class="border px-3 py-2 rounded">
-                    <?php
-                    $templateNames=[
-                        1=>'Klassisch',
-                        2=>'Dunkel',
-                        3=>'Pastell',
-                        4=>'Aqua',
-                        5=>'Warm',
-                        6=>'Zentrierte Navigation',
-                        7=>'Logo Mitte, Nav unten',
-                        8=>'Große Abstände',
-                        9=>'Nav linksbündig',
-                        10=>'Logo rechts, kompakt'
-                    ];
-                    foreach($templateNames as $i=>$name): ?>
-                        <option value="<?=$i?>" <?=$siteSettings['template']==$i?'selected':''?>><?=$name?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Schriftart</label>
-                <select name="font_family" class="border px-3 py-2 rounded">
-                    <?php $fonts=['Inter','Roboto','Open Sans','Lora','Poppins'];
-                    foreach($fonts as $f): ?>
-                    <option value="<?=$f?>" <?=$siteSettings['font_family']==$f?'selected':''?>><?=$f?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Hero Titel</label>
-                <input type="text" name="hero_title" value="<?= htmlspecialchars($siteSettings['hero_title']) ?>" class="w-full border px-3 py-2 rounded">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Hero Untertitel</label>
-                <input type="text" name="hero_subtitle" value="<?= htmlspecialchars($siteSettings['hero_subtitle']) ?>" class="w-full border px-3 py-2 rounded">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Hero Bild-URL</label>
-                <input type="text" name="hero_image" value="<?= htmlspecialchars($siteSettings['hero_image']) ?>" class="w-full border px-3 py-2 rounded">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Footer Text</label>
-                <input type="text" name="footer_text" value="<?= htmlspecialchars($siteSettings['footer_text']) ?>" class="w-full border px-3 py-2 rounded">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Hintergrundfarbe</label>
-                <input type="color" name="background_color" value="<?= htmlspecialchars($siteSettings['background_color']) ?>" class="w-24 h-10 p-0 border">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Eigenes CSS</label>
-                <textarea name="custom_css" rows="4" class="w-full border px-3 py-2 rounded"><?= htmlspecialchars($siteSettings['custom_css']) ?></textarea>
-            </div>
-            <button class="px-5 py-2 accent-bg text-white rounded-xl">Speichern</button>
-        </form>
-    </main>
+        <input type="hidden" id="contentInput" name="content" value="<?= htmlspecialchars($page['content']) ?>">
+    </div>
+    <div class="mt-6">
+        <label class="block mb-1 font-medium">Vorschau</label>
+        <iframe id="previewFrame" class="w-full h-96 border rounded"></iframe>
+    </div>
+    <button class="px-5 py-2 bg-blue-600 text-white rounded-xl">Speichern</button>
+</form>
+</main>
 </body>
 </html>

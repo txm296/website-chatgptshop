@@ -96,6 +96,10 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
         </div>
         <input type="hidden" id="contentInput" name="content" value="<?= htmlspecialchars($page['content']) ?>">
     </div>
+    <div class="mt-6">
+        <label class="block mb-1 font-medium">Vorschau</label>
+        <iframe id="previewFrame" class="w-full h-96 border rounded"></iframe>
+    </div>
     <button class="px-5 py-2 bg-blue-600 text-white rounded-xl">Speichern</button>
 </form>
 </main>

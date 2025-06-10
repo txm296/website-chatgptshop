@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const addText = document.getElementById('addText');
   const addImage = document.getElementById('addImage');
   const contentInput = document.getElementById('contentInput');
+  const previewFrame = document.getElementById('previewFrame');
+
+  function updatePreview() {
+    if (previewFrame) {
+      previewFrame.srcdoc = editor.innerHTML;
+    }
+  }
 
   function makeDraggable(el) {
     el.draggable = true;
@@ -37,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     div.textContent = 'Text';
     makeDraggable(div);
     editor.appendChild(div);
+    updatePreview();
   });
 
   addImage.addEventListener('click', () => {
@@ -47,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     img.className = 'block my-1';
     makeDraggable(img);
     editor.appendChild(img);
+    updatePreview();
   });
 
   // load existing content
@@ -54,9 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
     editor.innerHTML = contentInput.value;
     editor.querySelectorAll('.block').forEach(el => makeDraggable(el));
   }
+  updatePreview();
 
   const form = document.getElementById('pageForm');
   form.addEventListener('submit', () => {
     contentInput.value = editor.innerHTML;
   });
+
+  editor.addEventListener('input', updatePreview);
+  editor.addEventListener('dragend', updatePreview);
 });
