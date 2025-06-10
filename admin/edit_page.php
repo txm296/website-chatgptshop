@@ -40,7 +40,10 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
 <title>Seite bearbeiten – nezbi Admin</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="builder.js"></script>
+<link href="https://unpkg.com/grapesjs@0.21.8/dist/css/grapes.min.css" rel="stylesheet"/>
+<script src="https://unpkg.com/grapesjs@0.21.8"></script>
+<script src="https://unpkg.com/grapesjs-preset-webpage@1.0.3"></script>
+<script src="grapes-editor.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
 <style>body{font-family:'Inter',sans-serif;}</style>
 </head>
@@ -87,23 +90,9 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
     </div>
     <div>
         <label class="block mb-1 font-medium">Inhalt</label>
-        <div id="builder" class="w-full border px-3 py-2 rounded min-h-[200px]"></div>
-        <input type="hidden" id="contentInput" name="content">
-        <div class="flex items-center mt-2 space-x-2">
-            <select id="addType" class="border px-2 py-1 rounded">
-                <option value="p">Text</option>
-                <option value="h2">Überschrift</option>
-                <option value="img">Bild</option>
-                <option value="button">Button</option>
-            </select>
-            <button type="button" id="addBtn" class="px-3 py-1 bg-gray-200 rounded">Hinzufügen</button>
-        </div>
+        <div id="gjs" class="border rounded min-h-[400px]"></div>
+        <input type="hidden" id="contentInput" name="content" value="<?= htmlspecialchars($page['content']) ?>">
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded',function(){
-        document.getElementById('builder').innerHTML = <?= json_encode($page['content']) ?>;
-    });
-    </script>
     <button class="px-5 py-2 bg-blue-600 text-white rounded-xl">Speichern</button>
 </form>
 </main>
