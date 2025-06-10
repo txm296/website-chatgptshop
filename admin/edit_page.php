@@ -40,10 +40,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
 <title>Seite bearbeiten – nezbi Admin</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://unpkg.com/grapesjs@0.21.8/dist/css/grapes.min.css" rel="stylesheet"/>
-<script src="https://unpkg.com/grapesjs@0.21.8"></script>
-<script src="https://unpkg.com/grapesjs-preset-webpage@1.0.3"></script>
-<script src="grapes-editor.js"></script>
+<script src="custom-editor.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
 <style>body{font-family:'Inter',sans-serif;}</style>
 </head>
@@ -90,7 +87,13 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
     </div>
     <div>
         <label class="block mb-1 font-medium">Inhalt</label>
-        <div id="gjs" class="border rounded min-h-[400px]"></div>
+        <div class="flex">
+            <div id="editor" class="border rounded min-h-[400px] flex-1 p-2"></div>
+            <div class="ml-4 space-y-2 w-32">
+                <button type="button" id="addText" class="w-full px-2 py-1 bg-gray-200 rounded">Text</button>
+                <button type="button" id="addImage" class="w-full px-2 py-1 bg-gray-200 rounded">Bild</button>
+            </div>
+        </div>
         <input type="hidden" id="contentInput" name="content" value="<?= htmlspecialchars($page['content']) ?>">
     </div>
     <button class="px-5 py-2 bg-blue-600 text-white rounded-xl">Speichern</button>

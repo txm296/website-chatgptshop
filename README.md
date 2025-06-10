@@ -47,5 +47,5 @@ Anfragen wie `/meineseite` an `page.php` weiterleitet.
 
 Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Neben Farben und Texten stehen jetzt zehn stark unterschiedliche Templates zur Auswahl. Zusätzlich können eine Hintergrundfarbe und eigenes CSS festgelegt werden.
 Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und Darkmode zu wechseln.
-Unter "Seiten" gibt es jetzt einen umfangreichen Website‑Editor auf Basis von GrapesJS. Damit lassen sich komplette Layouts visuell per Drag & Drop gestalten, inklusive anpassbarer Komponenten, Blockbibliothek und Style‑Manager. Die resultierenden HTML‑Strukturen werden in der Datenbank gespeichert und auf den jeweiligen Seiten ausgegeben.
+Unter "Seiten" gibt es einen einfachen Drag‑and‑Drop Website‑Editor ohne Fremdbibliotheken. Damit lassen sich Text‑ und Bildelemente inline bearbeiten und frei anordnen. Die resultierenden HTML‑Strukturen werden in der Datenbank gespeichert und auf den jeweiligen Seiten ausgegeben.
 Neu ist außerdem eine Seite "Templates" im Adminbereich. Dort finden sich CSS‑Vorlagen, etwa für Ladeanimationen, die man per Drag & Drop direkt in den Editor ziehen kann.
