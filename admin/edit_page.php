@@ -66,6 +66,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
         <a href="insights.php" class="hover:text-blue-600">Insights</a>
         <a href="pages.php" class="text-blue-600 font-bold">Seiten</a>
         <a href="customize.php" class="hover:text-blue-600">Website bearbeiten</a>
+        <a href="templates.php" class="hover:text-blue-600">Templates</a>
     </nav>
 </header>
 <script>

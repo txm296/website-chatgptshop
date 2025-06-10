@@ -58,6 +58,44 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(newUrl!==null) e.target.setAttribute('href',newUrl);
       }
     });
+
+    builder.addEventListener('dragover',e=>{
+      if(e.dataTransfer.types.includes('text/plain')){
+        e.preventDefault();
+      }
+    });
+    builder.addEventListener('drop',e=>{
+      const data=e.dataTransfer.getData('text/plain');
+      if(data){
+        e.preventDefault();
+        try{
+          const tpl=JSON.parse(data);
+          const wrapper=document.createElement('div');
+          wrapper.className='block relative group mb-2';
+          const del=document.createElement('button');
+          del.type='button';
+          del.textContent='✖';
+          del.className='absolute -right-2 -top-2 hidden group-hover:block bg-red-600 text-white rounded-full w-5 h-5 text-xs';
+          del.addEventListener('click',()=>wrapper.remove());
+          const container=document.createElement('div');
+          container.innerHTML=tpl.html||'';
+          container.querySelectorAll('*').forEach(el=>{
+            if(el.tagName!=='STYLE'){
+              el.classList.add('editable');
+              if(el.tagName!=='IMG') el.contentEditable=true;
+            }
+          });
+          wrapper.appendChild(container);
+          if(tpl.css){
+            const style=document.createElement('style');
+            style.textContent=tpl.css;
+            wrapper.appendChild(style);
+          }
+          wrapper.appendChild(del);
+          builder.appendChild(wrapper);
+        }catch(err){console.error(err);}
+      }
+    });
   }
 
   if(form&&contentInput&&builder){
