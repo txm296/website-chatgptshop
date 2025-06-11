@@ -10,6 +10,8 @@ function initBuilder() {
   const bpButtons = document.querySelectorAll('.pb-bp-btn');
   const titleInput = document.getElementById('pbTitle');
   const slugInput = document.getElementById('pbSlug');
+  const optimizeBtn = document.getElementById('pbOptimizeMobile');
+  const undoBtn = document.getElementById('pbUndoMobile');
   const pageSelect = document.getElementById('pbPageSelect');
   const pageSearch = document.getElementById('pbPageSearch');
 
@@ -17,6 +19,7 @@ function initBuilder() {
   const loadUrl = canvas && canvas.dataset.loadUrl ? canvas.dataset.loadUrl : null;
   let pageId = canvas ? canvas.dataset.pageId : 0;
   let currentBreakpoint = 'desktop';
+  let prevLayout = null;
 
   if (!canvas || !widgetBar) return;
 
@@ -157,11 +160,15 @@ function initBuilder() {
   function applyConfig(el, cfg) {
     if (!cfg) return;
     const bp = cfg.breakpoints ? cfg.breakpoints[currentBreakpoint] || {} : cfg;
-    el.style.fontSize = bp.fontSize || '';
-    el.style.color = bp.color || '';
-    el.style.background = bp.background || '';
-    el.style.padding = bp.padding || '';
-    el.style.margin = bp.margin || '';
+    const mob = currentBreakpoint === 'mobile' && cfg.style_mobile ? cfg.style_mobile : {};
+    el.style.fontSize = mob.fontSize || bp.fontSize || '';
+    el.style.color = mob.color || bp.color || '';
+    el.style.background = mob.background || bp.background || '';
+    el.style.padding = mob.padding || bp.padding || '';
+    el.style.margin = mob.margin || bp.margin || '';
+    el.style.width = mob.width || bp.width || '';
+    el.style.flexDirection = mob.flexDirection || '';
+    el.style.gridTemplateColumns = mob.gridTemplateColumns || '';
     if (cfg.hideMobile) el.classList.add('pb-hide-mobile');
     else el.classList.remove('pb-hide-mobile');
     if (cfg.hideDesktop) el.classList.add('pb-hide-desktop');
@@ -241,6 +248,54 @@ function initBuilder() {
         templateSelect.appendChild(opt);
       });
     }
+  }
+
+  function halfValue(val, factor = 0.5) {
+    const m = String(val).match(/([\d.]+)([a-z%]+)/);
+    if (!m) return '';
+    return (parseFloat(m[1]) * factor) + m[2];
+  }
+
+  function generateMobileStyle(el) {
+    const s = window.getComputedStyle(el);
+    const style = { width: '100%' };
+    style.padding = halfValue(s.paddingTop);
+    style.margin = halfValue(s.marginTop);
+    const textNode = el.querySelector('h1,h2,h3,h4,h5,h6,p,span,div,li');
+    if (textNode) {
+      const fs = window.getComputedStyle(textNode).fontSize;
+      style.fontSize = halfValue(fs, 0.8);
+    }
+    if (el.classList.contains('pb-column')) {
+      style.gridTemplateColumns = '1fr';
+    }
+    el.querySelectorAll('img').forEach(img => {
+      img.style.maxWidth = '100%';
+      img.style.height = 'auto';
+    });
+    return style;
+  }
+
+  function optimizeMobile() {
+    prevLayout = canvas.innerHTML;
+    canvas.querySelectorAll('.pb-item').forEach(el => {
+      const cfg = el.dataset.config ? JSON.parse(el.dataset.config) : {};
+      cfg.style_mobile = generateMobileStyle(el);
+      el.dataset.config = JSON.stringify(cfg);
+      if (currentBreakpoint === 'mobile') applyConfig(el, cfg);
+    });
+    save();
+    updateBreakpoint('mobile');
+    if (undoBtn) undoBtn.style.display = 'inline-block';
+  }
+
+  function undoOptimize() {
+    if (!prevLayout) return;
+    canvas.innerHTML = prevLayout;
+    canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+    prevLayout = null;
+    save();
+    if (undoBtn) undoBtn.style.display = 'none';
   }
 
   function openConfigPanel(el) {
@@ -388,6 +443,8 @@ function initBuilder() {
 
   if (pasteBtn) pasteBtn.addEventListener('click', pasteFromClipboard);
   if (insertTemplateBtn) insertTemplateBtn.addEventListener('click', insertSelectedTemplate);
+  if (optimizeBtn) optimizeBtn.addEventListener('click', optimizeMobile);
+  if (undoBtn) undoBtn.addEventListener('click', undoOptimize);
   loadTemplates();
 
   if (pageSelect) {
