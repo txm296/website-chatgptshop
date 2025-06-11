@@ -15,6 +15,7 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <link rel="stylesheet" href="../pagebuilder/assets/builder.css">
 <style>body{font-family:'Inter',sans-serif;}</style>
 </head>

@@ -1,1 +1,1 @@
-<div class="pb-text">Beispiel Textwidget</div>
+<div class="pb-text">Hier steht ein einfacher Text.</div>
