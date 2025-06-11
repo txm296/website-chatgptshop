@@ -49,6 +49,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
     <nav class="flex space-x-8 max-w-5xl mx-auto px-4 pb-4">
         <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
         <a href="pages.php" class="font-bold text-blue-600">Seiten</a>
+        <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
     </nav>
 </header>
 <main class="max-w-5xl mx-auto px-4 py-10">

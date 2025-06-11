@@ -1,0 +1,6 @@
+/* Grundstyles für den modularen Page Builder */
+.pb-canvas {
+  min-height: 400px;
+  border: 1px dashed #cbd5e1;
+  padding: 1rem;
+}

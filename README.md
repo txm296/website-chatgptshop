@@ -49,3 +49,5 @@ Im Adminbereich lässt sich unter "Website bearbeiten" das Aussehen anpassen. Ne
 Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und Darkmode zu wechseln.
 Unter "Seiten" gibt es einen einfachen Drag‑and‑Drop Website‑Editor ohne Fremdbibliotheken. Damit lassen sich Text‑ und Bildelemente inline bearbeiten und frei anordnen. Die resultierenden HTML‑Strukturen werden in der Datenbank gespeichert und auf den jeweiligen Seiten ausgegeben.
 Neu ist außerdem eine Seite "Templates" im Adminbereich. Dort finden sich CSS‑Vorlagen, etwa für Ladeanimationen, die man per Drag & Drop direkt in den Editor ziehen kann.
+
+Ebenfalls neu ist ein modularer visueller Page Builder. Die zugehörigen Dateien befinden sich im Verzeichnis `pagebuilder` und können im Adminbereich über den Menüpunkt "Builder" aufgerufen werden.
