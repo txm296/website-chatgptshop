@@ -86,22 +86,26 @@ document.addEventListener('DOMContentLoaded',function(){var b=document.getElemen
         <input type="text" name="slug" value="<?= htmlspecialchars($page['slug']) ?>" class="w-full border px-3 py-2 rounded" placeholder="z.B. testseite" required>
         <p class="text-sm text-gray-500 mt-1">Beispiel: <code>testseite</code> ergibt die URL <code>nezbi.de/testseite</code></p>
     </div>
+    <div class="flex space-x-2">
+        <button type="button" id="editModeBtn" class="px-3 py-1 bg-gray-200 rounded">Entwurf</button>
+        <button type="button" id="previewModeBtn" class="px-3 py-1 bg-gray-200 rounded">Vorschau</button>
+    </div>
     <div>
         <label class="block mb-1 font-medium">Inhalt</label>
-        <div class="flex">
+        <div class="flex" id="editorSection">
             <div id="editor" class="border rounded min-h-[400px] flex-1 p-2"></div>
-            <div class="ml-4 space-y-2 w-32">
+            <div id="editTools" class="ml-4 space-y-2 w-32">
                 <button type="button" id="addText" class="w-full px-2 py-1 bg-gray-200 rounded">Text</button>
                 <button type="button" id="addImage" class="w-full px-2 py-1 bg-gray-200 rounded">Bild</button>
             </div>
         </div>
         <input type="hidden" id="contentInput" name="content" value="<?= htmlspecialchars($page['content']) ?>">
     </div>
-    <div class="mt-6">
+    <div class="mt-6" id="previewSection">
         <label class="block mb-1 font-medium">Vorschau</label>
         <iframe id="previewFrame" class="w-full h-96 border rounded"></iframe>
     </div>
-    <button class="px-5 py-2 bg-blue-600 text-white rounded-xl">Speichern</button>
+    <button id="publishBtn" class="px-5 py-2 bg-blue-600 text-white rounded-xl">Veröffentlichen</button>
 </form>
 </main>
 </body>
