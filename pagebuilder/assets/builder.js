@@ -134,6 +134,14 @@ function initBuilder() {
     else el.classList.remove('pb-hide-mobile');
     if (cfg.hideDesktop) el.classList.add('pb-hide-desktop');
     else el.classList.remove('pb-hide-desktop');
+
+    if (el.dataset.widget === 'product_grid') {
+      if (cfg.category !== undefined) el.dataset.category = cfg.category;
+      if (cfg.limit !== undefined) el.dataset.limit = cfg.limit;
+    }
+    if (el.dataset.widget === 'category_list') {
+      if (cfg.limit !== undefined) el.dataset.limit = cfg.limit;
+    }
   }
 
   function openConfigPanel(el) {
@@ -141,6 +149,14 @@ function initBuilder() {
     const bpCfg = cfg.breakpoints ? cfg.breakpoints[currentBreakpoint] || {} : cfg;
     const overlay = document.createElement('div');
     overlay.className = 'pb-config-overlay';
+    let widgetFields = '';
+    if (el.dataset.widget === 'product_grid') {
+      widgetFields += `<label>Kategorie-ID <input type="number" name="category" value="${cfg.category || ''}"></label>`;
+      widgetFields += `<label>Anzahl <input type="number" name="limit" value="${cfg.limit || 6}"></label>`;
+    } else if (el.dataset.widget === 'category_list') {
+      widgetFields += `<label>Anzahl <input type="number" name="limit" value="${cfg.limit || 10}"></label>`;
+    }
+
     overlay.innerHTML = `<div class="pb-config">
       <div class="pb-config-bp">${currentBreakpoint.toUpperCase()}</div>
       <label>Schriftgr\u00f6\u00dfe <input type="text" name="fontSize" value="${bpCfg.fontSize || ''}"></label>
@@ -148,6 +164,7 @@ function initBuilder() {
       <label>Hintergrund <input type="color" name="background" value="${bpCfg.background || '#ffffff'}"></label>
       <label>Padding <input type="text" name="padding" value="${bpCfg.padding || ''}"></label>
       <label>Margin <input type="text" name="margin" value="${bpCfg.margin || ''}"></label>
+      ${widgetFields}
       <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Ger\u00e4ten ausblenden</label>
       <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>
       <div class="pb-config-actions">
@@ -169,6 +186,12 @@ function initBuilder() {
       };
       data.hideMobile = overlay.querySelector('input[name="hideMobile"]').checked;
       data.hideDesktop = overlay.querySelector('input[name="hideDesktop"]').checked;
+      if (el.dataset.widget === 'product_grid') {
+        data.category = overlay.querySelector('input[name="category"]').value.trim();
+        data.limit = overlay.querySelector('input[name="limit"]').value.trim();
+      } else if (el.dataset.widget === 'category_list') {
+        data.limit = overlay.querySelector('input[name="limit"]').value.trim();
+      }
       el.dataset.config = JSON.stringify(data);
       applyConfig(el, data);
       save();
@@ -186,6 +209,7 @@ function initBuilder() {
     if (!html) return;
     const wrapper = document.createElement('div');
     wrapper.className = 'pb-item';
+    wrapper.dataset.widget = name;
     wrapper.innerHTML = html;
     canvas.appendChild(wrapper);
     makeEditable(wrapper);
