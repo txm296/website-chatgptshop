@@ -57,7 +57,7 @@ try {
 }
 
 // Sicherstellen, dass neue SEO-Spalten vorhanden sind
-function ensureColumn(PDO $pdo, string $table, string $column, string $type) {
+function ensureColumn(PDO $pdo, $table, $column, $type) {
     $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     try {
         if ($driver === 'sqlite') {

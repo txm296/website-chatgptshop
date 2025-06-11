@@ -6,7 +6,7 @@
  */
 
 class ModularPageBuilder {
-    public function loadWidgets(string $dir): array {
+    public function loadWidgets($dir) {
         $widgets = [];
         foreach (glob(rtrim($dir, '/') . '/*.php') as $file) {
             $widgets[basename($file, '.php')] = $file;
@@ -14,7 +14,7 @@ class ModularPageBuilder {
         return $widgets;
     }
 
-    public function renderWidget(string $widget, array $data = []): string {
+    public function renderWidget($widget, $data = []) {
         if (!file_exists($widget)) {
             return '';
         }
