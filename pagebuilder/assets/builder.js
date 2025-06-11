@@ -48,6 +48,7 @@ function initBuilder() {
     canvas.classList.add('pb-preview-' + bp);
     bpButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.bp === bp));
     updateAllConfigs();
+    if (window.initWidgetAnimations) window.initWidgetAnimations();
   }
 
   function updateAllConfigs() {
@@ -142,6 +143,9 @@ function initBuilder() {
     if (el.dataset.widget === 'category_list') {
       if (cfg.limit !== undefined) el.dataset.limit = cfg.limit;
     }
+    if (cfg.animation) el.dataset.animation = cfg.animation; else delete el.dataset.animation;
+    if (cfg.animTrigger) el.dataset.animTrigger = cfg.animTrigger; else delete el.dataset.animTrigger;
+    if (window.initWidgetAnimations) window.initWidgetAnimations();
   }
 
   function openConfigPanel(el) {
@@ -165,6 +169,22 @@ function initBuilder() {
       <label>Padding <input type="text" name="padding" value="${bpCfg.padding || ''}"></label>
       <label>Margin <input type="text" name="margin" value="${bpCfg.margin || ''}"></label>
       ${widgetFields}
+      <label>Animation
+        <select name="animation">
+          <option value="" ${!cfg.animation ? 'selected' : ''}>Keine</option>
+          <option value="fade" ${cfg.animation==='fade' ? 'selected' : ''}>Fade In</option>
+          <option value="slide-up" ${cfg.animation==='slide-up' ? 'selected' : ''}>Slide Up</option>
+          <option value="slide-left" ${cfg.animation==='slide-left' ? 'selected' : ''}>Slide Left</option>
+          <option value="zoom" ${cfg.animation==='zoom' ? 'selected' : ''}>Zoom In</option>
+        </select>
+      </label>
+      <label>Ausl\u00f6ser
+        <select name="animTrigger">
+          <option value="scroll" ${!cfg.animTrigger || cfg.animTrigger==='scroll' ? 'selected' : ''}>Beim Scrollen sichtbar</option>
+          <option value="hover" ${cfg.animTrigger==='hover' ? 'selected' : ''}>Hover</option>
+          <option value="click" ${cfg.animTrigger==='click' ? 'selected' : ''}>Klick</option>
+        </select>
+      </label>
       <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Ger\u00e4ten ausblenden</label>
       <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>
       <div class="pb-config-actions">
@@ -186,6 +206,8 @@ function initBuilder() {
       };
       data.hideMobile = overlay.querySelector('input[name="hideMobile"]').checked;
       data.hideDesktop = overlay.querySelector('input[name="hideDesktop"]').checked;
+      data.animation = overlay.querySelector('select[name="animation"]').value;
+      data.animTrigger = overlay.querySelector('select[name="animTrigger"]').value;
       if (el.dataset.widget === 'product_grid') {
         data.category = overlay.querySelector('input[name="category"]').value.trim();
         data.limit = overlay.querySelector('input[name="limit"]').value.trim();
@@ -214,6 +236,7 @@ function initBuilder() {
     canvas.appendChild(wrapper);
     makeEditable(wrapper);
     save();
+    if (window.initWidgetAnimations) window.initWidgetAnimations();
   }
 
   widgetBar.querySelectorAll('button[data-widget]').forEach(btn => {
