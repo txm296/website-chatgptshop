@@ -1,5 +1,6 @@
 <?php
 require 'inc/db.php';
+require_once 'inc/pagebuilder.php';
 $slug = $_GET['slug'] ?? '';
 $stmt = $pdo->prepare('SELECT * FROM pages WHERE slug = ?');
 $stmt->execute([$slug]);
@@ -18,7 +19,16 @@ $metaDescription = $page['meta_description'] ?? '';
 $canonicalUrl = $page['canonical_url'] ?? '';
 $jsonLd = $page['jsonld'] ?? '';
 $active = $slug;
+$builderLayout = null;
+if (!isset($_GET['classic'])) {
+    $builderLayout = get_builder_layout($pdo, $slug);
+}
 include 'inc/header.php';
+if ($builderLayout) {
+    echo $builderLayout;
+    include 'inc/footer.php';
+    return;
+}
 echo '<section class="py-24 max-w-3xl mx-auto">'.$page['content'].'</section>';
 include 'inc/footer.php';
 ?>
