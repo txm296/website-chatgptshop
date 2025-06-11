@@ -34,7 +34,7 @@ try {
         // Ensure tables exist when using an already created SQLite database
         $pdo->exec("CREATE TABLE IF NOT EXISTS kategorien (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS produkte (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, beschreibung TEXT, preis REAL, rabatt REAL DEFAULT NULL, bild TEXT, menge INTEGER, aktiv INTEGER DEFAULT 1, kategorie_id INTEGER REFERENCES kategorien(id))");
-        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, content TEXT)");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, content TEXT, meta_title TEXT, meta_description TEXT, canonical_url TEXT, jsonld TEXT)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, layout TEXT)");
         // Keine automatischen Standardkategorien anlegen, damit gelöschte
         // Kategorien nicht wieder erscheinen
@@ -47,10 +47,32 @@ try {
 } catch (PDOException $e) {
     $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     if ($driver === 'sqlite') {
-        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, content TEXT)");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, content TEXT, meta_title TEXT, meta_description TEXT, canonical_url TEXT, jsonld TEXT)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, layout TEXT)");
     } else {
-        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), content TEXT)");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), content TEXT, meta_title TEXT, meta_description TEXT, canonical_url TEXT, jsonld TEXT)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_pages (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), layout TEXT)");
     }
 }
+
+// Sicherstellen, dass neue SEO-Spalten vorhanden sind
+function ensureColumn(PDO $pdo, string $table, string $column, string $type) {
+    $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+    try {
+        if ($driver === 'sqlite') {
+            $cols = array_column($pdo->query("PRAGMA table_info($table)")->fetchAll(PDO::FETCH_ASSOC), 'name');
+        } else {
+            $cols = array_column($pdo->query("SHOW COLUMNS FROM $table")->fetchAll(PDO::FETCH_ASSOC), 'Field');
+        }
+    } catch (Exception $e) {
+        $cols = [];
+    }
+    if (!in_array($column, $cols)) {
+        $pdo->exec("ALTER TABLE $table ADD COLUMN $column $type");
+    }
+}
+
+ensureColumn($pdo, 'pages', 'meta_title', 'TEXT');
+ensureColumn($pdo, 'pages', 'meta_description', 'TEXT');
+ensureColumn($pdo, 'pages', 'canonical_url', 'TEXT');
+ensureColumn($pdo, 'pages', 'jsonld', 'TEXT');

@@ -13,7 +13,10 @@ if (!$page) {
     include 'inc/footer.php';
     exit;
 }
-$pageTitle = $page['title'];
+$pageTitle = $page['meta_title'] ?: $page['title'];
+$metaDescription = $page['meta_description'] ?? '';
+$canonicalUrl = $page['canonical_url'] ?? '';
+$jsonLd = $page['jsonld'] ?? '';
 $active = $slug;
 include 'inc/header.php';
 echo '<section class="py-24 max-w-3xl mx-auto">'.$page['content'].'</section>';

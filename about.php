@@ -1,10 +1,13 @@
 <?php
 $active = 'about';
 require 'inc/db.php';
-$stmt = $pdo->prepare('SELECT title, content FROM pages WHERE slug = ?');
+$stmt = $pdo->prepare('SELECT title, content, meta_title, meta_description, canonical_url, jsonld FROM pages WHERE slug = ?');
 $stmt->execute(['about']);
 $page = $stmt->fetch(PDO::FETCH_ASSOC);
-$pageTitle = $page['title'] ?? 'Über nezbi';
+$pageTitle = $page['meta_title'] ?: ($page['title'] ?? 'Über nezbi');
+$metaDescription = $page['meta_description'] ?? '';
+$canonicalUrl = $page['canonical_url'] ?? '';
+$jsonLd = $page['jsonld'] ?? '';
 require_once "inc/template.php";
 include 'inc/header.php';
 if ($page) {

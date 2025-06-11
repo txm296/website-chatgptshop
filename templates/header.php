@@ -24,6 +24,17 @@ if (isset($pdo)) {
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($pageTitle) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php if(!empty($metaDescription)): ?>
+    <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
+    <?php endif; ?>
+    <?php if(!empty($canonicalUrl)): ?>
+    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
+    <?php endif; ?>
+    <?php if(!empty($jsonLd)): ?>
+    <script type="application/ld+json">
+    <?= $jsonLd ?>
+    </script>
+    <?php endif; ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {

@@ -50,7 +50,11 @@ CREATE TABLE pages (
     id INT PRIMARY KEY AUTO_INCREMENT,
     slug VARCHAR(200) UNIQUE,
     title VARCHAR(200),
-    content TEXT
+    content TEXT,
+    meta_title VARCHAR(255),
+    meta_description TEXT,
+    canonical_url VARCHAR(255),
+    jsonld TEXT
 );
 
 CREATE TABLE builder_pages (
