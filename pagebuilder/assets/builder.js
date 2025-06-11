@@ -5,7 +5,26 @@ function initBuilder() {
 
   if (!canvas || !widgetBar) return;
 
-  new Sortable(canvas, { animation: 150 });
+  const saved = localStorage.getItem('pb-builder-content');
+  if (saved) {
+    canvas.innerHTML = saved;
+    canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+  }
+
+  new Sortable(canvas, { animation: 150, onSort: save });
+
+  function save() {
+    localStorage.setItem('pb-builder-content', canvas.innerHTML);
+  }
+
+  function makeEditable(el) {
+    el.querySelectorAll('h1,h2,h3,h4,h5,h6,p,div,li,span').forEach(node => {
+      if (node.children.length === 0 && node.tagName !== 'IMG') {
+        node.setAttribute('contenteditable', 'true');
+      }
+    });
+    el.addEventListener('input', save);
+  }
 
   async function fetchWidget(name) {
     const res = await fetch(`../pagebuilder/fetch_widget.php?name=${encodeURIComponent(name)}`);
@@ -19,6 +38,8 @@ function initBuilder() {
     wrapper.className = 'pb-item';
     wrapper.innerHTML = html;
     canvas.appendChild(wrapper);
+    makeEditable(wrapper);
+    save();
   }
 
   widgetBar.querySelectorAll('button[data-widget]').forEach(btn => {
@@ -37,6 +58,8 @@ function initBuilder() {
     const name = e.dataTransfer.getData('text/plain');
     if (name) insertWidget(name);
   });
+
+  canvas.addEventListener('input', save);
 }
 
 document.addEventListener('DOMContentLoaded', initBuilder);
