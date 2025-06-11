@@ -30,6 +30,7 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
 <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <link rel="stylesheet" href="../pagebuilder/assets/builder.css">
+<link rel="stylesheet" href="../assets/animations.css">
 <style>body{font-family:'Inter',sans-serif;}</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
