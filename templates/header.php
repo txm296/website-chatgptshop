@@ -53,8 +53,9 @@ if (isset($pdo)) {
     <link href="https://fonts.googleapis.com/css?family=<?= $fontLink ?>:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/animations.css">
     <link rel="stylesheet" href="/assets/popup.css">
+    <link rel="stylesheet" href="/assets/design-system.css">
     <style>
-      body { font-family: '<?= htmlspecialchars($font) ?>', sans-serif; background-color: var(--body-bg, #f9fafb); color: var(--text-color, #111827); }
+      body { font-family: var(--font-family-base); background-color: var(--body-bg, #f9fafb); color: var(--text-color, #111827); }
       .fade-in { animation: fadeIn 0.6s ease-in-out; }
       @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:none; } }
       :root {
@@ -64,6 +65,17 @@ if (isset($pdo)) {
         --header-bg: #ffffff;
         --text-color: #111827;
         --nav-link-color: #374151;
+        --font-family-base: '<?= htmlspecialchars($font) ?>', sans-serif;
+        --font-size-h1: <?= htmlspecialchars($siteSettings['h1_size']) ?>;
+        --font-size-h2: <?= htmlspecialchars($siteSettings['h2_size']) ?>;
+        --font-size-h3: <?= htmlspecialchars($siteSettings['h3_size']) ?>;
+        --font-size-h4: <?= htmlspecialchars($siteSettings['h4_size']) ?>;
+        --font-size-h5: <?= htmlspecialchars($siteSettings['h5_size']) ?>;
+        --font-size-h6: <?= htmlspecialchars($siteSettings['h6_size']) ?>;
+        --font-size-body: <?= htmlspecialchars($siteSettings['body_size']) ?>;
+        --base-spacing: <?= htmlspecialchars($siteSettings['base_spacing']) ?>;
+        --grid-width: <?= htmlspecialchars($siteSettings['grid_width']) ?>;
+        --border-radius: <?= htmlspecialchars($siteSettings['border_radius']) ?>;
       }
       .accent-bg { background-color: var(--accent-color); }
       .accent-text { color: var(--accent-color); }
