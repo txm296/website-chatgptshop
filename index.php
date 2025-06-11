@@ -4,6 +4,7 @@ $pageTitle = 'nezbi – Elektronik Onlineshop';
 require 'inc/db.php';
 require 'inc/settings.php';
 $siteSettings = load_settings();
+require_once "inc/template.php";
 include 'inc/header.php';
 ?>
 <section class="relative text-center py-24 text-white" style="background-image:url('<?= htmlspecialchars($siteSettings['hero_image']) ?>'); background-size:cover; background-position:center;">
@@ -60,4 +61,5 @@ if ($trending): ?>
     </div>
 </section>
 <?php endif; ?>
+render_template("cta");
 <?php include 'inc/footer.php'; ?>

@@ -5,6 +5,7 @@ $stmt = $pdo->prepare('SELECT title, content FROM pages WHERE slug = ?');
 $stmt->execute(['about']);
 $page = $stmt->fetch(PDO::FETCH_ASSOC);
 $pageTitle = $page['title'] ?? 'Über nezbi';
+require_once "inc/template.php";
 include 'inc/header.php';
 if ($page) {
     echo $page['content'];
@@ -16,5 +17,6 @@ if ($page) {
     </section>
     <?php
 }
+render_template("cta");
 include 'inc/footer.php';
 ?>
