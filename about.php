@@ -9,6 +9,7 @@ $pageTitle = $page['meta_title'] ?: ($page['title'] ?? 'Über nezbi');
 $metaDescription = $page['meta_description'] ?? '';
 $canonicalUrl = $page['canonical_url'] ?? '';
 $jsonLd = $page['jsonld'] ?? '';
+$currentSlug = 'about';
 require_once "inc/template.php";
 $builderLayout = null;
 if (!isset($_GET['classic'])) {

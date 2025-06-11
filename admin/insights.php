@@ -50,6 +50,7 @@ $tage = $pdo->query("SELECT DATE(zeitstempel) AS tag, COUNT(*) AS anzahl, SUM(su
             <a href="insights.php" class="font-bold text-blue-600">Insights</a>
             <a href="pages.php" class="hover:text-blue-600">Seiten</a>
         <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
+        <a href="popup_builder.php" class="hover:text-blue-600">Popups</a>
             <a href="templates.php" class="hover:text-blue-600">Templates</a>
         </nav>
     </header>

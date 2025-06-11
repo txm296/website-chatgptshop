@@ -36,7 +36,7 @@ try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS produkte (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, beschreibung TEXT, preis REAL, rabatt REAL DEFAULT NULL, bild TEXT, menge INTEGER, aktiv INTEGER DEFAULT 1, kategorie_id INTEGER REFERENCES kategorien(id))");
         $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, content TEXT, meta_title TEXT, meta_description TEXT, canonical_url TEXT, jsonld TEXT)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_pages (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, layout TEXT)");
-        // Keine automatischen Standardkategorien anlegen, damit gelöschte
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_popups (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, layout TEXT, triggers TEXT, pages TEXT)");
         // Kategorien nicht wieder erscheinen
     }
 }
@@ -52,6 +52,7 @@ try {
     } else {
         $pdo->exec("CREATE TABLE IF NOT EXISTS pages (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), content TEXT, meta_title TEXT, meta_description TEXT, canonical_url TEXT, jsonld TEXT)");
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_pages (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), layout TEXT)");
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_popups (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), layout TEXT, triggers TEXT, pages TEXT)");
     }
 }
 
@@ -76,3 +77,15 @@ ensureColumn($pdo, 'pages', 'meta_title', 'TEXT');
 ensureColumn($pdo, 'pages', 'meta_description', 'TEXT');
 ensureColumn($pdo, 'pages', 'canonical_url', 'TEXT');
 ensureColumn($pdo, 'pages', 'jsonld', 'TEXT');
+
+// Tabelle 'builder_popups' sicherstellen
+try {
+    $pdo->query("SELECT 1 FROM builder_popups LIMIT 1");
+} catch (PDOException $e) {
+    $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+    if ($driver === 'sqlite') {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_popups (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, title TEXT, layout TEXT, triggers TEXT, pages TEXT)");
+    } else {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_popups (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), layout TEXT, triggers TEXT, pages TEXT)");
+    }
+}

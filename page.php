@@ -15,6 +15,7 @@ if (!$page) {
     exit;
 }
 $pageTitle = $page['meta_title'] ?: $page['title'];
+$currentSlug = $slug;
 $metaDescription = $page['meta_description'] ?? '';
 $canonicalUrl = $page['canonical_url'] ?? '';
 $jsonLd = $page['jsonld'] ?? '';

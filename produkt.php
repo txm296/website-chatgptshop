@@ -6,6 +6,7 @@ $stmt->execute([$id]);
 $prod = $stmt->fetch();
 if (!$prod) { http_response_code(404); exit('Produkt nicht gefunden.'); }
 $pageTitle = htmlspecialchars($prod['name']) . ' – nezbi';
+$currentSlug = 'product-' . $id;
 include 'inc/header.php';
 ?>
     <div class="flex flex-col md:flex-row gap-8">

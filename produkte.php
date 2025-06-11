@@ -2,6 +2,7 @@
 require 'inc/db.php';
 $active = 'produkte';
 $pageTitle = 'Produkte – nezbi';
+$currentSlug = 'products';
 $kats = $pdo->query("SELECT * FROM kategorien ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 
 $sort = $_GET['sort'] ?? '';

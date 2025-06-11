@@ -59,6 +59,7 @@ $codes = $pdo->query("SELECT * FROM rabattcodes ORDER BY id DESC")->fetchAll(PDO
             <a href="insights.php" class="hover:text-blue-600">Insights</a>
             <a href="pages.php" class="hover:text-blue-600">Seiten</a>
         <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
+        <a href="popup_builder.php" class="hover:text-blue-600">Popups</a>
             <a href="templates.php" class="hover:text-blue-600">Templates</a>
         </nav>
     </header>

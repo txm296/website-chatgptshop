@@ -8,6 +8,7 @@ $kategorie = $stmt->fetch();
 if (!$kategorie) { http_response_code(404); exit('Kategorie nicht gefunden.'); }
 $active = 'produkte';
 $pageTitle = htmlspecialchars($kategorie['name']) . ' – nezbi';
+$currentSlug = 'category-' . $id;
 $builderLayout = null;
 if (!isset($_GET['classic'])) {
     $builderLayout = get_builder_layout($pdo, 'category-' . $id);
