@@ -72,6 +72,14 @@
   border-radius: 0.25rem;
 }
 
+#pbConfigPanel.pb-config {
+  width: 100%;
+  box-shadow: none;
+  border: 1px solid #cbd5e1;
+}
+#pbConfigPanel { display: none; }
+#pbConfigPanel.active { display: block; }
+
 /* Breakpoint Preview */
 .pb-preview-desktop { width: 100%; }
 .pb-preview-tablet { width: 768px; margin: 0 auto; }

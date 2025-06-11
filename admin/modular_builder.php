@@ -60,13 +60,16 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
     </div>
 </div>
 <div class="flex">
-    <div class="pb-canvas flex-1" id="builderCanvas" data-save-url="../pagebuilder/save_page.php" data-load-url="<?= $id ? '../pagebuilder/load_page.php?id='.$id : '' ?>" data-page-id="<?= $id ?>">
-        <?= $id ? '' : $page['layout']; ?>
+    <div class="w-60 mr-4 space-y-4" id="leftPanel">
+        <div id="pbConfigPanel" class="pb-config"></div>
+        <div class="text-sm space-y-2" id="widgetBar">
+            <?php foreach($widgets as $name => $file): ?>
+                <button type="button" class="w-full px-2 py-1 bg-gray-200 rounded" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
+            <?php endforeach; ?>
+        </div>
     </div>
-    <div class="ml-4 w-40 text-sm space-y-2" id="widgetBar">
-        <?php foreach($widgets as $name => $file): ?>
-            <button type="button" class="w-full px-2 py-1 bg-gray-200 rounded" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
-        <?php endforeach; ?>
+    <div class="pb-canvas flex-1 border" id="builderCanvas" data-save-url="../pagebuilder/save_page.php" data-load-url="<?= $id ? '../pagebuilder/load_page.php?id='.$id : '' ?>" data-page-id="<?= $id ?>">
+        <?= $id ? '' : $page['layout']; ?>
     </div>
 </div>
 </main>

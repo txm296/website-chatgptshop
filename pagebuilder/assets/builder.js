@@ -2,6 +2,7 @@
 function initBuilder() {
   const canvas = document.getElementById('builderCanvas');
   const widgetBar = document.getElementById('widgetBar');
+  const configPanel = document.getElementById('pbConfigPanel');
   const saveBtn = document.getElementById('pbSave');
   const bpButtons = document.querySelectorAll('.pb-bp-btn');
   const titleInput = document.getElementById('pbTitle');
@@ -148,11 +149,13 @@ function initBuilder() {
     if (window.initWidgetAnimations) window.initWidgetAnimations();
   }
 
+  let activeElement = null;
+
   function openConfigPanel(el) {
+    activeElement = el;
+    if (!configPanel) return;
     const cfg = el.dataset.config ? JSON.parse(el.dataset.config) : {};
     const bpCfg = cfg.breakpoints ? cfg.breakpoints[currentBreakpoint] || {} : cfg;
-    const overlay = document.createElement('div');
-    overlay.className = 'pb-config-overlay';
     let widgetFields = '';
     if (el.dataset.widget === 'product_grid') {
       widgetFields += `<label>Kategorie-ID <input type="number" name="category" value="${cfg.category || ''}"></label>`;
@@ -161,9 +164,8 @@ function initBuilder() {
       widgetFields += `<label>Anzahl <input type="number" name="limit" value="${cfg.limit || 10}"></label>`;
     }
 
-    overlay.innerHTML = `<div class="pb-config">
-      <div class="pb-config-bp">${currentBreakpoint.toUpperCase()}</div>
-      <label>Schriftgr\u00f6\u00dfe <input type="text" name="fontSize" value="${bpCfg.fontSize || ''}"></label>
+    configPanel.innerHTML = `<div class="pb-config-bp flex justify-between items-center mb-2"><span>${currentBreakpoint.toUpperCase()}</span><button type="button" class="pb-close">✕</button></div>
+      <label>Schriftgröße <input type="text" name="fontSize" value="${bpCfg.fontSize || ''}"></label>
       <label>Textfarbe <input type="color" name="color" value="${bpCfg.color || '#000000'}"></label>
       <label>Hintergrund <input type="color" name="background" value="${bpCfg.background || '#ffffff'}"></label>
       <label>Padding <input type="text" name="padding" value="${bpCfg.padding || ''}"></label>
@@ -178,46 +180,48 @@ function initBuilder() {
           <option value="zoom" ${cfg.animation==='zoom' ? 'selected' : ''}>Zoom In</option>
         </select>
       </label>
-      <label>Ausl\u00f6ser
+      <label>Auslöser
         <select name="animTrigger">
           <option value="scroll" ${!cfg.animTrigger || cfg.animTrigger==='scroll' ? 'selected' : ''}>Beim Scrollen sichtbar</option>
           <option value="hover" ${cfg.animTrigger==='hover' ? 'selected' : ''}>Hover</option>
           <option value="click" ${cfg.animTrigger==='click' ? 'selected' : ''}>Klick</option>
         </select>
       </label>
-      <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Ger\u00e4ten ausblenden</label>
-      <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>
-      <div class="pb-config-actions">
-        <button type="button" class="pb-cancel">Abbrechen</button>
-        <button type="button" class="pb-save">Speichern</button>
-      </div>
-    </div>`;
-    document.body.appendChild(overlay);
-    overlay.querySelector('.pb-cancel').addEventListener('click', () => overlay.remove());
-    overlay.querySelector('.pb-save').addEventListener('click', () => {
+      <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Geräten ausblenden</label>
+      <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>`;
+    configPanel.classList.add('active');
+
+    const closeBtn = configPanel.querySelector('.pb-close');
+    if (closeBtn) closeBtn.addEventListener('click', () => configPanel.classList.remove('active'));
+
+    function updateConfig() {
       const data = el.dataset.config ? JSON.parse(el.dataset.config) : {};
       if (!data.breakpoints) data.breakpoints = {};
       data.breakpoints[currentBreakpoint] = {
-        fontSize: overlay.querySelector('input[name="fontSize"]').value.trim(),
-        color: overlay.querySelector('input[name="color"]').value,
-        background: overlay.querySelector('input[name="background"]').value,
-        padding: overlay.querySelector('input[name="padding"]').value.trim(),
-        margin: overlay.querySelector('input[name="margin"]').value.trim()
+        fontSize: configPanel.querySelector('input[name="fontSize"]').value.trim(),
+        color: configPanel.querySelector('input[name="color"]').value,
+        background: configPanel.querySelector('input[name="background"]').value,
+        padding: configPanel.querySelector('input[name="padding"]').value.trim(),
+        margin: configPanel.querySelector('input[name="margin"]').value.trim()
       };
-      data.hideMobile = overlay.querySelector('input[name="hideMobile"]').checked;
-      data.hideDesktop = overlay.querySelector('input[name="hideDesktop"]').checked;
-      data.animation = overlay.querySelector('select[name="animation"]').value;
-      data.animTrigger = overlay.querySelector('select[name="animTrigger"]').value;
+      data.hideMobile = configPanel.querySelector('input[name="hideMobile"]').checked;
+      data.hideDesktop = configPanel.querySelector('input[name="hideDesktop"]').checked;
+      data.animation = configPanel.querySelector('select[name="animation"]').value;
+      data.animTrigger = configPanel.querySelector('select[name="animTrigger"]').value;
       if (el.dataset.widget === 'product_grid') {
-        data.category = overlay.querySelector('input[name="category"]').value.trim();
-        data.limit = overlay.querySelector('input[name="limit"]').value.trim();
+        data.category = configPanel.querySelector('input[name="category"]').value.trim();
+        data.limit = configPanel.querySelector('input[name="limit"]').value.trim();
       } else if (el.dataset.widget === 'category_list') {
-        data.limit = overlay.querySelector('input[name="limit"]').value.trim();
+        data.limit = configPanel.querySelector('input[name="limit"]').value.trim();
       }
       el.dataset.config = JSON.stringify(data);
       applyConfig(el, data);
       save();
-      overlay.remove();
+    }
+
+    configPanel.querySelectorAll('input,select').forEach(inp => {
+      inp.addEventListener('input', updateConfig);
+      inp.addEventListener('change', updateConfig);
     });
   }
 
@@ -260,6 +264,11 @@ function initBuilder() {
     e.preventDefault();
     const name = e.dataTransfer.getData('text/plain');
     if (name) insertWidget(name);
+  });
+
+  canvas.addEventListener('click', e => {
+    const item = e.target.closest('.pb-item');
+    if (item && !e.target.closest('.pb-controls')) openConfigPanel(item);
   });
 
   canvas.addEventListener('input', save);
