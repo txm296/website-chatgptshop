@@ -19,6 +19,18 @@ if ($id) {
 
 $builder = new ModularPageBuilder();
 $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
+$pageOptions = [ 'home' => 'Startseite' ];
+foreach ($pdo->query('SELECT id, name FROM kategorien ORDER BY name') as $row) {
+    $pageOptions['category-' . $row['id']] = 'Kategorie: ' . $row['name'];
+}
+foreach ($pdo->query('SELECT slug, title FROM pages ORDER BY title') as $row) {
+    $pageOptions[$row['slug']] = $row['title'];
+}
+foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as $row) {
+    if (!isset($pageOptions[$row['slug']])) {
+        $pageOptions[$row['slug']] = $row['title'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -50,6 +62,14 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
 <main class="max-w-5xl mx-auto px-4 py-10">
 <h1 class="text-2xl font-bold mb-8">Modularer Page Builder</h1>
 <div class="mb-4 space-y-2">
+    <div class="flex space-x-2">
+        <input type="text" id="pbPageSearch" placeholder="Seite suchen..." class="flex-1 border px-2 py-1 rounded">
+        <select id="pbPageSelect" class="border px-2 py-1 rounded w-60">
+            <?php foreach($pageOptions as $slug => $title): ?>
+                <option value="<?= htmlspecialchars($slug) ?>" <?= $slug === $page['slug'] ? 'selected' : '' ?>><?= htmlspecialchars($title) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
     <input type="text" id="pbTitle" value="<?= htmlspecialchars($page['title']) ?>" placeholder="Titel" class="w-full border px-2 py-1 rounded">
     <input type="text" id="pbSlug" value="<?= htmlspecialchars($page['slug']) ?>" placeholder="Slug" class="w-full border px-2 py-1 rounded">
     <button type="button" id="pbSave" class="px-4 py-2 bg-blue-600 text-white rounded">Speichern</button>

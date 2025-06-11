@@ -7,6 +7,8 @@ function initBuilder() {
   const bpButtons = document.querySelectorAll('.pb-bp-btn');
   const titleInput = document.getElementById('pbTitle');
   const slugInput = document.getElementById('pbSlug');
+  const pageSelect = document.getElementById('pbPageSelect');
+  const pageSearch = document.getElementById('pbPageSearch');
 
   const saveUrl = canvas ? canvas.dataset.saveUrl : null;
   const loadUrl = canvas && canvas.dataset.loadUrl ? canvas.dataset.loadUrl : null;
@@ -23,20 +25,37 @@ function initBuilder() {
     }
   }
 
+  async function loadPage(url, defTitle = '', defSlug = '') {
+    if (!url) { restoreLocal(); return; }
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        canvas.innerHTML = data.layout || '';
+        canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+        localStorage.setItem('pb-builder-content', canvas.innerHTML);
+        pageId = data.id || 0;
+        canvas.dataset.pageId = pageId;
+        if (titleInput) titleInput.value = data.title || defTitle;
+        if (slugInput) slugInput.value = data.slug || defSlug;
+        if (pageSelect) pageSelect.value = slugInput.value;
+      } else {
+        canvas.innerHTML = '';
+        pageId = 0;
+        canvas.dataset.pageId = 0;
+        localStorage.removeItem('pb-builder-content');
+        if (titleInput) titleInput.value = defTitle;
+        if (slugInput) slugInput.value = defSlug;
+        if (pageSelect) pageSelect.value = defSlug;
+      }
+    } catch (e) {
+      console.error(e);
+      restoreLocal();
+    }
+  }
+
   if (loadUrl) {
-    fetch(loadUrl)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data && data.layout) {
-          canvas.innerHTML = data.layout;
-          canvas.querySelectorAll('.pb-item').forEach(makeEditable);
-          localStorage.setItem('pb-builder-content', canvas.innerHTML);
-          pageId = data.id || pageId;
-          if (titleInput) titleInput.value = data.title || '';
-          if (slugInput) slugInput.value = data.slug || '';
-        } else restoreLocal();
-      })
-      .catch(restoreLocal);
+    loadPage(loadUrl, titleInput ? titleInput.value : '', slugInput ? slugInput.value : '');
   } else {
     restoreLocal();
   }
@@ -274,6 +293,25 @@ function initBuilder() {
   canvas.addEventListener('input', save);
 
   if (saveBtn) saveBtn.addEventListener('click', saveToServer);
+
+  if (pageSelect) {
+    pageSelect.addEventListener('change', () => {
+      const slug = pageSelect.value;
+      const title = pageSelect.options[pageSelect.selectedIndex].textContent;
+      loadPage(`../pagebuilder/load_page.php?slug=${encodeURIComponent(slug)}`, title, slug);
+    });
+  }
+
+  if (pageSearch && pageSelect) {
+    pageSearch.addEventListener('input', () => {
+      const q = pageSearch.value.toLowerCase();
+      pageSelect.querySelectorAll('option').forEach(opt => {
+        const t = opt.textContent.toLowerCase();
+        const v = opt.value.toLowerCase();
+        opt.hidden = q && !t.includes(q) && !v.includes(q);
+      });
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initBuilder);
