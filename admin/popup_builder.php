@@ -61,6 +61,7 @@ foreach($pdo->query('SELECT slug,title FROM builder_pages ORDER BY title') as $r
         <a href="pages.php" class="hover:text-blue-600">Seiten</a>
         <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
         <a href="popup_builder.php" class="font-bold text-blue-600">Popups</a>
+        <a href="layout_library.php" class="hover:text-blue-600">Layouts</a>
     </nav>
 </header>
 <main class="max-w-5xl mx-auto px-4 py-10">

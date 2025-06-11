@@ -54,6 +54,8 @@ Ebenfalls neu ist ein modularer visueller Page Builder. Die zugehörigen Dateien
 
 Der Builder kann nun auch für bestehende Shop-Seiten wie die Startseite, Kategorien oder CMS-Seiten verwendet werden. Liegt für eine Seite ein Eintrag in `builder_pages` vor, ersetzt das dort gespeicherte Layout den regulären Inhalt. Über den Parameter `?classic=1` lässt sich jederzeit zum Standardlayout zurückkehren.
 
+Neu ist die Möglichkeit, einzelne Abschnitte oder Widgets zu kopieren und in andere Seiten einzufügen. Eigene Layouts können zudem als Vorlage gespeichert werden. Diese Vorlagen werden in einer Bibliothek verwaltet und lassen sich von dort in jede Seite einfügen.
+
 ## Globale Templates
 
 Im Verzeichnis `templates` liegen wiederverwendbare Abschnitte wie `header.php`, `footer.php` oder `cta.php`. Mit der Funktion `render_template()` aus `inc/template.php` lassen sich diese Bereiche auf beliebigen Seiten einbinden:

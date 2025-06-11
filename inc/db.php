@@ -89,3 +89,15 @@ try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_popups (id INT AUTO_INCREMENT PRIMARY KEY, slug VARCHAR(200) UNIQUE, title VARCHAR(200), layout TEXT, triggers TEXT, pages TEXT)");
     }
 }
+
+// Tabelle 'builder_templates' sicherstellen
+try {
+    $pdo->query("SELECT 1 FROM builder_templates LIMIT 1");
+} catch (PDOException $e) {
+    $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+    if ($driver === 'sqlite') {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_templates (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, html TEXT)");
+    } else {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS builder_templates (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(200), html TEXT)");
+    }
+}

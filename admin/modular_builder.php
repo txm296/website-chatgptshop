@@ -58,6 +58,7 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
         <a href="pages.php" class="hover:text-blue-600">Seiten</a>
         <a href="modular_builder.php" class="font-bold text-blue-600">Builder</a>
         <a href="popup_builder.php" class="hover:text-blue-600">Popups</a>
+        <a href="layout_library.php" class="hover:text-blue-600">Layouts</a>
     </nav>
 </header>
 <main class="max-w-5xl mx-auto px-4 py-10">
@@ -83,6 +84,12 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
 <div class="flex">
     <div class="w-60 mr-4 space-y-4" id="leftPanel">
         <div id="pbConfigPanel" class="pb-config"></div>
+        <button type="button" id="pbPaste" class="w-full px-2 py-1 bg-gray-200 rounded">Einfügen</button>
+        <div class="space-y-2 text-sm" id="templateTools">
+            <select id="pbTemplateSelect" class="border px-2 py-1 rounded w-full"></select>
+            <button type="button" id="pbInsertTemplate" class="w-full px-2 py-1 bg-gray-200 rounded">Vorlage einfügen</button>
+            <a href="layout_library.php" class="block text-center text-blue-600">Vorlagen verwalten</a>
+        </div>
         <div class="text-sm space-y-2" id="widgetBar">
             <?php foreach($widgets as $name => $file): ?>
                 <button type="button" class="w-full px-2 py-1 bg-gray-200 rounded" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>

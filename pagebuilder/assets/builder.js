@@ -4,6 +4,9 @@ function initBuilder() {
   const widgetBar = document.getElementById('widgetBar');
   const configPanel = document.getElementById('pbConfigPanel');
   const saveBtn = document.getElementById('pbSave');
+  const pasteBtn = document.getElementById('pbPaste');
+  const templateSelect = document.getElementById('pbTemplateSelect');
+  const insertTemplateBtn = document.getElementById('pbInsertTemplate');
   const bpButtons = document.querySelectorAll('.pb-bp-btn');
   const titleInput = document.getElementById('pbTitle');
   const slugInput = document.getElementById('pbSlug');
@@ -124,10 +127,18 @@ function initBuilder() {
     if (!el.querySelector('.pb-controls')) {
       const controls = document.createElement('div');
       controls.className = 'pb-controls';
-      controls.innerHTML = '<button type="button">Einstellungen</button>';
-      controls.querySelector('button').addEventListener('click', (e) => {
+      controls.innerHTML = '<button type="button" class="pb-edit">Einstellungen</button> <button type="button" class="pb-copy">Copy</button> <button type="button" class="pb-save-template">Vorlage</button>';
+      controls.querySelector('.pb-edit').addEventListener('click', (e) => {
         e.stopPropagation();
         openConfigPanel(el);
+      });
+      controls.querySelector('.pb-copy').addEventListener('click', (e) => {
+        e.stopPropagation();
+        copyItem(el);
+      });
+      controls.querySelector('.pb-save-template').addEventListener('click', (e) => {
+        e.stopPropagation();
+        saveTemplate(el);
       });
       el.appendChild(controls);
     }
@@ -169,6 +180,68 @@ function initBuilder() {
   }
 
   let activeElement = null;
+
+  function copyItem(el) {
+    const html = el.outerHTML;
+    localStorage.setItem('pb-clipboard', html);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(html).catch(() => {});
+    }
+  }
+
+  async function pasteFromClipboard() {
+    let html = localStorage.getItem('pb-clipboard') || '';
+    if (!html && navigator.clipboard && navigator.clipboard.readText) {
+      try { html = await navigator.clipboard.readText(); } catch (e) {}
+    }
+    if (html) insertHTML(html);
+  }
+
+  async function saveTemplate(el) {
+    const name = prompt('Name der Vorlage?');
+    if (!name) return;
+    const res = await fetch('../pagebuilder/save_template.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, html: el.outerHTML })
+    });
+    if (res.ok) loadTemplates();
+  }
+
+  function insertHTML(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('.pb-item').forEach(it => {
+      canvas.appendChild(it);
+      makeEditable(it);
+    });
+    save();
+    if (window.initWidgetAnimations) window.initWidgetAnimations();
+  }
+
+  async function insertSelectedTemplate() {
+    if (!templateSelect || !templateSelect.value) return;
+    const res = await fetch(`../pagebuilder/get_template.php?id=${templateSelect.value}`);
+    if (res.ok) {
+      const data = await res.json();
+      insertHTML(data.html);
+    }
+  }
+
+  async function loadTemplates() {
+    if (!templateSelect) return;
+    const res = await fetch('../pagebuilder/list_templates.php');
+    if (res.ok) {
+      const list = await res.json();
+      templateSelect.innerHTML = '<option value="">Vorlage wählen</option>';
+      list.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.name;
+        templateSelect.appendChild(opt);
+      });
+    }
+  }
 
   function openConfigPanel(el) {
     activeElement = el;
@@ -312,6 +385,10 @@ function initBuilder() {
   canvas.addEventListener('input', save);
 
   if (saveBtn) saveBtn.addEventListener('click', saveToServer);
+
+  if (pasteBtn) pasteBtn.addEventListener('click', pasteFromClipboard);
+  if (insertTemplateBtn) insertTemplateBtn.addEventListener('click', insertSelectedTemplate);
+  loadTemplates();
 
   if (pageSelect) {
     pageSelect.addEventListener('change', () => {

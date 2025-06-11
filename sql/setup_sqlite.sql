@@ -70,3 +70,10 @@ CREATE TABLE builder_popups (
     triggers TEXT,
     pages TEXT
 );
+
+# Vorlagen für wiederverwendbare Layouts
+CREATE TABLE builder_templates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    html TEXT
+);
