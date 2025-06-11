@@ -207,7 +207,8 @@ function initBuilder() {
         </select>
       </label>
       <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Geräten ausblenden</label>
-      <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>`;
+      <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>
+      <div class="text-right"><button type="button" class="pb-reset bg-gray-200 rounded px-2 py-1 mt-2">Zurücksetzen</button></div>`;
     configPanel.classList.add('active');
 
     const closeBtn = configPanel.querySelector('.pb-close');
@@ -238,9 +239,27 @@ function initBuilder() {
       save();
     }
 
-    configPanel.querySelectorAll('input,select').forEach(inp => {
-      inp.addEventListener('input', updateConfig);
-      inp.addEventListener('change', updateConfig);
+   configPanel.querySelectorAll('input,select').forEach(inp => {
+     inp.addEventListener('input', updateConfig);
+     inp.addEventListener('change', updateConfig);
+   });
+
+    const resetBtn = configPanel.querySelector('.pb-reset');
+    if (resetBtn) resetBtn.addEventListener('click', () => {
+      el.removeAttribute('data-config');
+      el.style.fontSize = '';
+      el.style.color = '';
+      el.style.background = '';
+      el.style.padding = '';
+      el.style.margin = '';
+      el.classList.remove('pb-hide-mobile','pb-hide-desktop');
+      delete el.dataset.category;
+      delete el.dataset.limit;
+      delete el.dataset.animation;
+      delete el.dataset.animTrigger;
+      applyConfig(el, {});
+      save();
+      configPanel.classList.remove('active');
     });
   }
 
