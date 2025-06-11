@@ -71,7 +71,7 @@ CREATE TABLE builder_popups (
     pages TEXT
 );
 
-# Vorlagen für wiederverwendbare Layouts
+-- Vorlagen für wiederverwendbare Layouts
 CREATE TABLE builder_templates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
