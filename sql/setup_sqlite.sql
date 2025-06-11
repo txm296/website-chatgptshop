@@ -61,3 +61,12 @@ CREATE TABLE builder_pages (
     title TEXT,
     layout TEXT
 );
+
+CREATE TABLE builder_popups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug TEXT UNIQUE,
+    title TEXT,
+    layout TEXT,
+    triggers TEXT,
+    pages TEXT
+);

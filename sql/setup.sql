@@ -63,3 +63,12 @@ CREATE TABLE builder_pages (
     title VARCHAR(200),
     layout TEXT
 );
+
+CREATE TABLE builder_popups (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    slug VARCHAR(200) UNIQUE,
+    title VARCHAR(200),
+    layout TEXT,
+    triggers TEXT,
+    pages TEXT
+);

@@ -3,6 +3,7 @@ session_start();
 require 'inc/db.php';
 $active = '';
 $pageTitle = 'Warenkorb – nezbi';
+$currentSlug = 'cart';
 if (!isset($_SESSION['cart'])) { $_SESSION['cart'] = []; }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -5,6 +5,7 @@ require 'inc/db.php';
 require_once 'inc/pagebuilder.php';
 require 'inc/settings.php';
 $siteSettings = load_settings();
+$currentSlug = 'home';
 require_once "inc/template.php";
 
 $builderLayout = null;

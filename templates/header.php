@@ -52,6 +52,7 @@ if (isset($pdo)) {
     ?>
     <link href="https://fonts.googleapis.com/css?family=<?= $fontLink ?>:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/animations.css">
+    <link rel="stylesheet" href="/assets/popup.css">
     <style>
       body { font-family: '<?= htmlspecialchars($font) ?>', sans-serif; background-color: var(--body-bg, #f9fafb); color: var(--text-color, #111827); }
       .fade-in { animation: fadeIn 0.6s ease-in-out; }

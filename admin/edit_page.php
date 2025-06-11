@@ -70,6 +70,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
         <a href="insights.php" class="hover:text-blue-600">Insights</a>
         <a href="pages.php" class="text-blue-600 font-bold">Seiten</a>
         <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
+        <a href="popup_builder.php" class="hover:text-blue-600">Popups</a>
         <a href="customize.php" class="hover:text-blue-600">Website bearbeiten</a>
         <a href="templates.php" class="hover:text-blue-600">Templates</a>
     </nav>
