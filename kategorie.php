@@ -1,5 +1,6 @@
 <?php
 require 'inc/db.php';
+require_once 'inc/pagebuilder.php';
 $id = intval($_GET['id'] ?? 0);
 $stmt = $pdo->prepare("SELECT * FROM kategorien WHERE id=?");
 $stmt->execute([$id]);
@@ -7,7 +8,16 @@ $kategorie = $stmt->fetch();
 if (!$kategorie) { http_response_code(404); exit('Kategorie nicht gefunden.'); }
 $active = 'produkte';
 $pageTitle = htmlspecialchars($kategorie['name']) . ' – nezbi';
+$builderLayout = null;
+if (!isset($_GET['classic'])) {
+    $builderLayout = get_builder_layout($pdo, 'category-' . $id);
+}
 include 'inc/header.php';
+if ($builderLayout) {
+    echo $builderLayout;
+    include 'inc/footer.php';
+    return;
+}
 ?>
 <section class="py-16">
     <h2 class="text-3xl font-bold mb-8 text-center"><?= htmlspecialchars($kategorie['name']) ?></h2>

@@ -1,6 +1,7 @@
 <?php
 $active = 'about';
 require 'inc/db.php';
+require_once 'inc/pagebuilder.php';
 $stmt = $pdo->prepare('SELECT title, content, meta_title, meta_description, canonical_url, jsonld FROM pages WHERE slug = ?');
 $stmt->execute(['about']);
 $page = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -9,7 +10,16 @@ $metaDescription = $page['meta_description'] ?? '';
 $canonicalUrl = $page['canonical_url'] ?? '';
 $jsonLd = $page['jsonld'] ?? '';
 require_once "inc/template.php";
+$builderLayout = null;
+if (!isset($_GET['classic'])) {
+    $builderLayout = get_builder_layout($pdo, 'about');
+}
 include 'inc/header.php';
+if ($builderLayout) {
+    echo $builderLayout;
+    include 'inc/footer.php';
+    return;
+}
 if ($page) {
     echo $page['content'];
 } else {

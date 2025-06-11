@@ -2,10 +2,21 @@
 $active = 'home';
 $pageTitle = 'nezbi – Elektronik Onlineshop';
 require 'inc/db.php';
+require_once 'inc/pagebuilder.php';
 require 'inc/settings.php';
 $siteSettings = load_settings();
 require_once "inc/template.php";
+
+$builderLayout = null;
+if (!isset($_GET['classic'])) {
+    $builderLayout = get_builder_layout($pdo, 'home');
+}
 include 'inc/header.php';
+if ($builderLayout) {
+    echo $builderLayout;
+    include 'inc/footer.php';
+    return;
+}
 ?>
 <section class="relative text-center py-24 text-white" style="background-image:url('<?= htmlspecialchars($siteSettings['hero_image']) ?>'); background-size:cover; background-position:center;">
     <div class="absolute inset-0 bg-black/40"></div>
