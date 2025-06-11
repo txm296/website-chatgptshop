@@ -72,6 +72,13 @@
   border-radius: 0.25rem;
 }
 
+/* Breakpoint Preview */
+.pb-preview-desktop { width: 100%; }
+.pb-preview-tablet { width: 768px; margin: 0 auto; }
+.pb-preview-mobile { width: 375px; margin: 0 auto; }
+.pb-bp-btn.active { background: #3b82f6; color: #fff; }
+.pb-config-bp { font-weight: bold; margin-bottom: 0.5rem; }
+
 /* Sichtbarkeitsklassen */
 @media (max-width: 768px) {
   .pb-hide-mobile { display: none !important; }

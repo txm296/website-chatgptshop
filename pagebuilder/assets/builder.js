@@ -3,12 +3,14 @@ function initBuilder() {
   const canvas = document.getElementById('builderCanvas');
   const widgetBar = document.getElementById('widgetBar');
   const saveBtn = document.getElementById('pbSave');
+  const bpButtons = document.querySelectorAll('.pb-bp-btn');
   const titleInput = document.getElementById('pbTitle');
   const slugInput = document.getElementById('pbSlug');
 
   const saveUrl = canvas ? canvas.dataset.saveUrl : null;
   const loadUrl = canvas && canvas.dataset.loadUrl ? canvas.dataset.loadUrl : null;
   let pageId = canvas ? canvas.dataset.pageId : 0;
+  let currentBreakpoint = 'desktop';
 
   if (!canvas || !widgetBar) return;
 
@@ -39,6 +41,27 @@ function initBuilder() {
   }
 
   new Sortable(canvas, { animation: 150, onSort: save });
+
+  function updateBreakpoint(bp) {
+    currentBreakpoint = bp;
+    canvas.classList.remove('pb-preview-desktop', 'pb-preview-tablet', 'pb-preview-mobile');
+    canvas.classList.add('pb-preview-' + bp);
+    bpButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.bp === bp));
+    updateAllConfigs();
+  }
+
+  function updateAllConfigs() {
+    canvas.querySelectorAll('.pb-item').forEach(el => {
+      if (el.dataset.config) {
+        try {
+          const c = JSON.parse(el.dataset.config);
+          applyConfig(el, c);
+        } catch (e) {
+          console.error('Config Fehler', e);
+        }
+      }
+    });
+  }
 
   function save() {
     localStorage.setItem('pb-builder-content', canvas.innerHTML);
@@ -101,11 +124,12 @@ function initBuilder() {
 
   function applyConfig(el, cfg) {
     if (!cfg) return;
-    el.style.fontSize = cfg.fontSize || '';
-    el.style.color = cfg.color || '';
-    el.style.background = cfg.background || '';
-    el.style.padding = cfg.padding || '';
-    el.style.margin = cfg.margin || '';
+    const bp = cfg.breakpoints ? cfg.breakpoints[currentBreakpoint] || {} : cfg;
+    el.style.fontSize = bp.fontSize || '';
+    el.style.color = bp.color || '';
+    el.style.background = bp.background || '';
+    el.style.padding = bp.padding || '';
+    el.style.margin = bp.margin || '';
     if (cfg.hideMobile) el.classList.add('pb-hide-mobile');
     else el.classList.remove('pb-hide-mobile');
     if (cfg.hideDesktop) el.classList.add('pb-hide-desktop');
@@ -114,14 +138,16 @@ function initBuilder() {
 
   function openConfigPanel(el) {
     const cfg = el.dataset.config ? JSON.parse(el.dataset.config) : {};
+    const bpCfg = cfg.breakpoints ? cfg.breakpoints[currentBreakpoint] || {} : cfg;
     const overlay = document.createElement('div');
     overlay.className = 'pb-config-overlay';
     overlay.innerHTML = `<div class="pb-config">
-      <label>Schriftgr\u00f6\u00dfe <input type="text" name="fontSize" value="${cfg.fontSize || ''}"></label>
-      <label>Textfarbe <input type="color" name="color" value="${cfg.color || '#000000'}"></label>
-      <label>Hintergrund <input type="color" name="background" value="${cfg.background || '#ffffff'}"></label>
-      <label>Padding <input type="text" name="padding" value="${cfg.padding || ''}"></label>
-      <label>Margin <input type="text" name="margin" value="${cfg.margin || ''}"></label>
+      <div class="pb-config-bp">${currentBreakpoint.toUpperCase()}</div>
+      <label>Schriftgr\u00f6\u00dfe <input type="text" name="fontSize" value="${bpCfg.fontSize || ''}"></label>
+      <label>Textfarbe <input type="color" name="color" value="${bpCfg.color || '#000000'}"></label>
+      <label>Hintergrund <input type="color" name="background" value="${bpCfg.background || '#ffffff'}"></label>
+      <label>Padding <input type="text" name="padding" value="${bpCfg.padding || ''}"></label>
+      <label>Margin <input type="text" name="margin" value="${bpCfg.margin || ''}"></label>
       <label><input type="checkbox" name="hideMobile" ${cfg.hideMobile ? 'checked' : ''}> Auf mobilen Ger\u00e4ten ausblenden</label>
       <label><input type="checkbox" name="hideDesktop" ${cfg.hideDesktop ? 'checked' : ''}> Auf Desktops ausblenden</label>
       <div class="pb-config-actions">
@@ -132,15 +158,17 @@ function initBuilder() {
     document.body.appendChild(overlay);
     overlay.querySelector('.pb-cancel').addEventListener('click', () => overlay.remove());
     overlay.querySelector('.pb-save').addEventListener('click', () => {
-      const data = {
+      const data = el.dataset.config ? JSON.parse(el.dataset.config) : {};
+      if (!data.breakpoints) data.breakpoints = {};
+      data.breakpoints[currentBreakpoint] = {
         fontSize: overlay.querySelector('input[name="fontSize"]').value.trim(),
         color: overlay.querySelector('input[name="color"]').value,
         background: overlay.querySelector('input[name="background"]').value,
         padding: overlay.querySelector('input[name="padding"]').value.trim(),
-        margin: overlay.querySelector('input[name="margin"]').value.trim(),
-        hideMobile: overlay.querySelector('input[name="hideMobile"]').checked,
-        hideDesktop: overlay.querySelector('input[name="hideDesktop"]').checked
+        margin: overlay.querySelector('input[name="margin"]').value.trim()
       };
+      data.hideMobile = overlay.querySelector('input[name="hideMobile"]').checked;
+      data.hideDesktop = overlay.querySelector('input[name="hideDesktop"]').checked;
       el.dataset.config = JSON.stringify(data);
       applyConfig(el, data);
       save();
@@ -173,6 +201,12 @@ function initBuilder() {
 
     btn.addEventListener('click', () => insertWidget(btn.dataset.widget));
   });
+
+  bpButtons.forEach(btn => {
+    btn.addEventListener('click', () => updateBreakpoint(btn.dataset.bp));
+  });
+
+  updateBreakpoint(currentBreakpoint);
 
   canvas.addEventListener('dragover', e => e.preventDefault());
   canvas.addEventListener('drop', e => {
