@@ -26,7 +26,9 @@
   padding: 0.125rem 0.25rem;
   font-size: 0.75rem;
   border-radius: 0.25rem;
+  margin-left: 0.25rem;
 }
+.pb-controls button:first-child { margin-left: 0; }
 
 /* Konfigurationspanel */
 .pb-config-overlay {
