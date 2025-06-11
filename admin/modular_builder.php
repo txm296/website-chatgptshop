@@ -52,6 +52,11 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
     <input type="text" id="pbTitle" value="<?= htmlspecialchars($page['title']) ?>" placeholder="Titel" class="w-full border px-2 py-1 rounded">
     <input type="text" id="pbSlug" value="<?= htmlspecialchars($page['slug']) ?>" placeholder="Slug" class="w-full border px-2 py-1 rounded">
     <button type="button" id="pbSave" class="px-4 py-2 bg-blue-600 text-white rounded">Speichern</button>
+    <div class="space-x-2 mt-2">
+        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="desktop">Desktop</button>
+        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="tablet">Tablet</button>
+        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="mobile">Mobile</button>
+    </div>
 </div>
 <div class="flex">
     <div class="pb-canvas flex-1" id="builderCanvas" data-save-url="../pagebuilder/save_page.php" data-load-url="<?= $id ? '../pagebuilder/load_page.php?id='.$id : '' ?>" data-page-id="<?= $id ?>">
