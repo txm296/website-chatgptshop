@@ -50,3 +50,10 @@ CREATE TABLE pages (
     title TEXT,
     content TEXT
 );
+
+CREATE TABLE builder_pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug TEXT UNIQUE,
+    title TEXT,
+    layout TEXT
+);

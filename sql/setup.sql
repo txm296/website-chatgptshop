@@ -52,3 +52,10 @@ CREATE TABLE pages (
     title VARCHAR(200),
     content TEXT
 );
+
+CREATE TABLE builder_pages (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    slug VARCHAR(200) UNIQUE,
+    title VARCHAR(200),
+    layout TEXT
+);

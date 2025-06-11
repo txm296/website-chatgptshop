@@ -2,19 +2,70 @@
 function initBuilder() {
   const canvas = document.getElementById('builderCanvas');
   const widgetBar = document.getElementById('widgetBar');
+  const saveBtn = document.getElementById('pbSave');
+  const titleInput = document.getElementById('pbTitle');
+  const slugInput = document.getElementById('pbSlug');
+
+  const saveUrl = canvas ? canvas.dataset.saveUrl : null;
+  const loadUrl = canvas && canvas.dataset.loadUrl ? canvas.dataset.loadUrl : null;
+  let pageId = canvas ? canvas.dataset.pageId : 0;
 
   if (!canvas || !widgetBar) return;
 
-  const saved = localStorage.getItem('pb-builder-content');
-  if (saved) {
-    canvas.innerHTML = saved;
-    canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+  function restoreLocal() {
+    const saved = localStorage.getItem('pb-builder-content');
+    if (saved) {
+      canvas.innerHTML = saved;
+      canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+    }
+  }
+
+  if (loadUrl) {
+    fetch(loadUrl)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.layout) {
+          canvas.innerHTML = data.layout;
+          canvas.querySelectorAll('.pb-item').forEach(makeEditable);
+          localStorage.setItem('pb-builder-content', canvas.innerHTML);
+          pageId = data.id || pageId;
+          if (titleInput) titleInput.value = data.title || '';
+          if (slugInput) slugInput.value = data.slug || '';
+        } else restoreLocal();
+      })
+      .catch(restoreLocal);
+  } else {
+    restoreLocal();
   }
 
   new Sortable(canvas, { animation: 150, onSort: save });
 
   function save() {
     localStorage.setItem('pb-builder-content', canvas.innerHTML);
+  }
+
+  async function saveToServer() {
+    save();
+    if (!saveUrl) return;
+    const payload = {
+      id: parseInt(pageId || 0, 10),
+      title: titleInput ? titleInput.value : '',
+      slug: slugInput ? slugInput.value : '',
+      layout: canvas.innerHTML
+    };
+    const res = await fetch(saveUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      pageId = data.id || pageId;
+      canvas.dataset.pageId = pageId;
+      alert('Gespeichert');
+    } else {
+      alert('Fehler beim Speichern');
+    }
   }
 
   function makeEditable(el) {
@@ -131,6 +182,8 @@ function initBuilder() {
   });
 
   canvas.addEventListener('input', save);
+
+  if (saveBtn) saveBtn.addEventListener('click', saveToServer);
 }
 
 document.addEventListener('DOMContentLoaded', initBuilder);
