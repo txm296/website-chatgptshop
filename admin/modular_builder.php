@@ -75,6 +75,8 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
     <input type="text" id="pbTitle" value="<?= htmlspecialchars($page['title']) ?>" placeholder="Titel" class="w-full border px-2 py-1 rounded">
     <input type="text" id="pbSlug" value="<?= htmlspecialchars($page['slug']) ?>" placeholder="Slug" class="w-full border px-2 py-1 rounded">
     <button type="button" id="pbSave" class="px-4 py-2 bg-blue-600 text-white rounded">Speichern</button>
+    <button type="button" id="pbOptimizeMobile" class="px-4 py-2 bg-green-600 text-white rounded">Für Mobile optimieren</button>
+    <button type="button" id="pbUndoMobile" style="display:none" class="px-4 py-2 bg-gray-300 rounded">Undo</button>
     <div class="space-x-2 mt-2">
         <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="desktop">Desktop</button>
         <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="tablet">Tablet</button>
