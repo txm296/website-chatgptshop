@@ -9,4 +9,74 @@
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   cursor: move;
+  position: relative;
+}
+
+/* Overlay controls */
+.pb-controls {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  z-index: 10;
+}
+
+.pb-controls button {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  padding: 0.125rem 0.25rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+/* Konfigurationspanel */
+.pb-config-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.pb-config {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 280px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.875rem;
+}
+
+.pb-config label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pb-config input[type="text"],
+.pb-config input[type="color"] {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.pb-config-actions {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.pb-config-actions button {
+  margin-left: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Sichtbarkeitsklassen */
+@media (max-width: 768px) {
+  .pb-hide-mobile { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .pb-hide-desktop { display: none !important; }
 }
