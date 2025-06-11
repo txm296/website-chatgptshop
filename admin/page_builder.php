@@ -4,7 +4,7 @@ if(!isset($_SESSION['admin'])){header('Location: ../login.php');exit;}
 require '../inc/db.php';
 $action = $_POST['action'] ?? null;
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$page = ['title'=>'','slug'=>'','content'=>''];
+$page = ['title'=>'','slug'=>'','content'=>'','meta_title'=>'','meta_description'=>'','canonical_url'=>'','jsonld'=>''];
 if($id){
     $stmt=$pdo->prepare('SELECT * FROM pages WHERE id=?');
     $stmt->execute([$id]);
@@ -15,12 +15,16 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
     $title=$_POST['title']??'';
     $slug=preg_replace('/[^a-z0-9-]/','-', strtolower(trim($_POST['slug']??'')));
     $content=$_POST['content']??'';
+    $metaTitle=$_POST['meta_title']??'';
+    $metaDesc=$_POST['meta_description']??'';
+    $canon=$_POST['canonical_url']??'';
+    $jsonld=$_POST['jsonld']??'';
     if($id){
-        $stmt=$pdo->prepare('UPDATE pages SET title=?, slug=?, content=? WHERE id=?');
-        $stmt->execute([$title,$slug,$content,$id]);
+        $stmt=$pdo->prepare('UPDATE pages SET title=?, slug=?, content=?, meta_title=?, meta_description=?, canonical_url=?, jsonld=? WHERE id=?');
+        $stmt->execute([$title,$slug,$content,$metaTitle,$metaDesc,$canon,$jsonld,$id]);
     }else{
-        $stmt=$pdo->prepare('INSERT INTO pages (title,slug,content) VALUES (?,?,?)');
-        $stmt->execute([$title,$slug,$content]);
+        $stmt=$pdo->prepare('INSERT INTO pages (title,slug,content,meta_title,meta_description,canonical_url,jsonld) VALUES (?,?,?,?,?,?,?)');
+        $stmt->execute([$title,$slug,$content,$metaTitle,$metaDesc,$canon,$jsonld]);
         $id=$pdo->lastInsertId();
     }
     header('Location: pages.php');
@@ -63,6 +67,22 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
     <div>
         <label class="block mb-1 font-medium">Slug (URL)</label>
         <input type="text" name="slug" value="<?= htmlspecialchars($page['slug']) ?>" class="w-full border px-3 py-2 rounded" required>
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">Meta-Titel</label>
+        <input type="text" name="meta_title" value="<?= htmlspecialchars($page['meta_title']) ?>" class="w-full border px-3 py-2 rounded">
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">Meta-Beschreibung</label>
+        <textarea name="meta_description" class="w-full border px-3 py-2 rounded" rows="2"><?= htmlspecialchars($page['meta_description']) ?></textarea>
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">Canonical URL</label>
+        <input type="text" name="canonical_url" value="<?= htmlspecialchars($page['canonical_url']) ?>" class="w-full border px-3 py-2 rounded">
+    </div>
+    <div>
+        <label class="block mb-1 font-medium">JSON-LD</label>
+        <textarea name="jsonld" class="w-full border px-3 py-2 rounded" rows="4"><?= htmlspecialchars($page['jsonld']) ?></textarea>
     </div>
     <div class="flex">
         <div id="editor" class="border rounded min-h-[400px] flex-1 p-2 space-y-2"></div>

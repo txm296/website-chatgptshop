@@ -48,7 +48,11 @@ CREATE TABLE pages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     slug TEXT UNIQUE,
     title TEXT,
-    content TEXT
+    content TEXT,
+    meta_title TEXT,
+    meta_description TEXT,
+    canonical_url TEXT,
+    jsonld TEXT
 );
 
 CREATE TABLE builder_pages (
