@@ -1,5 +1,5 @@
 <?php
-function get_builder_layout(PDO $pdo, string $slug): ?string {
+function get_builder_layout(PDO $pdo, $slug) {
     try {
         $stmt = $pdo->prepare('SELECT layout FROM builder_pages WHERE slug=?');
         $stmt->execute([$slug]);
