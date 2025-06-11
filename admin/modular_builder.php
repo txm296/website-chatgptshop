@@ -70,5 +70,6 @@ $widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
 </div>
 </main>
 <script src="../pagebuilder/assets/builder.js"></script>
+<script src="../assets/dynamic-widgets.js"></script>
 </body>
 </html>
