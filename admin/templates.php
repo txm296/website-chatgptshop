@@ -43,6 +43,7 @@ $templates=[
         <a href="bestellungen.php" class="hover:text-blue-600">Bestellungen</a>
         <a href="insights.php" class="hover:text-blue-600">Insights</a>
         <a href="pages.php" class="hover:text-blue-600">Seiten</a>
+        <a href="modular_builder.php" class="hover:text-blue-600">Builder</a>
         <a href="customize.php" class="hover:text-blue-600">Website bearbeiten</a>
         <a href="templates.php" class="font-bold text-blue-600">Templates</a>
     </nav>
