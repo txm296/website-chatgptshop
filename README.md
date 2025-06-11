@@ -51,3 +51,14 @@ Unter "Seiten" gibt es einen einfachen Drag‑and‑Drop Website‑Editor ohne F
 Neu ist außerdem eine Seite "Templates" im Adminbereich. Dort finden sich CSS‑Vorlagen, etwa für Ladeanimationen, die man per Drag & Drop direkt in den Editor ziehen kann.
 
 Ebenfalls neu ist ein modularer visueller Page Builder. Die zugehörigen Dateien befinden sich im Verzeichnis `pagebuilder` und können im Adminbereich über den Menüpunkt "Builder" aufgerufen werden. Jedes Widget besteht aus einer PHP-Datei sowie einem HTML-Template. Per Drag & Drop können aktuell zehn Beispiel-Widgets wie Text, Bild oder Video auf die Seite gezogen werden. Neu ist außerdem ein Breakpoint-System für Desktop, Tablet und Mobile. Für jeden Viewport lassen sich individuelle Einstellungen speichern und die Vorschau im Editor umschalten.
+
+## Globale Templates
+
+Im Verzeichnis `templates` liegen wiederverwendbare Abschnitte wie `header.php`, `footer.php` oder `cta.php`. Mit der Funktion `render_template()` aus `inc/template.php` lassen sich diese Bereiche auf beliebigen Seiten einbinden:
+
+```php
+require_once 'inc/template.php';
+render_template('cta');
+```
+
+Änderungen an einer Template-Datei wirken sich automatisch auf alle Seiten aus, auf denen sie verwendet wird.
