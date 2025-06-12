@@ -63,38 +63,42 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
 </header>
 <main class="max-w-5xl mx-auto px-4 py-10">
 <h1 class="text-2xl font-bold mb-8">Modularer Page Builder</h1>
-<div class="mb-4 space-y-2">
-    <div class="flex space-x-2">
+<div class="mb-6 space-y-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2">
         <input type="text" id="pbPageSearch" placeholder="Seite suchen..." class="flex-1 border px-2 py-1 rounded">
-        <select id="pbPageSelect" class="border px-2 py-1 rounded w-60">
+        <select id="pbPageSelect" class="border px-2 py-1 rounded w-full sm:w-60">
             <?php foreach($pageOptions as $slug => $title): ?>
                 <option value="<?= htmlspecialchars($slug) ?>" <?= $slug === $page['slug'] ? 'selected' : '' ?>><?= htmlspecialchars($title) ?></option>
             <?php endforeach; ?>
         </select>
     </div>
-    <input type="text" id="pbTitle" value="<?= htmlspecialchars($page['title']) ?>" placeholder="Titel" class="w-full border px-2 py-1 rounded">
-    <input type="text" id="pbSlug" value="<?= htmlspecialchars($page['slug']) ?>" placeholder="Slug" class="w-full border px-2 py-1 rounded">
-    <button type="button" id="pbSave" class="px-4 py-2 bg-blue-600 text-white rounded">Speichern</button>
-    <button type="button" id="pbOptimizeMobile" class="px-4 py-2 bg-green-600 text-white rounded">Für Mobile optimieren</button>
-    <button type="button" id="pbUndoMobile" style="display:none" class="px-4 py-2 bg-gray-300 rounded">Undo</button>
-    <div class="space-x-2 mt-2">
-        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="desktop">Desktop</button>
-        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="tablet">Tablet</button>
-        <button type="button" class="pb-bp-btn px-2 py-1 bg-gray-200 rounded" data-bp="mobile">Mobile</button>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <input type="text" id="pbTitle" value="<?= htmlspecialchars($page['title']) ?>" placeholder="Titel" class="w-full border px-2 py-1 rounded">
+        <input type="text" id="pbSlug" value="<?= htmlspecialchars($page['slug']) ?>" placeholder="Slug" class="w-full border px-2 py-1 rounded">
+    </div>
+    <div class="pb-btn-group">
+        <button type="button" id="pbSave" class="pb-btn pb-btn-primary">Speichern</button>
+        <button type="button" id="pbOptimizeMobile" class="pb-btn pb-btn-secondary">Für Mobile optimieren</button>
+        <button type="button" id="pbUndoMobile" class="pb-btn pb-btn-warning hidden">Undo</button>
+    </div>
+    <div class="flex justify-center gap-2 mt-4">
+        <button type="button" class="pb-bp-btn" data-bp="desktop">Desktop</button>
+        <button type="button" class="pb-bp-btn" data-bp="tablet">Tablet</button>
+        <button type="button" class="pb-bp-btn" data-bp="mobile">Mobile</button>
     </div>
 </div>
-<div class="flex">
-    <div class="w-60 mr-4 space-y-4" id="leftPanel">
+<div class="flex flex-col md:flex-row">
+    <div class="md:w-60 w-full md:mr-4 mb-4 md:mb-0 space-y-4" id="leftPanel">
         <div id="pbConfigPanel" class="pb-config"></div>
-        <button type="button" id="pbPaste" class="w-full px-2 py-1 bg-gray-200 rounded">Einfügen</button>
-        <div class="space-y-2 text-sm" id="templateTools">
+        <div class="space-y-2 text-sm">
+            <button type="button" id="pbPaste" class="pb-btn pb-btn-secondary w-full">Einfügen</button>
             <select id="pbTemplateSelect" class="border px-2 py-1 rounded w-full"></select>
-            <button type="button" id="pbInsertTemplate" class="w-full px-2 py-1 bg-gray-200 rounded">Vorlage einfügen</button>
+            <button type="button" id="pbInsertTemplate" class="pb-btn pb-btn-secondary w-full">Vorlage einfügen</button>
             <a href="layout_library.php" class="block text-center text-blue-600">Vorlagen verwalten</a>
         </div>
         <div class="text-sm space-y-2" id="widgetBar">
             <?php foreach($widgets as $name => $file): ?>
-                <button type="button" class="w-full px-2 py-1 bg-gray-200 rounded" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
+                <button type="button" class="pb-btn pb-btn-secondary w-full" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
             <?php endforeach; ?>
         </div>
     </div>

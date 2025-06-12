@@ -86,7 +86,6 @@
 .pb-preview-desktop { width: 100%; }
 .pb-preview-tablet { width: 768px; margin: 0 auto; }
 .pb-preview-mobile { width: 375px; margin: 0 auto; }
-.pb-bp-btn.active { background: #3b82f6; color: #fff; }
 .pb-config-bp { font-weight: bold; margin-bottom: 0.5rem; }
 
 /* Sichtbarkeitsklassen */
@@ -97,3 +96,14 @@
 @media (min-width: 769px) {
   .pb-hide-desktop { display: none !important; }
 }
+/* Buttons und Layout Verbesserungen */
+.pb-btn{padding:0.5rem 0.75rem;border-radius:0.375rem;font-size:0.875rem;font-weight:500;}
+.pb-btn-primary{background:#2563eb;color:#fff;}
+.pb-btn-primary:hover{background:#1d4ed8;}
+.pb-btn-secondary{background:#e5e7eb;}
+.pb-btn-secondary:hover{background:#d1d5db;}
+.pb-btn-warning{background:#dc2626;color:#fff;}
+.pb-btn-warning:hover{background:#b91c1c;}
+.pb-bp-btn{padding:0.25rem 0.5rem;font-size:0.875rem;border-bottom:2px solid transparent;background:#f3f4f6;border-radius:0.375rem 0.375rem 0 0;}
+.pb-bp-btn.active{background:#fff;border-color:#2563eb;color:#2563eb;font-weight:600;}
+.pb-btn-group{display:flex;flex-wrap:wrap;gap:0.5rem;}
