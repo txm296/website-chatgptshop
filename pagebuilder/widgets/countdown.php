@@ -1,3 +1,5 @@
+<?php
+?>
 <div class="pb-countdown" data-date="2030-01-01T00:00:00">
   <span class="pb-countdown-display">00:00:00:00</span>
 </div>

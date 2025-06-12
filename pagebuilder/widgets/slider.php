@@ -1,3 +1,5 @@
+<?php
+?>
 <div class="pb-slider">
   <div class="pb-slide"><img src="https://via.placeholder.com/600x300?text=Bild+1" alt="Bild 1"></div>
   <div class="pb-slide" style="display:none"><img src="https://via.placeholder.com/600x300?text=Bild+2" alt="Bild 2"></div>
