@@ -13,4 +13,3 @@ function get_builder_layout(PDO $pdo, $slug) {
     }
     return null;
 }
-?>

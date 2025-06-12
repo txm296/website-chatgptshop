@@ -7,4 +7,3 @@ function render_template($name, $vars = []) {
     extract($vars, EXTR_SKIP);
     include $file;
 }
-?>
