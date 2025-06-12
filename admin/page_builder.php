@@ -57,7 +57,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !$action){
         <a href="popup_builder.php" class="hover:text-blue-600">Popups</a>
     </nav>
 </header>
-<main class="max-w-5xl mx-auto px-4 py-10">
+<main class="pb-builder-container max-w-5xl mx-auto px-4 py-10">
 <h1 class="text-2xl font-bold mb-8">Page Builder</h1>
 <form method="post" id="pageForm" class="bg-white shadow rounded-xl p-6 space-y-4">
     <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
