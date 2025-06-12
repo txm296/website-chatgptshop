@@ -1,3 +1,5 @@
+<?php
+?>
 <div class="pb-accordion">
   <div class="pb-acc-item">
     <button class="pb-acc-header">Eintrag 1</button>

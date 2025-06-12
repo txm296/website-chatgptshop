@@ -1,3 +1,5 @@
+<?php
+?>
 </main>
 <?php
 require_once __DIR__.'/../inc/settings.php';

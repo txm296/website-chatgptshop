@@ -1,3 +1,5 @@
+<?php
+?>
 <div class="pb-tabs">
   <div class="pb-tab-headers">
     <button data-tab="0" class="active">Tab 1</button>
