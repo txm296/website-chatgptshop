@@ -107,3 +107,10 @@
 .pb-bp-btn{padding:0.25rem 0.5rem;font-size:0.875rem;border-bottom:2px solid transparent;background:#f3f4f6;border-radius:0.375rem 0.375rem 0 0;}
 .pb-bp-btn.active{background:#fff;border-color:#2563eb;color:#2563eb;font-weight:600;}
 .pb-btn-group{display:flex;flex-wrap:wrap;gap:0.5rem;}
+
+.pb-builder-container {
+  padding-top: 2rem;
+}
+@media (max-width: 640px) {
+  .pb-builder-container { padding-left: 1rem; padding-right: 1rem; }
+}
