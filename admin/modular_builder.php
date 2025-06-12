@@ -67,6 +67,7 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2">
         <input type="text" id="pbPageSearch" placeholder="Seite suchen..." class="flex-1 border px-2 py-1 rounded">
         <select id="pbPageSelect" class="border px-2 py-1 rounded w-full sm:w-60">
+            <option value="">Neue Seite...</option>
             <?php foreach($pageOptions as $slug => $title): ?>
                 <option value="<?= htmlspecialchars($slug) ?>" <?= $slug === $page['slug'] ? 'selected' : '' ?>><?= htmlspecialchars($title) ?></option>
             <?php endforeach; ?>
