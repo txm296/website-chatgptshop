@@ -98,8 +98,11 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
             <a href="layout_library.php" class="block text-center text-blue-600">Vorlagen verwalten</a>
         </div>
         <div class="text-sm space-y-2" id="widgetBar">
-            <?php foreach($widgets as $name => $file): ?>
-                <button type="button" class="pb-btn pb-btn-secondary w-full" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
+            <?php foreach($widgets as $name => $file):
+                $type = in_array($name, ['section','column']) ? 'container' : 'content'; ?>
+                <button type="button" class="pb-widget-btn" data-widget="<?= htmlspecialchars($name) ?>" data-type="<?= $type ?>">
+                    <?= htmlspecialchars($name) ?>
+                </button>
             <?php endforeach; ?>
         </div>
     </div>

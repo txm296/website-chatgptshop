@@ -99,8 +99,11 @@ foreach($pdo->query('SELECT slug,title FROM builder_pages ORDER BY title') as $r
     <div class="w-60 mr-4 space-y-4" id="leftPanel">
         <div id="pbConfigPanel" class="pb-config"></div>
         <div class="text-sm space-y-2" id="widgetBar">
-            <?php foreach($widgets as $name=>$file): ?>
-                <button type="button" class="w-full px-2 py-1 bg-gray-200 rounded" data-widget="<?= htmlspecialchars($name) ?>"><?= htmlspecialchars($name) ?></button>
+            <?php foreach($widgets as $name=>$file):
+                $type = in_array($name, ['section','column']) ? 'container' : 'content'; ?>
+                <button type="button" class="pb-widget-btn" data-widget="<?= htmlspecialchars($name) ?>" data-type="<?= $type ?>">
+                    <?= htmlspecialchars($name) ?>
+                </button>
             <?php endforeach; ?>
         </div>
     </div>
