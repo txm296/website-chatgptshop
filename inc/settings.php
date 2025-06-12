@@ -38,4 +38,3 @@ function save_settings($settings){
     }
     file_put_contents($file, json_encode($settings, JSON_PRETTY_PRINT));
 }
-?>
