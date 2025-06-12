@@ -32,8 +32,19 @@ function initBuilder() {
   }
 
   async function loadPage(url, defTitle = '', defSlug = '') {
-    if (!url) { restoreLocal(); return; }
+    console.log('loadPage', url);
+    if (!url) {
+      canvas.innerHTML = '';
+      pageId = 0;
+      canvas.dataset.pageId = 0;
+      localStorage.removeItem('pb-builder-content');
+      if (titleInput) titleInput.value = defTitle;
+      if (slugInput) slugInput.value = defSlug;
+      if (pageSelect) pageSelect.value = defSlug;
+      return;
+    }
     try {
+      console.log('fetch', url);
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -63,7 +74,7 @@ function initBuilder() {
   if (loadUrl) {
     loadPage(loadUrl, titleInput ? titleInput.value : '', slugInput ? slugInput.value : '');
   } else {
-    restoreLocal();
+    loadPage('', titleInput ? titleInput.value : '', slugInput ? slugInput.value : '');
   }
 
   new Sortable(canvas, { animation: 150, onSort: save });
@@ -103,11 +114,13 @@ function initBuilder() {
       slug: slugInput ? slugInput.value : '',
       layout: canvas.innerHTML
     };
+    console.log('save payload', payload);
     const res = await fetch(saveUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    console.log('save response', res.status);
     if (res.ok) {
       const data = await res.json();
       pageId = data.id || pageId;
@@ -451,7 +464,12 @@ function initBuilder() {
     pageSelect.addEventListener('change', () => {
       const slug = pageSelect.value;
       const title = pageSelect.options[pageSelect.selectedIndex].textContent;
-      loadPage(`../pagebuilder/load_page.php?slug=${encodeURIComponent(slug)}`, title, slug);
+      console.log('page change', slug);
+      if (slug) {
+        loadPage(`../pagebuilder/load_page.php?slug=${encodeURIComponent(slug)}`, title, slug);
+      } else {
+        loadPage('', title, slug);
+      }
     });
   }
 
