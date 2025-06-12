@@ -33,3 +33,22 @@ h6{font-size:var(--font-size-h6);}
 .pb-card{border:1px solid var(--color-secondary);border-radius:var(--border-radius);padding:var(--base-spacing);}
 .pb-list{margin-bottom:var(--base-spacing);}
 .pb-spacer{height:var(--base-spacing);}
+
+button, .btn, .button{
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+  color: var(--text-color) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  padding: 0.5rem 1rem !important;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+button:hover, .btn:hover, .button:hover{
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.2) !important;
+}
+
