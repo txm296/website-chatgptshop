@@ -164,23 +164,28 @@ function initBuilder() {
     });
     el.addEventListener('input', save);
 
-    // Einstellungs-Button hinzufügen
+    // Hover Controls hinzufügen
     if (!el.querySelector('.pb-controls')) {
       const controls = document.createElement('div');
       controls.className = 'pb-controls';
-      controls.innerHTML = '<button type="button" class="pb-edit">Einstellungen</button> <button type="button" class="pb-copy">Copy</button> <button type="button" class="pb-save-template">Vorlage</button>';
+      controls.innerHTML =
+        '<button type="button" class="pb-edit" title="Bearbeiten">✎</button>' +
+        ' <button type="button" class="pb-duplicate" title="Duplizieren">⧉</button>' +
+        ' <button type="button" class="pb-delete" title="Löschen">🗑️</button>';
+
       controls.querySelector('.pb-edit').addEventListener('click', (e) => {
         e.stopPropagation();
         openConfigPanel(el);
       });
-      controls.querySelector('.pb-copy').addEventListener('click', (e) => {
+      controls.querySelector('.pb-delete').addEventListener('click', (e) => {
         e.stopPropagation();
-        copyItem(el);
+        deleteItem(el);
       });
-      controls.querySelector('.pb-save-template').addEventListener('click', (e) => {
+      controls.querySelector('.pb-duplicate').addEventListener('click', (e) => {
         e.stopPropagation();
-        saveTemplate(el);
+        duplicateItem(el);
       });
+
       el.appendChild(controls);
     }
 
@@ -232,6 +237,21 @@ function initBuilder() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(html).catch(() => {});
     }
+  }
+
+  function deleteItem(el) {
+    el.remove();
+    save();
+  }
+
+  function duplicateItem(el) {
+    const clone = el.cloneNode(true);
+    const oldControls = clone.querySelector('.pb-controls');
+    if (oldControls) oldControls.remove();
+    el.after(clone);
+    makeEditable(clone);
+    save();
+    if (window.initWidgetAnimations) window.initWidgetAnimations();
   }
 
   async function pasteFromClipboard() {

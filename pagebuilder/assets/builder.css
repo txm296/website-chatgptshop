@@ -37,6 +37,12 @@ button {
   top: 0.25rem;
   right: 0.25rem;
   z-index: 10;
+  display: none;
+  gap: 0.25rem;
+}
+
+.pb-item:hover > .pb-controls {
+  display: flex;
 }
 
 .pb-controls button {
