@@ -1,4 +1,8 @@
 <?php
+// Optional debugging
+if (file_exists(__DIR__ . '/../inc/debug.php')) {
+    require_once __DIR__ . '/../inc/debug.php';
+}
 /**
  * Einfacher Modularer Page Builder
  *
