@@ -29,7 +29,7 @@ function admin_header(string $active = '') {
             <summary class="cursor-pointer list-none flex items-center <?php echo in_array($active,['seiten','builder','templates'])?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Inhalte</summary>
             <div class="pl-4 space-y-1 md:absolute md:left-0 md:top-full md:bg-white md:border md:rounded md:shadow md:p-2 md:w-40 md:pl-0">
                 <a href="pages.php" class="block <?php echo $active==='seiten'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Seiten</a>
-                <a href="modular_builder.php" class="block <?php echo $active==='builder'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Builder</a>
+                <a href="live_builder.php" class="block <?php echo $active==='builder'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Builder</a>
                 <a href="templates.php" class="block <?php echo $active==='templates'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Templates</a>
             </div>
         </details>
