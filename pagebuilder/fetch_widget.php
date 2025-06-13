@@ -1,4 +1,5 @@
 <?php
+ob_start();
 if (file_exists(__DIR__ . '/../inc/debug.php')) {
     require_once __DIR__ . '/../inc/debug.php';
 }
@@ -19,4 +20,5 @@ if (!file_exists($file)) {
 $builder = new ModularPageBuilder();
 header('Content-Type: text/html; charset=UTF-8');
 echo $builder->renderWidget($file);
+ob_end_flush();
 

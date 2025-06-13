@@ -1,4 +1,5 @@
 <?php
+ob_start();
 ?>
 <div class="pb-tabs">
   <div class="pb-tab-headers">
@@ -33,3 +34,4 @@
     });
   });
 })();</script>
+<?php ob_end_flush(); ?>

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 ?>
 <div class="pb-accordion">
   <div class="pb-acc-item">
@@ -30,3 +31,4 @@
     });
   });
 })();</script>
+<?php ob_end_flush(); ?>
