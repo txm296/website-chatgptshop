@@ -109,6 +109,9 @@ foreach ($pdo->query('SELECT slug, title FROM builder_pages ORDER BY title') as 
     <div class="pb-canvas flex-1 border" id="builderCanvas" data-save-url="../pagebuilder/save_page.php" data-load-url="<?= $id ? '../pagebuilder/load_page.php?id='.$id : '' ?>" data-page-id="<?= $id ?>">
         <?= $id ? '' : $page['layout']; ?>
     </div>
+    <div class="w-full mt-4">
+        <iframe id="pbPreviewFrame" class="w-full h-96 border rounded"></iframe>
+    </div>
 </div>
 </main>
 <script src="../pagebuilder/assets/builder.js"></script>

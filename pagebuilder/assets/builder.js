@@ -14,12 +14,14 @@ function initBuilder() {
   const undoBtn = document.getElementById('pbUndoMobile');
   const pageSelect = document.getElementById('pbPageSelect');
   const pageSearch = document.getElementById('pbPageSearch');
+  const previewFrame = document.getElementById('pbPreviewFrame');
 
   const saveUrl = canvas ? canvas.dataset.saveUrl : null;
   const loadUrl = canvas && canvas.dataset.loadUrl ? canvas.dataset.loadUrl : null;
   let pageId = canvas ? canvas.dataset.pageId : 0;
   let currentBreakpoint = 'desktop';
   let prevLayout = null;
+  let previewTimer = null;
 
   if (!canvas || !widgetBar) return;
 
@@ -41,6 +43,7 @@ function initBuilder() {
       if (titleInput) titleInput.value = defTitle;
       if (slugInput) slugInput.value = defSlug;
       if (pageSelect) pageSelect.value = defSlug;
+      updatePreview();
       return;
     }
     try {
@@ -56,6 +59,7 @@ function initBuilder() {
         if (titleInput) titleInput.value = data.title || defTitle;
         if (slugInput) slugInput.value = data.slug || defSlug;
         if (pageSelect) pageSelect.value = slugInput.value;
+        updatePreview();
       } else {
         canvas.innerHTML = '';
         pageId = 0;
@@ -68,6 +72,7 @@ function initBuilder() {
     } catch (e) {
       console.error(e);
       restoreLocal();
+      updatePreview();
     }
   }
 
@@ -101,8 +106,28 @@ function initBuilder() {
     });
   }
 
+  async function updatePreview() {
+    if (!previewFrame) return;
+    const slug = slugInput ? slugInput.value : '';
+    try {
+      const res = await fetch('../pagebuilder/render_preview.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, layout: canvas.innerHTML })
+      });
+      if (res.ok) {
+        const html = await res.text();
+        previewFrame.srcdoc = html;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   function save() {
     localStorage.setItem('pb-builder-content', canvas.innerHTML);
+    if (previewTimer) clearTimeout(previewTimer);
+    previewTimer = setTimeout(updatePreview, 300);
   }
 
   async function saveToServer() {
