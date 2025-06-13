@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Optional debugging
 if (file_exists(__DIR__ . '/../inc/debug.php')) {
     require_once __DIR__ . '/../inc/debug.php';
@@ -28,4 +29,5 @@ class ModularPageBuilder {
         return ob_get_clean();
     }
 }
+ob_end_flush();
 

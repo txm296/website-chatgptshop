@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $images = isset($images) && is_array($images)
     ? array_values(array_filter($images, static function ($src) {
         return is_string($src) && trim($src) !== '';
@@ -40,3 +41,4 @@ if (count($images) === 0) {
     show(0);
   });
 })();</script>
+<?php ob_end_flush(); ?>
