@@ -1,4 +1,7 @@
 <?php
+if (file_exists(__DIR__ . '/../inc/debug.php')) {
+    require_once __DIR__ . '/../inc/debug.php';
+}
 require __DIR__ . '/builder.php';
 
 $name = basename($_GET['name'] ?? '');
