@@ -3,6 +3,10 @@ session_start();
 if(!isset($_SESSION['admin'])){header('Location: ../login.php');exit;}
 require '../inc/db.php';
 require_once '../inc/admin_header.php';
+require_once '../pagebuilder/builder.php';
+
+$builder = new ModularPageBuilder();
+$widgets = $builder->loadWidgets(__DIR__ . '/../pagebuilder/widgets');
 
 $slug = $_GET['slug'] ?? '';
 $title = '';
@@ -52,10 +56,19 @@ foreach($pdo->query('SELECT slug,title FROM builder_pages ORDER BY title') as $r
             <?php endforeach; ?>
         </select>
         <input type="text" id="pageTitle" class="w-full border px-2 py-1 rounded" placeholder="Titel" value="<?= htmlspecialchars($title) ?>">
+        <div class="space-y-2" id="widgetBar">
+            <?php foreach($widgets as $wname=>$wfile): ?>
+                <button type="button" class="pb-widget-btn" data-widget="<?= htmlspecialchars($wname) ?>"><?= htmlspecialchars($wname) ?></button>
+            <?php endforeach; ?>
+        </div>
+        <div id="configPanel" class="pb-config"></div>
         <div class="space-y-2">
-            <button type="button" id="addText" class="w-full bg-gray-200 rounded px-2 py-1">Text</button>
-            <button type="button" id="addImage" class="w-full bg-gray-200 rounded px-2 py-1">Bild</button>
-            <button type="button" id="savePage" class="w-full bg-blue-600 text-white rounded px-2 py-1">Speichern</button>
+            <button type="button" id="savePage" class="pb-btn pb-btn-primary w-full">Speichern</button>
+            <div class="flex justify-center gap-2">
+                <button type="button" class="pb-bp-btn" data-bp="desktop">Desktop</button>
+                <button type="button" class="pb-bp-btn" data-bp="tablet">Tablet</button>
+                <button type="button" class="pb-bp-btn" data-bp="mobile">Mobile</button>
+            </div>
         </div>
     </aside>
     <iframe id="editorFrame" class="flex-1 border" src="" data-slug="<?= htmlspecialchars($slug) ?>" data-id="<?= $id ?>"></iframe>
