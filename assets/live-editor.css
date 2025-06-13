@@ -1,2 +1,96 @@
+/* Styles for the enhanced Live Builder */
 #editorSidebar button{cursor:pointer}
 #editorFrame{width:100%;}
+
+.pb-item{
+  border:1px dashed rgba(255,255,255,0.4);
+  padding:0.5rem;
+  margin-bottom:0.5rem;
+  cursor:move;
+  position:relative;
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-radius:12px;
+}
+
+.pb-controls{
+  position:absolute;
+  top:0.25rem;
+  right:0.25rem;
+  z-index:10;
+  display:none;
+  gap:0.25rem;
+}
+.pb-item:hover>.pb-controls{display:flex;}
+.pb-controls button{
+  background:rgba(255,255,255,0.35);
+  border:1px solid rgba(255,255,255,0.4);
+  padding:0.125rem 0.25rem;
+  font-size:0.75rem;
+  border-radius:12px;
+  margin-left:0.25rem;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.pb-controls button:first-child{margin-left:0;}
+
+.pb-config{
+  background:rgba(255,255,255,0.35);
+  padding:1rem;
+  border-radius:12px;
+  width:100%;
+  font-size:0.875rem;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.4);
+  display:none;
+}
+.pb-config.active{display:block;}
+.pb-config label{display:block;margin-bottom:0.5rem;}
+.pb-config input[type="text"],
+.pb-config input[type="color"]{
+  width:100%;
+  border:1px solid rgba(255,255,255,0.4);
+  padding:0.25rem;
+  border-radius:12px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.pb-config-actions{text-align:right;margin-top:0.5rem;}
+.pb-config-actions button{
+  margin-left:0.25rem;
+  padding:0.25rem 0.5rem;
+  border-radius:12px;
+  background:rgba(255,255,255,0.3);
+  border:1px solid rgba(255,255,255,0.4);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.pb-widget-btn{
+  display:block;
+  width:100%;
+  height:2.25rem;
+  line-height:1.25rem;
+  font-size:0.875rem;
+  border:1px solid rgba(255,255,255,0.4);
+  border-radius:12px;
+  padding:0.5rem;
+  box-sizing:border-box;
+  transition:background 0.2s;
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.pb-widget-btn:hover{background:rgba(248,250,252,0.5);}
+
+.pb-bp-btn{padding:0.25rem 0.5rem;font-size:0.875rem;border-bottom:2px solid transparent;background:rgba(243,244,246,0.4);border-radius:12px 12px 0 0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.pb-bp-btn.active{background:rgba(255,255,255,0.5);border-color:#2563eb;color:#2563eb;font-weight:600;}
+
+.pb-preview-desktop{width:100%;}
+.pb-preview-tablet{width:768px;margin:0 auto;}
+.pb-preview-mobile{width:375px;margin:0 auto;}
