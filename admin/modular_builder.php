@@ -1,8 +1,8 @@
 <?php
 session_start();
 if(!isset($_SESSION['admin'])){header('Location: ../login.php');exit;}
-require '../inc/db.php';
-require '../pagebuilder/builder.php';
+header('Location: live_builder.php');
+exit;
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $page = ['title' => '', 'slug' => '', 'layout' => ''];

@@ -50,7 +50,7 @@ Im Header der Seite befindet sich außerdem ein Button, um zwischen Light- und D
 Unter "Seiten" gibt es einen einfachen Drag‑and‑Drop Website‑Editor ohne Fremdbibliotheken. Damit lassen sich Text‑ und Bildelemente inline bearbeiten und frei anordnen. Die resultierenden HTML‑Strukturen werden in der Datenbank gespeichert und auf den jeweiligen Seiten ausgegeben.
 Neu ist außerdem eine Seite "Templates" im Adminbereich. Dort finden sich CSS‑Vorlagen, etwa für Ladeanimationen, die man per Drag & Drop direkt in den Editor ziehen kann.
 
-Ebenfalls neu ist ein modularer visueller Page Builder. Die zugehörigen Dateien befinden sich im Verzeichnis `pagebuilder` und können im Adminbereich über den Menüpunkt "Builder" aufgerufen werden. Jedes Widget besteht aus einer PHP-Datei sowie einem HTML-Template. Per Drag & Drop können aktuell zehn Beispiel-Widgets wie Text, Bild oder Video auf die Seite gezogen werden. Neu ist außerdem ein Breakpoint-System für Desktop, Tablet und Mobile. Für jeden Viewport lassen sich individuelle Einstellungen speichern und die Vorschau im Editor umschalten.
+Der Builder wurde durch einen Live‑Editor ersetzt. Beim Aufruf des Menüpunkts "Builder" erscheint nun direkt die echte Seite in einem Editor‑Fenster. Texte lassen sich inline bearbeiten, Bilder austauschen und komplette Abschnitte per Drag & Drop verschieben. Änderungen werden per AJAX in `builder_pages` gespeichert.
 
 Der Builder kann nun auch für bestehende Shop-Seiten wie die Startseite, Kategorien oder CMS-Seiten verwendet werden. Liegt für eine Seite ein Eintrag in `builder_pages` vor, ersetzt das dort gespeicherte Layout den regulären Inhalt. Über den Parameter `?classic=1` lässt sich jederzeit zum Standardlayout zurückkehren.
 
