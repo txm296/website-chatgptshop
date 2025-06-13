@@ -91,6 +91,7 @@ function initBuilder() {
     bpButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.bp === bp));
     updateAllConfigs();
     if (window.initWidgetAnimations) window.initWidgetAnimations();
+    if (window.initVideos) window.initVideos();
   }
 
   function updateAllConfigs() {
@@ -224,9 +225,18 @@ function initBuilder() {
     if (el.dataset.widget === 'category_list') {
       if (cfg.limit !== undefined) el.dataset.limit = cfg.limit;
     }
+    if (el.dataset.widget === 'video') {
+      if (cfg.videoType !== undefined) el.dataset.type = cfg.videoType;
+      if (cfg.videoSrc !== undefined) el.dataset.src = cfg.videoSrc;
+      if (cfg.videoPreview !== undefined) {
+        if (cfg.videoPreview) el.dataset.preview = cfg.videoPreview;
+        else delete el.dataset.preview;
+      }
+    }
     if (cfg.animation) el.dataset.animation = cfg.animation; else delete el.dataset.animation;
     if (cfg.animTrigger) el.dataset.animTrigger = cfg.animTrigger; else delete el.dataset.animTrigger;
     if (window.initWidgetAnimations) window.initWidgetAnimations();
+    if (window.initVideos) window.initVideos();
   }
 
   let activeElement = null;
@@ -252,6 +262,7 @@ function initBuilder() {
     makeEditable(clone);
     save();
     if (window.initWidgetAnimations) window.initWidgetAnimations();
+    if (window.initVideos) window.initVideos();
   }
 
   async function pasteFromClipboard() {
@@ -282,6 +293,7 @@ function initBuilder() {
     });
     save();
     if (window.initWidgetAnimations) window.initWidgetAnimations();
+    if (window.initVideos) window.initVideos();
   }
 
   async function insertSelectedTemplate() {
@@ -367,6 +379,16 @@ function initBuilder() {
       widgetFields += `<label>Anzahl <input type="number" name="limit" value="${cfg.limit || 6}"></label>`;
     } else if (el.dataset.widget === 'category_list') {
       widgetFields += `<label>Anzahl <input type="number" name="limit" value="${cfg.limit || 10}"></label>`;
+    } else if (el.dataset.widget === 'video') {
+      widgetFields += `<label>Typ
+        <select name="videoType">
+          <option value="youtube" ${!cfg.videoType || cfg.videoType==='youtube' ? 'selected' : ''}>YouTube</option>
+          <option value="vimeo" ${cfg.videoType==='vimeo' ? 'selected' : ''}>Vimeo</option>
+          <option value="mp4" ${cfg.videoType==='mp4' ? 'selected' : ''}>MP4</option>
+        </select>
+      </label>`;
+      widgetFields += `<label>Quelle/URL <input type="text" name="videoSrc" value="${cfg.videoSrc || ''}"></label>`;
+      widgetFields += `<label>Vorschaubild <input type="text" name="videoPreview" value="${cfg.videoPreview || ''}"></label>`;
     }
 
     configPanel.innerHTML = `<div class="pb-config-bp flex justify-between items-center mb-2"><span>${currentBreakpoint.toUpperCase()}</span><button type="button" class="pb-close">✕</button></div>
@@ -419,6 +441,10 @@ function initBuilder() {
         data.limit = configPanel.querySelector('input[name="limit"]').value.trim();
       } else if (el.dataset.widget === 'category_list') {
         data.limit = configPanel.querySelector('input[name="limit"]').value.trim();
+      } else if (el.dataset.widget === 'video') {
+        data.videoType = configPanel.querySelector('select[name="videoType"]').value;
+        data.videoSrc = configPanel.querySelector('input[name="videoSrc"]').value.trim();
+        data.videoPreview = configPanel.querySelector('input[name="videoPreview"]').value.trim();
       }
       el.dataset.config = JSON.stringify(data);
       applyConfig(el, data);
@@ -441,6 +467,9 @@ function initBuilder() {
       el.classList.remove('pb-hide-mobile','pb-hide-desktop');
       delete el.dataset.category;
       delete el.dataset.limit;
+      delete el.dataset.type;
+      delete el.dataset.src;
+      delete el.dataset.preview;
       delete el.dataset.animation;
       delete el.dataset.animTrigger;
       applyConfig(el, {});
@@ -465,6 +494,7 @@ function initBuilder() {
     makeEditable(wrapper);
     save();
     if (window.initWidgetAnimations) window.initWidgetAnimations();
+    if (window.initVideos) window.initVideos();
   }
 
   widgetBar.querySelectorAll('button[data-widget]').forEach(btn => {
