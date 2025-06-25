@@ -195,7 +195,6 @@ document.addEventListener('DOMContentLoaded',function(){
   var n=document.getElementById('navLinks');
   var pBtn=document.getElementById('produkteBtn');
   var drop=document.getElementById('katDropdown');
-  var themeBtn=document.getElementById('themeToggle');
   if(b && n){
     b.addEventListener('click',function(){ n.classList.toggle('hidden'); });
   }
@@ -212,24 +211,7 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     });
   }
-  if(themeBtn){
-    if(localStorage.getItem('darkMode')==='1'){
-      document.body.classList.add('dark');
-    }
-    updateThemeIcon();
-    themeBtn.addEventListener('click',function(){
-      document.body.classList.toggle('dark');
-      localStorage.setItem('darkMode',document.body.classList.contains('dark')?'1':'0');
-      updateThemeIcon();
-    });
-  }
-  function updateThemeIcon(){
-    if(document.body.classList.contains('dark')){
-      themeBtn.textContent='☀️';
-    }else{
-      themeBtn.textContent='🌙';
-    }
-  }
+  // theme handling is in assets/theme.js
 });
 </script>
 <main class="max-w-6xl mx-auto px-4 fade-in">

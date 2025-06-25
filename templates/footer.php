@@ -9,5 +9,6 @@ $siteSettings = load_settings();
 <script>var currentSlug = '<?= isset($currentSlug) ? htmlspecialchars($currentSlug) : '' ?>';</script>
 <script src="/assets/dynamic-widgets.js"></script>
 <script src="/assets/popups.js"></script>
+<script src="/assets/theme.js"></script>
 </body>
 </html>
