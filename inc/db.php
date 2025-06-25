@@ -101,3 +101,6 @@ try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS builder_templates (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(200), html TEXT)");
     }
 }
+
+// Spalte fuer Mitarbeiterrechte nachruesten
+ensureColumn($pdo, 'admins', 'rechte', 'TEXT');
