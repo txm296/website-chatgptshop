@@ -25,7 +25,8 @@ CREATE TABLE produkte (
 CREATE TABLE admins (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
-    passwort VARCHAR(255) NOT NULL
+    passwort VARCHAR(255) NOT NULL,
+    rechte TEXT
 );
 
 CREATE TABLE bestellungen (
@@ -44,7 +45,7 @@ CREATE TABLE rabattcodes (
 );
 
 -- Beispieladmin, Passwort ist "nezbi" (bitte nach dem Login ändern!)
-INSERT INTO admins (username, passwort) VALUES ('admin', '$2y$10$2m.bMtqb4s3jLS.7BgUVleppmSDZ6Dqf1hnbdWdPNs1naaQgGo0Sy');
+INSERT INTO admins (username, passwort, rechte) VALUES ('admin', '$2y$10$2m.bMtqb4s3jLS.7BgUVleppmSDZ6Dqf1hnbdWdPNs1naaQgGo0Sy', 'add_products,edit_prices,edit_products,manage_categories,manage_orders,edit_pages');
 
 CREATE TABLE pages (
     id INT PRIMARY KEY AUTO_INCREMENT,

@@ -40,6 +40,7 @@ function admin_header(string $active = '') {
                 <a href="insights.php" class="block <?php echo $active==='insights'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Insights</a>
             </div>
         </details>
+        <a href="mitarbeiter.php" class="<?php echo $active==='mitarbeiter'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Mitarbeiter</a>
         <a href="popup_builder.php" class="md:ml-auto <?php echo $active==='popups'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Popups</a>
         <a href="design.php" class="<?php echo $active==='design'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Design</a>
         <a href="customize.php" class="<?php echo $active==='customize'?'font-bold text-blue-600':'hover:text-blue-600'; ?>">Website bearbeiten</a>

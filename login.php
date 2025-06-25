@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $admin = $stmt->fetch();
     if ($admin && password_verify($_POST['passwort'], $admin['passwort'])) {
         $_SESSION['admin'] = $admin['id'];
+        $_SESSION['rechte'] = $admin['rechte'] ? explode(',', $admin['rechte']) : [];
         header('Location: admin/dashboard.php'); exit;
     } else {
         $error = "Login fehlgeschlagen.";

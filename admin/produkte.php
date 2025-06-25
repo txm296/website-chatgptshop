@@ -4,6 +4,11 @@ if (!isset($_SESSION['admin'])) {
     header('Location: ../login.php');
     exit;
 }
+$rights = $_SESSION['rechte'] ?? [];
+if (!in_array('add_products', $rights) && !in_array('edit_products', $rights) && !in_array('edit_prices', $rights)) {
+    echo '<p class="p-4">Keine Berechtigung.</p>';
+    exit;
+}
 require '../inc/db.php';
 require '../inc/admin_header.php';
 // Automatische Aktualisierung der Datenbank um neue Spalten
