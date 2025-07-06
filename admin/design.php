@@ -24,18 +24,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <style>body{font-family:'Inter',sans-serif;}</style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-<header class="bg-white border-b shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-between items-center py-6 px-4">
-        <span class="text-2xl font-extrabold tracking-tight">nezbi Admin</span>
-        <div class="flex items-center">
-            <a href="logout.php" class="inline-block rounded-xl px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Logout</a>
-        </div>
-    </div>
-    <nav class="flex space-x-8 max-w-5xl mx-auto px-4 pb-4">
-        <a href="dashboard.php" class="hover:text-blue-600">Dashboard</a>
-        <a href="design.php" class="font-bold text-blue-600">Design</a>
-    </nav>
-</header>
+<?php admin_header('design'); ?>
 <main class="max-w-5xl mx-auto px-4 py-10">
 <h1 class="text-2xl font-bold mb-8">Globales Designsystem</h1>
 <?php if(isset($_GET['saved'])): ?><div class="mb-4 text-green-600">Gespeichert!</div><?php endif; ?>

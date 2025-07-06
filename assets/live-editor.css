@@ -1,6 +1,7 @@
 /* Styles for the enhanced Live Builder */
+#editorSidebar{width:16rem;display:flex;flex-direction:column;gap:0.5rem;overflow-y:auto;height:100vh;padding-right:1rem;box-sizing:border-box}
 #editorSidebar button{cursor:pointer}
-#editorFrame{width:100%;}
+#editorFrame{width:100%;height:100vh;border:1px solid #ddd}
 
 .pb-item{
   border:1px dashed rgba(255,255,255,0.4);
